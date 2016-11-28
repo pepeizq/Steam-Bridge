@@ -2,10 +2,14 @@
 
     Public Function Contenido(ejecutable As String, argumentos As String)
 
+        If Not argumentos = Nothing Then
+            argumentos = argumentos.Replace("&quot;", "Chr(34)")
+        End If
+
         Dim lineas As String = Nothing
 
-        lineas = lineas + "Launcher = " + ChrW(34) + argumentos + ChrW(34) + Environment.NewLine
-        lineas = lineas + "Client = " + ChrW(34) + ejecutable + ChrW(34) + Environment.NewLine
+        lineas = lineas + "Launcher = " + ChrW(34) + ejecutable + ChrW(34) + Environment.NewLine
+        lineas = lineas + "Client = " + ChrW(34) + argumentos + ChrW(34) + Environment.NewLine
 
         lineas = lineas + Environment.NewLine
         lineas = lineas + "If WScript.Arguments.length = 0 Then" + Environment.NewLine

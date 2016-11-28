@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Aviso Añadir Juegos" xml:space="preserve">
-    <value>Aviso: Si añades accesos directos se borraran los antiguos</value>
+    <value>Aviso: Steam debe estar cerrado y si añades accesos directos se borraran los antiguos</value>
   </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Añadir</value>
@@ -147,8 +147,17 @@
   <data name="Boton Web" xml:space="preserve">
     <value>Más Apps</value>
   </data>
+  <data name="Error 1" xml:space="preserve">
+    <value>Error al añadir los accesos directos, cierra Steam</value>
+  </data>
+  <data name="Exito" xml:space="preserve">
+    <value>Juegos añadidos en Steam</value>
+  </data>
   <data name="Texto Carpeta" xml:space="preserve">
     <value>No has añadido una carpeta</value>
+  </data>
+  <data name="Texto GOG Galaxy Config" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\GalaxyClient\Games</value>
   </data>
   <data name="Texto Steam Config" xml:space="preserve">
     <value>Añade la carpeta principal de Steam, ejemplo: C:\Steam</value>

@@ -60,13 +60,25 @@ Module Listado
 
                         borde.Background = New SolidColorBrush(Color.FromArgb(byteA, byteR, byteG, byteB))
                     Catch ex As Exception
-                        borde.Background = New SolidColorBrush(Colors.RoyalBlue)
+                        If juego.Categoria = "Windows Store" Then
+                            borde.Background = New SolidColorBrush(Colors.RoyalBlue)
+                        Else
+                            borde.Background = New SolidColorBrush(Colors.Transparent)
+                        End If
                     End Try
                 Else
-                    borde.Background = New SolidColorBrush(Colors.RoyalBlue)
+                    If juego.Categoria = "Windows Store" Then
+                        borde.Background = New SolidColorBrush(Colors.RoyalBlue)
+                    Else
+                        borde.Background = New SolidColorBrush(Colors.Transparent)
+                    End If
                 End If
             Else
-                borde.Background = New SolidColorBrush(Colors.RoyalBlue)
+                If juego.Categoria = "Windows Store" Then
+                    borde.Background = New SolidColorBrush(Colors.RoyalBlue)
+                Else
+                    borde.Background = New SolidColorBrush(Colors.Transparent)
+                End If
             End If
 
             imagen.Source = bitmap
@@ -130,13 +142,23 @@ Module Listado
             Dim botonDisponible As Boolean = False
             Dim boton As Button = pagina.FindName("buttonAñadirJuegos")
 
-            Dim pivot As PivotItem = pagina.FindName("pivotItemWindowsStore")
-            Dim listView As ListView = pivot.Content
+            Dim pivotGOGGalaxy As PivotItem = pagina.FindName("pivotItemGOGGalaxy")
+            Dim listViewGOGGalaxy As ListView = pivotGOGGalaxy.Content
 
-            For Each grid As Grid In listView.Items
-
+            For Each grid As Grid In listViewGOGGalaxy.Items
                 Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
+                Dim juego As Juego = TryCast(cb(0).Tag, Juego)
 
+                If juego.Añadir = True Then
+                    botonDisponible = True
+                End If
+            Next
+
+            Dim pivotWindowsStore As PivotItem = pagina.FindName("pivotItemWindowsStore")
+            Dim listViewWindowsStore As ListView = pivotWindowsStore.Content
+
+            For Each grid As Grid In listViewWindowsStore.Items
+                Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
                 Dim juego As Juego = TryCast(cb(0).Tag, Juego)
 
                 If juego.Añadir = True Then

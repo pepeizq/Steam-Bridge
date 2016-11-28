@@ -6,6 +6,7 @@ Module Steam
 
         boton.IsEnabled = False
 
+        Dim exito As Boolean = False
         Dim usuarioID As String = Nothing
         Dim listaSubcarpetas As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
 
@@ -92,7 +93,7 @@ Module Steam
 
                 Dim imagen As String = juego.Icono.Path
 
-                Dim ejecutable As String = juego.Argumentos
+                Dim ejecutable As String = juego.Ejecutable
 
                 If Not ejecutable = Nothing Then
                     Dim carpetaVbs As StorageFolder = Nothing
@@ -130,7 +131,7 @@ Module Steam
                         nombreTemp = nombreTemp.Replace(">", Nothing)
 
                         vbsFichero = Await carpetaVbs.CreateFileAsync(nombreTemp + ".vbs")
-                        Await FileIO.WriteTextAsync(vbsFichero, FicheroVbs.Contenido("C:\Windows\", juego.Argumentos))
+                        Await FileIO.WriteTextAsync(vbsFichero, FicheroVbs.Contenido(juego.Ejecutable, juego.Argumentos))
                         ejecutable = vbsFichero.Path
                     End If
                 End If
@@ -143,10 +144,18 @@ Module Steam
             lineas = lineas + ChrW(8) + ChrW(8)
 
             Await FileIO.WriteTextAsync(shortcuts, lineas)
-
+            exito = True
         End If
 
         boton.IsEnabled = True
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+
+        If exito = True Then
+            MessageBox.EnseñarMensaje(recursos.GetString("Exito"))
+        Else
+            MessageBox.EnseñarMensaje(recursos.GetString("Error 1"))
+        End If
 
     End Sub
 

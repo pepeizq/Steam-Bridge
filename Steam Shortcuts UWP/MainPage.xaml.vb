@@ -8,6 +8,7 @@ Imports Windows.UI
 Public NotInheritable Class MainPage
     Inherits Page
 
+    Dim listaGOGGalaxy As List(Of Juego)
     Dim listaWindowsStore As List(Of Juego)
 
     Private Async Sub Page_Loading(sender As FrameworkElement, args As Object)
@@ -41,6 +42,10 @@ Public NotInheritable Class MainPage
         buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
 
+        tbGOGGalaxyConfigInstrucciones.Text = recursos.GetString("Texto GOG Galaxy Config")
+        buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
+
         tbWindowsStoreConfigInstrucciones.Text = recursos.GetString("Texto Windows Store Config")
         buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
@@ -64,6 +69,25 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
+        Dim carpetaGOGGalaxy As StorageFolder = Nothing
+
+        Try
+            carpetaGOGGalaxy = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("GOGGalaxyPath")
+
+            If Not carpetaGOGGalaxy Is Nothing Then
+                tbGOGGalaxyConfigPath.Text = carpetaGOGGalaxy.Path
+                buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
+
+                listaGOGGalaxy = New List(Of Juego)
+
+                GOGGalaxy.Cargar(listaGOGGalaxy, carpetaGOGGalaxy, pivotMaestro, progressBarGeneral)
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        '--------------------------------------------------------
+
         Dim carpetaWindowsStore As StorageFolder = Nothing
 
         Try
@@ -75,7 +99,7 @@ Public NotInheritable Class MainPage
 
                 listaWindowsStore = New List(Of Juego)
 
-                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, pivotItemWindowsStore, progressBarWindowsStore)
+                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, pivotMaestro, progressBarGeneral)
             End If
         Catch ex As Exception
 
@@ -105,15 +129,25 @@ Public NotInheritable Class MainPage
             carpetaSteam = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
 
             If Not carpetaSteam Is Nothing Then
-                If listaWindowsStore.Count > 0 Then
-                    Dim listaFinal As List(Of Juego) = New List(Of Juego)
+                Dim listaFinal As List(Of Juego) = New List(Of Juego)
 
+                If listaGOGGalaxy.Count > 0 Then
+                    For Each juego As Juego In listaGOGGalaxy
+                        If juego.Añadir = True Then
+                            listaFinal.Add(juego)
+                        End If
+                    Next
+                End If
+
+                If listaWindowsStore.Count > 0 Then
                     For Each juego As Juego In listaWindowsStore
                         If juego.Añadir = True Then
                             listaFinal.Add(juego)
                         End If
                     Next
+                End If
 
+                If listaFinal.Count > 0 Then
                     Steam.CrearAccesos(listaFinal, carpetaSteam, buttonAñadirJuegos)
                 End If
             End If
@@ -148,6 +182,35 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Async Sub buttonGOGGalaxyConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonGOGGalaxyConfigPath.Click
+
+        Dim carpetaGOGGalaxy As StorageFolder
+
+        Try
+            Dim picker As FolderPicker = New FolderPicker()
+
+            picker.FileTypeFilter.Add("*")
+            picker.ViewMode = PickerViewMode.List
+
+            carpetaGOGGalaxy = Await picker.PickSingleFolderAsync()
+
+            If Not carpetaGOGGalaxy Is Nothing Then
+                StorageApplicationPermissions.FutureAccessList.AddOrReplace("GOGGalaxyPath", carpetaGOGGalaxy)
+                tbGOGGalaxyConfigPath.Text = carpetaGOGGalaxy.Path
+
+                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+                buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
+
+                listaGOGGalaxy = New List(Of Juego)
+
+                GOGGalaxy.Cargar(listaGOGGalaxy, carpetaGOGGalaxy, pivotMaestro, progressBarGeneral)
+            End If
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
     Private Async Sub buttonWindowsStoreConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonWindowsStoreConfigPath.Click
 
         Dim carpetaWindowsStore As StorageFolder
@@ -169,7 +232,7 @@ Public NotInheritable Class MainPage
 
                 listaWindowsStore = New List(Of Juego)
 
-                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, pivotItemWindowsStore, progressBarWindowsStore)
+                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, pivotMaestro, progressBarGeneral)
             End If
         Catch ex As Exception
 

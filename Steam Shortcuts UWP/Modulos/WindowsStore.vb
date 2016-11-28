@@ -3,9 +3,17 @@ Imports Windows.Storage.Streams
 
 Module WindowsStore
 
-    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, pivotItem As PivotItem, progress As ProgressBar)
+    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, pivotMaestro As Pivot, progress As ProgressBar)
 
-        pivotItem.IsEnabled = False
+        For Each subpivot As PivotItem In pivotMaestro.Items
+            If subpivot.Header = "Windows Store" Then
+                pivotMaestro.Items.Remove(subpivot)
+            End If
+        Next
+
+        Dim item As PivotItem = New PivotItem
+        item.Name = "pivotItemWindowsStore"
+        item.IsEnabled = False
         progress.Visibility = Visibility.Visible
 
         Dim listaGrid As New ListView
@@ -124,7 +132,7 @@ Module WindowsStore
                                     colorFondo = Nothing
                                 End If
 
-                                Dim juego As New Juego(nombre, Nothing, "shell:AppsFolder\" + paquete + "!" + id, icono, colorFondo, False, "Windows Store")
+                                Dim juego As New Juego(nombre, "shell:AppsFolder\" + paquete + "!" + id, Nothing, icono, colorFondo, False, "Windows Store")
 
                                 listaJuegos.Add(juego)
 
@@ -140,10 +148,11 @@ Module WindowsStore
                                 listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
 
                                 If listaGrid.Items.Count = 1 Then
-                                    pivotItem.Header = "Windows Store"
+                                    pivotMaestro.Items.Add(item)
+                                    item.Header = "Windows Store"
                                 End If
 
-                                pivotItem.Content = listaGrid
+                                item.Content = listaGrid
                             End If
                         End If
                     End If
@@ -169,8 +178,8 @@ Module WindowsStore
             Next
         End If
 
-        pivotItem.Content = listaGrid
-        pivotItem.IsEnabled = True
+        item.Content = listaGrid
+        item.IsEnabled = True
         progress.Visibility = Visibility.Collapsed
 
     End Sub
