@@ -151,6 +151,9 @@
     <value>Error adding shortcuts, close Steam</value>
   </data>
   <data name="Exito" xml:space="preserve">
+    <value>Game added in Steam</value>
+  </data>
+  <data name="Exitos" xml:space="preserve">
     <value>Games added in Steam</value>
   </data>
   <data name="Texto Carpeta" xml:space="preserve">

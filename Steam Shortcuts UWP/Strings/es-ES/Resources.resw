@@ -151,6 +151,9 @@
     <value>Error al añadir los accesos directos, cierra Steam</value>
   </data>
   <data name="Exito" xml:space="preserve">
+    <value>Juego añadido en Steam</value>
+  </data>
+  <data name="Exitos" xml:space="preserve">
     <value>Juegos añadidos en Steam</value>
   </data>
   <data name="Texto Carpeta" xml:space="preserve">

@@ -24,7 +24,7 @@ Module GOGGalaxy
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
 
             For Each carpetaJuego As StorageFolder In carpetasJuegos
-                Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaJuego.GetFilesAsync(CommonFileQuery.OrderByName)
+                Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaJuego.GetFilesAsync()
 
                 For Each fichero As StorageFile In ficheros
                     If fichero.DisplayName.Contains("goggame-") And fichero.FileType.Contains(".dll") Then

@@ -3,7 +3,7 @@
     Public Function Contenido(ejecutable As String, argumentos As String)
 
         If Not argumentos = Nothing Then
-            argumentos = argumentos.Replace("&quot;", "Chr(34)")
+            argumentos = argumentos.Replace("&quot;", " & Chr(34) & ")
         End If
 
         Dim lineas As String = Nothing
