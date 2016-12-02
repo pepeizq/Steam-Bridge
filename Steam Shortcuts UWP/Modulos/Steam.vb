@@ -95,10 +95,13 @@ Module Steam
 
                 'If Not imagen = Nothing Then
                 '    If imagen.Contains(".ico") Then
-                '        Dim icono As BitmapIcon = New BitmapIcon()
-                '        icono.UriSource = New Uri(imagen)
+                '        Dim icono As StorageFile = Nothing
 
-                '        Dim imagenIcono As Image = icono
+                '        Try
+                '            icono = Await StorageFile.GetFileFromPathAsync(imagen)
+                '        Catch ex As Exception
+
+                '        End Try
                 '    End If
                 'End If
 
@@ -111,45 +114,49 @@ Module Steam
                         argumentos = argumentos.Replace(ChrW(34) + "exit" + ChrW(34), "exit")
                     End If
 
-                    If juego.Categoria = "Windows Store" Then
-                        Dim carpetaVbs As StorageFolder = Nothing
+                    Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
-                        Try
-                            carpetaVbs = Await carpeta.GetFolderAsync("userdata\" + usuarioID + "\config\shortcutsvbs")
-                        Catch ex As Exception
-
-                        End Try
-
-                        If carpetaVbs Is Nothing Then
-                            carpetaVbs = Await carpeta.CreateFolderAsync("userdata\" + usuarioID + "\config\shortcutsvbs")
-                        End If
-
-                        If Not carpetaVbs Is Nothing Then
-                            Dim vbsFichero As StorageFile = Nothing
-                            Dim nombreTemp As String = juego.Nombre
-
-                            nombreTemp = nombreTemp.Replace(":", Nothing)
-                            nombreTemp = nombreTemp.Replace("\", Nothing)
-                            nombreTemp = nombreTemp.Replace("/", Nothing)
-                            nombreTemp = nombreTemp.Replace("*", Nothing)
-                            nombreTemp = nombreTemp.Replace("?", Nothing)
-                            nombreTemp = nombreTemp.Replace(ChrW(34), Nothing)
-                            nombreTemp = nombreTemp.Replace("|", Nothing)
-                            nombreTemp = nombreTemp.Replace("<", Nothing)
-                            nombreTemp = nombreTemp.Replace(">", Nothing)
+                    If opciones.Values("WindowsStoreSteamOverlay") = True Then
+                        If juego.Categoria = "Windows Store" Then
+                            Dim carpetaVbs As StorageFolder = Nothing
 
                             Try
-                                vbsFichero = Await carpetaVbs.GetFileAsync(nombreTemp + ".vbs")
-                                Await vbsFichero.DeleteAsync()
+                                carpetaVbs = Await carpeta.GetFolderAsync("userdata\" + usuarioID + "\config\shortcutsvbs")
                             Catch ex As Exception
 
                             End Try
 
-                            vbsFichero = Await carpetaVbs.CreateFileAsync(nombreTemp + ".vbs")
-                            Await FileIO.WriteTextAsync(vbsFichero, FicheroVbs.Contenido(juego.Ejecutable, juego.Argumentos))
+                            If carpetaVbs Is Nothing Then
+                                carpetaVbs = Await carpeta.CreateFolderAsync("userdata\" + usuarioID + "\config\shortcutsvbs")
+                            End If
 
-                            ejecutable = vbsFichero.Path
-                            argumentos = Nothing
+                            If Not carpetaVbs Is Nothing Then
+                                Dim vbsFichero As StorageFile = Nothing
+                                Dim nombreTemp As String = juego.Nombre
+
+                                nombreTemp = nombreTemp.Replace(":", Nothing)
+                                nombreTemp = nombreTemp.Replace("\", Nothing)
+                                nombreTemp = nombreTemp.Replace("/", Nothing)
+                                nombreTemp = nombreTemp.Replace("*", Nothing)
+                                nombreTemp = nombreTemp.Replace("?", Nothing)
+                                nombreTemp = nombreTemp.Replace(ChrW(34), Nothing)
+                                nombreTemp = nombreTemp.Replace("|", Nothing)
+                                nombreTemp = nombreTemp.Replace("<", Nothing)
+                                nombreTemp = nombreTemp.Replace(">", Nothing)
+
+                                Try
+                                    vbsFichero = Await carpetaVbs.GetFileAsync(nombreTemp + ".vbs")
+                                    Await vbsFichero.DeleteAsync()
+                                Catch ex As Exception
+
+                                End Try
+
+                                vbsFichero = Await carpetaVbs.CreateFileAsync(nombreTemp + ".vbs")
+                                Await FileIO.WriteTextAsync(vbsFichero, FicheroVbs.Contenido(juego.Ejecutable, juego.Argumentos))
+
+                                ejecutable = vbsFichero.Path
+                                argumentos = Nothing
+                            End If
                         End If
                     End If
                 End If

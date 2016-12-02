@@ -147,6 +147,9 @@
   <data name="Boton Web" xml:space="preserve">
     <value>More Apps</value>
   </data>
+  <data name="Checkbox Windows Store Steam Overlay" xml:space="preserve">
+    <value>Steam Overlay Beta</value>
+  </data>
   <data name="Error 1" xml:space="preserve">
     <value>Error adding shortcuts, close Steam</value>
   </data>

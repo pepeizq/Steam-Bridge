@@ -49,6 +49,7 @@ Public NotInheritable Class MainPage
         tbWindowsStoreConfigInstrucciones.Text = recursos.GetString("Texto Windows Store Config")
         buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
+        cbWindowsStoreSteamOverlay.Content = recursos.GetString("Checkbox Windows Store Steam Overlay")
 
         '--------------------------------------------------------
 
@@ -105,17 +106,31 @@ Public NotInheritable Class MainPage
 
         End Try
 
+        Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+
+        If opciones.Values("WindowsStoreSteamOverlay") = Nothing Then
+            opciones.Values("WindowsStoreSteamOverlay") = True
+        End If
+
+        If opciones.Values("WindowsStoreSteamOverlay") = True Then
+            cbWindowsStoreSteamOverlay.IsChecked = True
+        ElseIf opciones.Values("WindowsStoreSteamOverlay") = False Then
+            cbWindowsStoreSteamOverlay.IsChecked = False
+        End If
+
         '--------------------------------------------------------
 
         If carpetaSteam Is Nothing Then
-            If carpetaWindowsStore Is Nothing Then
-                gridConfig.Visibility = Visibility.Visible
-                gridWeb.Visibility = Visibility.Collapsed
-                gridWebContacto.Visibility = Visibility.Collapsed
-                pivotPrincipal.Visibility = Visibility.Collapsed
+            If carpetaGOGGalaxy Is Nothing Then
+                If carpetaWindowsStore Is Nothing Then
+                    gridConfig.Visibility = Visibility.Visible
+                    gridWeb.Visibility = Visibility.Collapsed
+                    gridWebContacto.Visibility = Visibility.Collapsed
+                    pivotPrincipal.Visibility = Visibility.Collapsed
 
-                buttonVolver.Visibility = Visibility.Visible
-                buttonConfig.Visibility = Visibility.Collapsed
+                    buttonVolver.Visibility = Visibility.Visible
+                    buttonConfig.Visibility = Visibility.Collapsed
+                End If
             End If
         End If
 
@@ -237,6 +252,20 @@ Public NotInheritable Class MainPage
         Catch ex As Exception
 
         End Try
+
+    End Sub
+
+    Private Sub cbWindowsStoreSteamOverlay_Checked(sender As Object, e As RoutedEventArgs) Handles cbWindowsStoreSteamOverlay.Checked
+
+        Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        opciones.Values("WindowsStoreSteamOverlay") = True
+
+    End Sub
+
+    Private Sub cbWindowsStoreSteamOverlay_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbWindowsStoreSteamOverlay.Unchecked
+
+        Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        opciones.Values("WindowsStoreSteamOverlay") = False
 
     End Sub
 

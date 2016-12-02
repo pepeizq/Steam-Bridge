@@ -172,6 +172,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row="0" BorderThickness="0,1,0,0" BorderBrush="Black"/>
@@ -193,6 +194,7 @@
                         <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
                         <TextBlock x:Name="tbWindowsStoreConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
                     </Grid>
+                    <CheckBox x:Name="cbWindowsStoreSteamOverlay" Grid.Row="4" Margin="5"/>
                 </Grid>
             </Grid>
 
