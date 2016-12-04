@@ -3,20 +3,15 @@ Imports Windows.Storage.Streams
 
 Module WindowsStore
 
-    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, pivotMaestro As Pivot, progress As ProgressBar)
+    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, textobloque As TextBlock)
 
-        For Each subpivot As PivotItem In pivotMaestro.Items
-            If subpivot.Header = "Windows Store" Then
-                pivotMaestro.Items.Remove(subpivot)
-            End If
-        Next
-
-        Dim item As PivotItem = New PivotItem
-        item.Name = "pivotItemWindowsStore"
-        item.IsEnabled = False
-        progress.Visibility = Visibility.Visible
+        grid.IsHitTestVisible = False
+        progreso.Visibility = Visibility.Visible
+        textobloque.Visibility = Visibility.Collapsed
 
         Dim listaGrid As New ListView
+        listaGrid.Name = "listaWindowsStore"
+
         Dim listaSubcarpetas As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
 
         For Each subcarpeta As StorageFolder In listaSubcarpetas
@@ -146,13 +141,8 @@ Module WindowsStore
                                 End If
 
                                 listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
-
-                                If listaGrid.Items.Count = 1 Then
-                                    pivotMaestro.Items.Add(item)
-                                    item.Header = "Windows Store"
-                                End If
-
-                                item.Content = listaGrid
+                                grid.Children.Clear()
+                                grid.Children.Add(listaGrid)
                             End If
                         End If
                     End If
@@ -178,9 +168,19 @@ Module WindowsStore
             Next
         End If
 
-        item.Content = listaGrid
-        item.IsEnabled = True
-        progress.Visibility = Visibility.Collapsed
+        If listaJuegos.Count = 0 Then
+            textobloque.Visibility = Visibility.Visible
+
+            Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+            textobloque.Text = recursos.GetString("Texto No Juegos")
+        Else
+            textobloque.Visibility = Visibility.Collapsed
+        End If
+
+        grid.Children.Clear()
+        grid.Children.Add(listaGrid)
+        grid.IsHitTestVisible = True
+        progreso.Visibility = Visibility.Collapsed
 
     End Sub
 

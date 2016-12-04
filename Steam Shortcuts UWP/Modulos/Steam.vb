@@ -1,4 +1,5 @@
-﻿Imports Windows.Storage
+﻿Imports Microsoft.Toolkit.Uwp
+Imports Windows.Storage
 
 Module Steam
 
@@ -57,17 +58,49 @@ Module Steam
 
             Try
                 shortcuts = Await carpeta.GetFileAsync("userdata\" + usuarioID + "\config\shortcuts.vdf")
-                Await shortcuts.DeleteAsync()
             Catch ex As Exception
 
             End Try
 
-            shortcuts = Await carpeta.CreateFileAsync("userdata\" + usuarioID + "\config\shortcuts.vdf", CreationCollisionOption.ReplaceExisting)
-
             Dim lineas As String = Nothing
-            lineas = ChrW(0) + "shortcuts" + ChrW(0)
+
+            If shortcuts Is Nothing Then
+                shortcuts = Await carpeta.CreateFileAsync("userdata\" + usuarioID + "\config\shortcuts.vdf", CreationCollisionOption.ReplaceExisting)
+            Else
+                lineas = Await StorageFileHelper.ReadTextFromFileAsync(carpeta, "userdata\" + usuarioID + "\config\shortcuts.vdf")
+            End If
 
             Dim numero As Integer = 0
+
+            If Not lineas = Nothing Then
+                If lineas.Contains("appname") Then
+                    Dim lineasTemp As String = lineas
+
+                    Dim temp4 As String
+                    Dim int4 As Integer
+
+                    Dim i As Integer = 0
+                    While i < 1000
+                        If lineasTemp.Contains("appname") Then
+                            int4 = lineasTemp.IndexOf("appname")
+                            temp4 = lineasTemp.Remove(0, int4 + 2)
+                            lineasTemp = temp4
+                            numero += 1
+                        End If
+                        i += 1
+                    End While
+                Else
+                    numero = 0
+                End If
+            Else
+                numero = 0
+            End If
+
+            If Not lineas = Nothing Then
+                lineas = lineas.Remove(lineas.Length - 2, 2)
+            Else
+                lineas = ChrW(0) + "shortcuts" + ChrW(0)
+            End If
 
             For Each juego As Juego In lista
                 Dim nombre As String = juego.Nombre

@@ -26,7 +26,7 @@ Module Listado
         Dim checkBox As New CheckBox
         checkBox.VerticalAlignment = VerticalAlignment.Center
         checkBox.Tag = juego
-        checkBox.Margin = New Thickness(10, 0, 10, 0)
+        checkBox.Margin = New Thickness(5, 0, 5, 0)
         checkBox.MinWidth = 20
         checkBox.Name = "cbJuego"
 
@@ -142,29 +142,31 @@ Module Listado
             Dim botonDisponible As Boolean = False
             Dim boton As Button = pagina.FindName("buttonAñadirJuegos")
 
-            Dim pivotGOGGalaxy As PivotItem = pagina.FindName("pivotItemGOGGalaxy")
-            Dim listViewGOGGalaxy As ListView = pivotGOGGalaxy.Content
+            Dim listViewGOGGalaxy As ListView = pagina.FindName("listaGOGGalaxy")
 
-            For Each grid As Grid In listViewGOGGalaxy.Items
-                Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
-                Dim juego As Juego = TryCast(cb(0).Tag, Juego)
+            If Not listViewGOGGalaxy Is Nothing Then
+                For Each grid As Grid In listViewGOGGalaxy.Items
+                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
+                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
 
-                If juego.Añadir = True Then
-                    botonDisponible = True
-                End If
-            Next
+                    If juego.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+            End If
 
-            Dim pivotWindowsStore As PivotItem = pagina.FindName("pivotItemWindowsStore")
-            Dim listViewWindowsStore As ListView = pivotWindowsStore.Content
+            Dim listViewWindowsStore As ListView = pagina.FindName("listaWindowsStore")
 
-            For Each grid As Grid In listViewWindowsStore.Items
-                Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
-                Dim juego As Juego = TryCast(cb(0).Tag, Juego)
+            If Not listViewWindowsStore Is Nothing Then
+                For Each grid As Grid In listViewWindowsStore.Items
+                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
+                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
 
-                If juego.Añadir = True Then
-                    botonDisponible = True
-                End If
-            Next
+                    If juego.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+            End If
 
             If botonDisponible = True Then
                 boton.IsEnabled = True

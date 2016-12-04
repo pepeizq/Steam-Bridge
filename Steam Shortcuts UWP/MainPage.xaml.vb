@@ -1,4 +1,5 @@
-﻿Imports Windows.ApplicationModel.DataTransfer
+﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.ApplicationModel.DataTransfer
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
@@ -26,12 +27,11 @@ Public NotInheritable Class MainPage
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
-        buttonConfigTexto.Text = recursos.GetString("Boton Configuracion")
-        buttonVolverTexto.Text = recursos.GetString("Boton Volver")
-        buttonVotacionesTexto.Text = recursos.GetString("Boton Votar")
-        buttonCompartirTexto.Text = recursos.GetString("Boton Compartir")
-        buttonContactarTexto.Text = recursos.GetString("Boton Contactar")
-        buttonWebTexto.Text = recursos.GetString("Boton Web")
+        menuItemConfig.Label = recursos.GetString("Boton Configuracion")
+        menuItemVote.Label = recursos.GetString("Boton Votar")
+        menuItemShare.Label = recursos.GetString("Boton Compartir")
+        menuItemContact.Label = recursos.GetString("Boton Contactar")
+        menuItemWeb.Label = recursos.GetString("Boton Web")
 
         buttonAñadirJuegosTexto.Text = recursos.GetString("Boton Añadir Juegos")
         tbAvisoAñadir.Text = recursos.GetString("Aviso Añadir Juegos")
@@ -49,7 +49,6 @@ Public NotInheritable Class MainPage
         tbWindowsStoreConfigInstrucciones.Text = recursos.GetString("Texto Windows Store Config")
         buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
-        cbWindowsStoreSteamOverlay.Content = recursos.GetString("Checkbox Windows Store Steam Overlay")
 
         '--------------------------------------------------------
 
@@ -81,7 +80,7 @@ Public NotInheritable Class MainPage
 
                 listaGOGGalaxy = New List(Of Juego)
 
-                GOGGalaxy.Cargar(listaGOGGalaxy, carpetaGOGGalaxy, pivotMaestro, progressBarGeneral)
+                GOGGalaxy.Cargar(listaGOGGalaxy, carpetaGOGGalaxy, gridGOGGalaxyContenido, progressBarGOGGalaxy, tbGOGGalaxyMensaje)
             End If
         Catch ex As Exception
 
@@ -100,13 +99,25 @@ Public NotInheritable Class MainPage
 
                 listaWindowsStore = New List(Of Juego)
 
-                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, pivotMaestro, progressBarGeneral)
+                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, gridWindowsStoreContenido, progressBarWindowsStore, tbWindowsStoreMensaje)
             End If
         Catch ex As Exception
 
         End Try
 
+        '--------------------------------------------------------
+
         Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+
+        If opciones.Values("DOSBoxSteamOverlay") = Nothing Then
+            opciones.Values("DOSBoxSteamOverlay") = True
+        End If
+
+        If opciones.Values("DOSBoxSteamOverlay") = True Then
+            cbDosboxSteamOverlay.IsChecked = True
+        ElseIf opciones.Values("DOSBoxSteamOverlay") = False Then
+            cbDosboxSteamOverlay.IsChecked = False
+        End If
 
         If opciones.Values("WindowsStoreSteamOverlay") = Nothing Then
             opciones.Values("WindowsStoreSteamOverlay") = True
@@ -123,54 +134,87 @@ Public NotInheritable Class MainPage
         If carpetaSteam Is Nothing Then
             If carpetaGOGGalaxy Is Nothing Then
                 If carpetaWindowsStore Is Nothing Then
-                    gridConfig.Visibility = Visibility.Visible
-                    gridWeb.Visibility = Visibility.Collapsed
-                    gridWebContacto.Visibility = Visibility.Collapsed
-                    pivotPrincipal.Visibility = Visibility.Collapsed
-
-                    buttonVolver.Visibility = Visibility.Visible
-                    buttonConfig.Visibility = Visibility.Collapsed
+                    GridVisibilidad(gridConfig, False)
                 End If
+            End If
+        End If
+
+        If carpetaGOGGalaxy Is Nothing Then
+            tbGOGGalaxyMensaje.Visibility = Visibility.Visible
+            tbGOGGalaxyMensaje.Text = recursos.GetString("Texto GOG Galaxy No Config")
+        End If
+
+        If carpetaWindowsStore Is Nothing Then
+            tbWindowsStoreMensaje.Visibility = Visibility.Visible
+            tbWindowsStoreMensaje.Text = recursos.GetString("Texto Windows Store No Config")
+        End If
+
+        If carpetaGOGGalaxy Is Nothing Then
+            If Not carpetaWindowsStore Is Nothing Then
+                hamburgerMaestro.SelectedIndex = 1
+                GridVisibilidad(gridWindowsStore, True)
             End If
         End If
 
     End Sub
 
+    Private Sub GridVisibilidad(grid As Grid, barra As Boolean)
+
+        If barra = True Then
+            barraInferior.Visibility = Visibility.Visible
+        Else
+            barraInferior.Visibility = Visibility.Collapsed
+        End If
+
+        gridGOGGalaxy.Visibility = Visibility.Collapsed
+        gridWindowsStore.Visibility = Visibility.Collapsed
+
+        gridConfig.Visibility = Visibility.Collapsed
+        gridWebContacto.Visibility = Visibility.Collapsed
+        gridWeb.Visibility = Visibility.Collapsed
+
+        grid.Visibility = Visibility.Visible
+
+    End Sub
+
     Private Async Sub buttonAñadirJuegos_Click(sender As Object, e As RoutedEventArgs) Handles buttonAñadirJuegos.Click
 
-        Dim carpetaSteam As StorageFolder
+        Dim carpetaSteam As StorageFolder = Nothing
 
         Try
             carpetaSteam = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
-
-            If Not carpetaSteam Is Nothing Then
-                Dim listaFinal As List(Of Juego) = New List(Of Juego)
-
-                If listaGOGGalaxy.Count > 0 Then
-                    For Each juego As Juego In listaGOGGalaxy
-                        If juego.Añadir = True Then
-                            listaFinal.Add(juego)
-                        End If
-                    Next
-                End If
-
-                If listaWindowsStore.Count > 0 Then
-                    For Each juego As Juego In listaWindowsStore
-                        If juego.Añadir = True Then
-                            listaFinal.Add(juego)
-                        End If
-                    Next
-                End If
-
-                If listaFinal.Count > 0 Then
-                    Steam.CrearAccesos(listaFinal, carpetaSteam, buttonAñadirJuegos)
-                End If
-            End If
         Catch ex As Exception
 
         End Try
 
+
+        If Not carpetaSteam Is Nothing Then
+            Dim listaFinal As List(Of Juego) = New List(Of Juego)
+
+            If listaGOGGalaxy.Count > 0 Then
+                For Each juego As Juego In listaGOGGalaxy
+                    If juego.Añadir = True Then
+                        listaFinal.Add(juego)
+                    End If
+                Next
+            End If
+
+            If listaWindowsStore.Count > 0 Then
+                For Each juego As Juego In listaWindowsStore
+                    If juego.Añadir = True Then
+                        listaFinal.Add(juego)
+                    End If
+                Next
+            End If
+
+            If listaFinal.Count > 0 Then
+                Steam.CrearAccesos(listaFinal, carpetaSteam, buttonAñadirJuegos)
+            End If
+        End If
+
     End Sub
+
+    'CONFIG------------------------------------------------
 
     Private Async Sub buttonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
 
@@ -218,7 +262,7 @@ Public NotInheritable Class MainPage
 
                 listaGOGGalaxy = New List(Of Juego)
 
-                GOGGalaxy.Cargar(listaGOGGalaxy, carpetaGOGGalaxy, pivotMaestro, progressBarGeneral)
+                GOGGalaxy.Cargar(listaGOGGalaxy, carpetaGOGGalaxy, gridGOGGalaxyContenido, progressBarGOGGalaxy, tbGOGGalaxyMensaje)
             End If
         Catch ex As Exception
 
@@ -247,11 +291,25 @@ Public NotInheritable Class MainPage
 
                 listaWindowsStore = New List(Of Juego)
 
-                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, pivotMaestro, progressBarGeneral)
+                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, gridWindowsStoreContenido, progressBarWindowsStore, tbWindowsStoreMensaje)
             End If
         Catch ex As Exception
 
         End Try
+
+    End Sub
+
+    Private Sub cbDosboxSteamOverlay_Checked(sender As Object, e As RoutedEventArgs) Handles cbDosboxSteamOverlay.Checked
+
+        Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        opciones.Values("DOSBoxSteamOverlay") = True
+
+    End Sub
+
+    Private Sub cbDosboxSteamOverlay_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbDosboxSteamOverlay.Unchecked
+
+        Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        opciones.Values("DOSBoxSteamOverlay") = False
 
     End Sub
 
@@ -269,33 +327,37 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub buttonConfig_Click(sender As Object, e As RoutedEventArgs) Handles buttonConfig.Click
+    'HAMBURGER------------------------------------------------
 
-        gridConfig.Visibility = Visibility.Visible
-        gridWeb.Visibility = Visibility.Collapsed
-        gridWebContacto.Visibility = Visibility.Collapsed
-        pivotPrincipal.Visibility = Visibility.Collapsed
+    Private Sub hamburgerMaestro_ItemClick(sender As Object, e As ItemClickEventArgs) Handles hamburgerMaestro.ItemClick
 
-        buttonVolver.Visibility = Visibility.Visible
-        buttonConfig.Visibility = Visibility.Collapsed
+        Dim menuItem As HamburgerMenuGlyphItem = TryCast(e.ClickedItem, HamburgerMenuGlyphItem)
 
-    End Sub
-
-    'VOTAR-----------------------------------------------------------------------------
-
-    Private Async Sub buttonVotaciones_Click(sender As Object, e As RoutedEventArgs) Handles buttonVotaciones.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
+        If menuItem.Tag = 0 Then
+            GridVisibilidad(gridGOGGalaxy, True)
+        ElseIf menuItem.Tag = 1 Then
+            GridVisibilidad(gridWindowsStore, True)
+        End If
 
     End Sub
 
-    'COMPARTIR-----------------------------------------------------------------------------
+    Private Async Sub hamburgerMaestro_OptionsItemClick(sender As Object, e As ItemClickEventArgs) Handles hamburgerMaestro.OptionsItemClick
 
-    Private Sub buttonCompartir_Click(sender As Object, e As RoutedEventArgs) Handles buttonCompartir.Click
+        Dim menuItem As HamburgerMenuGlyphItem = TryCast(e.ClickedItem, HamburgerMenuGlyphItem)
 
-        Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
-        AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
-        DataTransferManager.ShowShareUI()
+        If menuItem.Tag = 99 Then
+            GridVisibilidad(gridConfig, False)
+        ElseIf menuItem.Tag = 100 Then
+            Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
+        ElseIf menuItem.Tag = 101 Then
+            Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
+            AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
+            DataTransferManager.ShowShareUI()
+        ElseIf menuItem.Tag = 102 Then
+            GridVisibilidad(gridWebContacto, False)
+        ElseIf menuItem.Tag = 103 Then
+            GridVisibilidad(gridWeb, False)
+        End If
 
     End Sub
 
@@ -304,49 +366,7 @@ Public NotInheritable Class MainPage
         Dim request As DataRequest = e.Request
         request.Data.SetText("Steam Bridge")
         request.Data.Properties.Title = "Steam Bridge"
-        request.Data.Properties.Description = "Add shortcuts in Steam of games from Windows Store"
-
-    End Sub
-
-    'CONTACTAR-----------------------------------------------------------------------------
-
-    Private Sub buttonContactar_Click(sender As Object, e As RoutedEventArgs) Handles buttonContactar.Click
-
-        gridConfig.Visibility = Visibility.Collapsed
-        gridWeb.Visibility = Visibility.Collapsed
-        gridWebContacto.Visibility = Visibility.Visible
-        pivotPrincipal.Visibility = Visibility.Collapsed
-
-        buttonVolver.Visibility = Visibility.Visible
-        buttonConfig.Visibility = Visibility.Collapsed
-
-    End Sub
-
-    'VOLVER-----------------------------------------------------------------------------
-
-    Private Sub buttonVolver_Click(sender As Object, e As RoutedEventArgs) Handles buttonVolver.Click
-
-        gridConfig.Visibility = Visibility.Collapsed
-        gridWeb.Visibility = Visibility.Collapsed
-        gridWebContacto.Visibility = Visibility.Collapsed
-        pivotPrincipal.Visibility = Visibility.Visible
-
-        buttonVolver.Visibility = Visibility.Collapsed
-        buttonConfig.Visibility = Visibility.Visible
-
-    End Sub
-
-    'WEB-----------------------------------------------------------------------------
-
-    Private Sub buttonWeb_Click(sender As Object, e As RoutedEventArgs) Handles buttonWeb.Click
-
-        gridConfig.Visibility = Visibility.Collapsed
-        gridWeb.Visibility = Visibility.Visible
-        gridWebContacto.Visibility = Visibility.Collapsed
-        pivotPrincipal.Visibility = Visibility.Collapsed
-
-        buttonVolver.Visibility = Visibility.Visible
-        buttonConfig.Visibility = Visibility.Collapsed
+        request.Data.Properties.Description = "Add shortcuts in Steam"
 
     End Sub
 

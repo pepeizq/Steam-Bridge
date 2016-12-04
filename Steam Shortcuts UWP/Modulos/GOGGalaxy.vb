@@ -1,24 +1,17 @@
 ﻿Imports System.Text
 Imports Windows.Storage
-Imports Windows.Storage.Search
 Imports Windows.Storage.Streams
 
 Module GOGGalaxy
 
-    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, pivotMaestro As Pivot, progress As ProgressBar)
+    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, textobloque As TextBlock)
 
-        For Each subpivot As PivotItem In pivotMaestro.Items
-            If subpivot.Header = "GOG Galaxy" Then
-                pivotMaestro.Items.Remove(subpivot)
-            End If
-        Next
-
-        Dim item As PivotItem = New PivotItem
-        item.Name = "pivotItemGOGGalaxy"
-        item.IsEnabled = False
-        progress.Visibility = Visibility.Visible
+        grid.IsHitTestVisible = False
+        progreso.Visibility = Visibility.Visible
+        textobloque.Visibility = Visibility.Collapsed
 
         Dim listaGrid As New ListView
+        listaGrid.Name = "listaGOGGalaxy"
 
         If Not carpeta Is Nothing Then
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
@@ -27,6 +20,23 @@ Module GOGGalaxy
                 Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaJuego.GetFilesAsync()
 
                 For Each fichero As StorageFile In ficheros
+                    If fichero.DisplayName.Contains("dosbox") And fichero.FileType.Contains(".conf") Then
+                        Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+
+                        If opciones.Values("DOSBoxSteamOverlay") = True Then
+                            Dim buffer As IBuffer = Await FileIO.ReadBufferAsync(fichero)
+                            Dim lector As DataReader = DataReader.FromBuffer(buffer)
+                            Dim contenido(lector.UnconsumedBufferLength - 1) As Byte
+                            lector.ReadBytes(contenido)
+                            Dim texto As String = Encoding.UTF8.GetString(contenido, 0, contenido.Length)
+
+                            If Not texto = Nothing Then
+                                texto = texto.Replace("output=surface", "output=opengl")
+                                Await FileIO.WriteTextAsync(fichero, texto)
+                            End If
+                        End If
+                    End If
+
                     If fichero.DisplayName.Contains("goggame-") And fichero.FileType.Contains(".dll") Then
                         Dim buffer As IBuffer = Await FileIO.ReadBufferAsync(fichero)
                         Dim lector As DataReader = DataReader.FromBuffer(buffer)
@@ -97,13 +107,8 @@ Module GOGGalaxy
                             End If
 
                             listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
-
-                            If listaGrid.Items.Count = 1 Then
-                                pivotMaestro.Items.Add(item)
-                                item.Header = "GOG Galaxy"
-                            End If
-
-                            item.Content = listaGrid
+                            grid.Children.Clear()
+                            grid.Children.Add(listaGrid)
                         End If
                     End If
                 Next
@@ -128,9 +133,19 @@ Module GOGGalaxy
             Next
         End If
 
-        item.Content = listaGrid
-        item.IsEnabled = True
-        progress.Visibility = Visibility.Collapsed
+        If listaJuegos.Count = 0 Then
+            textobloque.Visibility = Visibility.Visible
+
+            Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+            textobloque.Text = recursos.GetString("Texto No Juegos")
+        Else
+            textobloque.Visibility = Visibility.Collapsed
+        End If
+
+        grid.Children.Clear()
+        grid.Children.Add(listaGrid)
+        grid.IsHitTestVisible = True
+        progreso.Visibility = Visibility.Collapsed
 
     End Sub
 

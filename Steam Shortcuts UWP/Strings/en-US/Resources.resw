@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Aviso Añadir Juegos" xml:space="preserve">
-    <value>Warning: Steam must be closed and if you add shortcuts the app will erase the old</value>
+    <value>Warning: Steam must be closed before adding games</value>
   </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Add</value>
@@ -147,9 +147,6 @@
   <data name="Boton Web" xml:space="preserve">
     <value>More Apps</value>
   </data>
-  <data name="Checkbox Windows Store Steam Overlay" xml:space="preserve">
-    <value>Steam Overlay Beta</value>
-  </data>
   <data name="Error 1" xml:space="preserve">
     <value>Error adding shortcuts, close Steam</value>
   </data>
@@ -165,10 +162,19 @@
   <data name="Texto GOG Galaxy Config" xml:space="preserve">
     <value>Add the folder where are installed the games, example C:\GalaxyClient\Games</value>
   </data>
+  <data name="Texto GOG Galaxy No Config" xml:space="preserve">
+    <value>GOG Galaxy is not configured</value>
+  </data>
+  <data name="Texto No Juegos" xml:space="preserve">
+    <value>No games detected</value>
+  </data>
   <data name="Texto Steam Config" xml:space="preserve">
     <value>Add the main folder of Steam, example: C:\Steam</value>
   </data>
   <data name="Texto Windows Store Config" xml:space="preserve">
     <value>Add the subfolder WindowsApps of C:\Program Files (you must have read permissions in the subfolder)</value>
+  </data>
+  <data name="Texto Windows Store No Config" xml:space="preserve">
+    <value>Windows Store is not configured</value>
   </data>
 </root>
