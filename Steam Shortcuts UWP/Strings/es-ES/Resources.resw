@@ -168,11 +168,26 @@
   <data name="Texto No Juegos" xml:space="preserve">
     <value>No se han detectado juegos</value>
   </data>
+  <data name="Texto Origin Config 1" xml:space="preserve">
+    <value>Añade la carpeta C:\ProgramData\Origin\LocalContent (puede estar oculta)</value>
+  </data>
+  <data name="Texto Origin Config 2" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Origin\Games</value>
+  </data>
+  <data name="Texto Origin No Config" xml:space="preserve">
+    <value>Origin no esta configurado</value>
+  </data>
   <data name="Texto Steam Config" xml:space="preserve">
     <value>Añade la carpeta principal de Steam, ejemplo: C:\Steam</value>
   </data>
+  <data name="Texto Steam No Config" xml:space="preserve">
+    <value>Steam no esta configurado</value>
+  </data>
+  <data name="Texto Steam Overlay Config" xml:space="preserve">
+    <value>Esta opción esta en Beta, si tienes problemas con algún juego por favor contacta</value>
+  </data>
   <data name="Texto Windows Store Config" xml:space="preserve">
-    <value>Añade la subcarpeta WindowsApps de C:\Archivos de Programa (debes de tener permisos de lectura en la subcarpeta)</value>
+    <value>Añade la carpeta C:\Archivos de Programa\WindowsApps (debes de tener permisos de lectura)</value>
   </data>
   <data name="Texto Windows Store No Config" xml:space="preserve">
     <value>Windows Store no esta configurado</value>

@@ -120,6 +120,7 @@
     <Compile Include="Modulos\GOGGalaxy.vb" />
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\MessageBox.vb" />
+    <Compile Include="Modulos\Origin.vb" />
     <Compile Include="Modulos\Steam.vb" />
     <Compile Include="Modulos\WindowsStore.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -136,6 +137,7 @@
     <Content Include="Assets\NewStoreLogo.scale-150.png" />
     <Content Include="Assets\NewStoreLogo.scale-200.png" />
     <Content Include="Assets\NewStoreLogo.scale-400.png" />
+    <Content Include="Assets\origin_logo.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />

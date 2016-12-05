@@ -1,5 +1,7 @@
 ﻿Imports Microsoft.Toolkit.Uwp
+Imports Windows.Graphics.Imaging
 Imports Windows.Storage
+Imports Windows.Storage.Streams
 
 Module Steam
 
@@ -51,7 +53,7 @@ Module Steam
             End If
         Next
 
-        '---------------------------------------------
+        '------------------------------------------------
 
         If Not usuarioID = Nothing Then
             Dim shortcuts As StorageFile = Nothing
@@ -124,19 +126,67 @@ Module Steam
 
                 categoria = ChrW(1) + "0" + ChrW(0) + juego.Categoria + ChrW(0)
 
-                Dim imagen As String = juego.Icono.Path
+                '------------------------------------------------
 
-                'If Not imagen = Nothing Then
-                '    If imagen.Contains(".ico") Then
-                '        Dim icono As StorageFile = Nothing
+                Dim imagen As String = Nothing
 
-                '        Try
-                '            icono = Await StorageFile.GetFileFromPathAsync(imagen)
-                '        Catch ex As Exception
+                If Not juego.Icono Is Nothing Then
+                    imagen = juego.Icono.Path
+                End If
 
-                '        End Try
-                '    End If
-                'End If
+                If Not imagen = Nothing Then
+                    If imagen.Contains(".ico") Then
+                        Dim icono As StorageFile = Nothing
+
+                        Try
+                            icono = Await StorageFile.GetFileFromPathAsync(imagen)
+                        Catch ex As Exception
+
+                        End Try
+
+                        If Not icono Is Nothing Then
+                            Dim carpetaIcono As StorageFolder = Nothing
+
+                            Try
+                                carpetaIcono = Await carpeta.GetFolderAsync("userdata\" + usuarioID + "\config\icons")
+                            Catch ex As Exception
+
+                            End Try
+
+                            If carpetaIcono Is Nothing Then
+                                carpetaIcono = Await carpeta.CreateFolderAsync("userdata\" + usuarioID + "\config\icons")
+                            End If
+
+                            Try
+                                Await carpetaIcono.CreateFileAsync(nombre + ".png")
+                            Catch ex As Exception
+
+                            End Try
+
+                            Dim writeableBitmap As New WriteableBitmap(32, 32)
+
+                            Using fileStream As IRandomAccessStream = Await icono.OpenAsync(FileAccessMode.Read)
+                                Await writeableBitmap.SetSourceAsync(fileStream)
+                            End Using
+
+                            Dim iconoFichero As StorageFile = Await StorageFile.GetFileFromPathAsync(carpetaIcono.Path + "\" + nombre + ".png")
+                            Dim stream As IRandomAccessStream = Await iconoFichero.OpenAsync(FileAccessMode.ReadWrite)
+                            Dim encoder As BitmapEncoder = Await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream)
+
+                            Dim pixelStream As Stream = WriteableBitmap.PixelBuffer.AsStream()
+                            Dim pixels As Byte() = New Byte(pixelStream.Length - 1) {}
+                            Await pixelStream.ReadAsync(pixels, 0, pixels.Length)
+
+                            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, CUInt(WriteableBitmap.PixelWidth), CUInt(WriteableBitmap.PixelHeight), 96.0, 96.0, pixels)
+                            Await encoder.FlushAsync()
+                            stream.Dispose()
+
+                            imagen = iconoFichero.Path
+                        End If
+                    End If
+                End If
+
+                '------------------------------------------------
 
                 Dim ejecutable As String = juego.Ejecutable
                 Dim argumentos As String = " " + juego.Argumentos
@@ -165,26 +215,15 @@ Module Steam
 
                             If Not carpetaVbs Is Nothing Then
                                 Dim vbsFichero As StorageFile = Nothing
-                                Dim nombreTemp As String = juego.Nombre
-
-                                nombreTemp = nombreTemp.Replace(":", Nothing)
-                                nombreTemp = nombreTemp.Replace("\", Nothing)
-                                nombreTemp = nombreTemp.Replace("/", Nothing)
-                                nombreTemp = nombreTemp.Replace("*", Nothing)
-                                nombreTemp = nombreTemp.Replace("?", Nothing)
-                                nombreTemp = nombreTemp.Replace(ChrW(34), Nothing)
-                                nombreTemp = nombreTemp.Replace("|", Nothing)
-                                nombreTemp = nombreTemp.Replace("<", Nothing)
-                                nombreTemp = nombreTemp.Replace(">", Nothing)
 
                                 Try
-                                    vbsFichero = Await carpetaVbs.GetFileAsync(nombreTemp + ".vbs")
+                                    vbsFichero = Await carpetaVbs.GetFileAsync(nombre + ".vbs")
                                     Await vbsFichero.DeleteAsync()
                                 Catch ex As Exception
 
                                 End Try
 
-                                vbsFichero = Await carpetaVbs.CreateFileAsync(nombreTemp + ".vbs")
+                                vbsFichero = Await carpetaVbs.CreateFileAsync(nombre + ".vbs")
                                 Await FileIO.WriteTextAsync(vbsFichero, FicheroVbs.Contenido(juego.Ejecutable, juego.Argumentos))
 
                                 ejecutable = vbsFichero.Path
@@ -193,6 +232,8 @@ Module Steam
                         End If
                     End If
                 End If
+
+                '------------------------------------------------
 
                 Dim inicio As String = Nothing
 

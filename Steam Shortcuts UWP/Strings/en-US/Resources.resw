@@ -168,11 +168,26 @@
   <data name="Texto No Juegos" xml:space="preserve">
     <value>No games detected</value>
   </data>
+  <data name="Texto Origin Config 1" xml:space="preserve">
+    <value>Add the folder C:\ProgramData\Origin\LocalContent (may be hidden)</value>
+  </data>
+  <data name="Texto Origin Config 2" xml:space="preserve">
+    <value>Add the folder where are installed the games, example C:\Origin\Games</value>
+  </data>
+  <data name="Texto Origin No Config" xml:space="preserve">
+    <value>Origin is not configured</value>
+  </data>
   <data name="Texto Steam Config" xml:space="preserve">
     <value>Add the main folder of Steam, example: C:\Steam</value>
   </data>
+  <data name="Texto Steam No Config" xml:space="preserve">
+    <value>Steam is not configured</value>
+  </data>
+  <data name="Texto Steam Overlay Config" xml:space="preserve">
+    <value>This option is in Beta, if you have problems with any game please contact</value>
+  </data>
   <data name="Texto Windows Store Config" xml:space="preserve">
-    <value>Add the subfolder WindowsApps of C:\Program Files (you must have read permissions in the subfolder)</value>
+    <value>Add the folder C:\Program Files\WindowsApps (you must have read permissions)</value>
   </data>
   <data name="Texto Windows Store No Config" xml:space="preserve">
     <value>Windows Store is not configured</value>

@@ -1,1 +1,1 @@
-C:\Users\pepei\Documents\Visual Studio 2015\Projects\Steam Bridge\Steam Shortcuts UWP\AppPackages\Steam Bridge_0.4.0.0\Steam Bridge_0.4.0.0_x86_x64.appxbundle
+C:\Users\pepei\Documents\Visual Studio 2015\Projects\Steam Bridge\Steam Shortcuts UWP\AppPackages\Steam Bridge_0.5.0.0\Steam Bridge_0.5.0.0_x86_x64.appxbundle

@@ -45,7 +45,8 @@
                 <controls:HamburgerMenu.ItemsSource>
                     <controls:HamburgerMenuItemCollection>
                         <controls:HamburgerMenuGlyphItem x:Name="menuItemGOGGalaxy" Label="GOG Galaxy" Glyph="/Assets/gog_logo.png" Tag="0"/>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemWindowsStore" Label="Windows Store" Glyph="/Assets/windowsstore_logo.png" Tag="1"/>
+                        <controls:HamburgerMenuGlyphItem x:Name="menuItemOrigin" Label="Origin" Glyph="/Assets/origin_logo.png" Tag="1"/>
+                        <controls:HamburgerMenuGlyphItem x:Name="menuItemWindowsStore" Label="Windows Store" Glyph="/Assets/windowsstore_logo.png" Tag="2"/>
                     </controls:HamburgerMenuItemCollection>
                 </controls:HamburgerMenu.ItemsSource>
 
@@ -73,6 +74,19 @@
                         <TextBlock x:Name="tbGOGGalaxyMensaje" Grid.Row="1" Margin="5" Visibility="Collapsed"/>
                     </Grid>
 
+                    <Grid x:Name="gridOrigin" Background="#FFF0F0F0" Padding="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <ProgressBar x:Name="progressBarOrigin" Grid.Row="0" Margin="10,5" Visibility="Collapsed" IsIndeterminate="True"/>
+
+                        <Grid x:Name="gridOriginContenido" Grid.Row="1" Margin="0,0,0,10"/>
+
+                        <TextBlock x:Name="tbOriginMensaje" Grid.Row="1" Margin="5" Visibility="Collapsed"/>
+                    </Grid>
+
                     <Grid x:Name="gridWindowsStore" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -91,107 +105,155 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <TextBlock x:Name="tbConfig" Grid.Column="0" FontSize="23" Margin="5,0,0,20"/>
+                        <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Black" Margin="0,0,0,5"/>
 
-                        <Grid Grid.Row="1" Margin="0,0,0,10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                            <Border Grid.Row="0" BorderThickness="0,1,0,0" BorderBrush="Black"/>
-                            <TextBlock Grid.Row="1" Text="Steam" FontSize="20" Margin="5,15,0,10" />
-                            <TextBlock x:Name="tbSteamConfigInstrucciones" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
-                            <Grid Grid.Row="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <Button x:Name="buttonConfigSteam" Content="Steam" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
+                                <Button x:Name="buttonConfigSteamOverlay" Content="Steam Overlay" Height="56" Width="150" Margin="5,5,5,25" Background="#FFE4E4E4" FontSize="17"/>
 
-                                <Button x:Name="buttonSteamConfigPath" Grid.Column="0" Padding="10" Background="Transparent" Margin="0,5" HorizontalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                        <TextBlock x:Name="buttonSteamConfigPathTexto"/>
-                                    </StackPanel>
-                                </Button>
-                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbSteamConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <Button x:Name="buttonConfigGOGGalaxy" Content="GOG Galaxy" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
+                                <Button x:Name="buttonConfigOrigin" Content="Origin" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
+                                <Button x:Name="buttonConfigWindowsStore" Content="Windows Store" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
+                            </StackPanel>
+
+                            <Grid x:Name="gridConfigSteam" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="tbSteamConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                                <Grid Grid.Row="1" Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button x:Name="buttonSteamConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="buttonSteamConfigPathTexto"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="tbSteamConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
                             </Grid>
-                            <TextBlock Grid.Row="4" Margin="5" Text="Steam Overlay:"/>
-                            <Grid Grid.Row="5" Margin="5,0,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
 
-                                <CheckBox x:Name="cbDosboxSteamOverlay" Grid.Column="0" Margin="5" Content="DOSBox"/>
-                                <CheckBox x:Name="cbWindowsStoreSteamOverlay" Grid.Column="1" Margin="5" Content="Windows Store"/>
+                            <Grid x:Name="gridConfigSteamOverlay" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="tbSteamOverlayConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                                <CheckBox x:Name="cbDosboxSteamOverlay" Grid.Row="1" Margin="5" Content="GOG Galaxy - DOSBox"/>
+                                <CheckBox x:Name="cbWindowsStoreSteamOverlay" Grid.Row="2" Margin="5" Content="Windows Store"/>
                             </Grid>
-                        </Grid>
 
-                        <Grid Grid.Row="2" Margin="0,0,0,10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                            <Grid x:Name="gridConfigGOGGalaxy" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                            <Border Grid.Row="0" BorderThickness="0,1,0,0" BorderBrush="Black"/>
-                            <TextBlock Grid.Row="1" Text="GOG Galaxy" FontSize="20" Margin="5,15,0,10" />
-                            <TextBlock x:Name="tbGOGGalaxyConfigInstrucciones" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
-                            <Grid Grid.Row="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="tbGOGGalaxyConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                                <Grid Grid.Row="1" Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Button x:Name="buttonGOGGalaxyConfigPath" Grid.Column="0" Padding="10" Background="Transparent" Margin="0,5" HorizontalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                        <TextBlock x:Name="buttonGOGGalaxyConfigPathTexto"/>
-                                    </StackPanel>
-                                </Button>
-                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbGOGGalaxyConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <Button x:Name="buttonGOGGalaxyConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="buttonGOGGalaxyConfigPathTexto"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="tbGOGGalaxyConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
                             </Grid>
-                        </Grid>
 
-                        <Grid Grid.Row="3" Margin="0,0,0,10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                            <Grid x:Name="gridConfigOrigin" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock x:Name="tbOriginConfigInstrucciones1" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                                <Grid Grid.Row="1" Margin="5,5,5,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                            <Border Grid.Row="0" BorderThickness="0,1,0,0" BorderBrush="Black"/>
-                            <TextBlock Grid.Row="1" Text="Windows Store" FontSize="20" Margin="5,15,0,10" />
-                            <TextBlock x:Name="tbWindowsStoreConfigInstrucciones" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
-                            <Grid Grid.Row="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                    <Button x:Name="buttonOriginConfigLocalContentPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="buttonOriginConfigLocalContentPathTexto"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="tbOriginConfigLocalContentPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
+                                <TextBlock x:Name="tbOriginConfigInstrucciones2" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
+                                <Grid Grid.Row="3" Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Button x:Name="buttonWindowsStoreConfigPath" Grid.Column="0" Padding="10" Background="Transparent" Margin="0,5" HorizontalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                        <TextBlock x:Name="buttonWindowsStoreConfigPathTexto"/>
-                                    </StackPanel>
-                                </Button>
-                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbWindowsStoreConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <Button x:Name="buttonOriginConfigGamesPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="buttonOriginConfigGamesPathTexto"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="tbOriginConfigGamesPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="gridConfigWindowsStore" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="tbWindowsStoreConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                                <Grid Grid.Row="1" Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button x:Name="buttonWindowsStoreConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="buttonWindowsStoreConfigPathTexto"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="tbWindowsStoreConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
