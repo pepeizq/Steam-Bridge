@@ -168,11 +168,8 @@
   <data name="Texto No Juegos" xml:space="preserve">
     <value>No se han detectado juegos</value>
   </data>
-  <data name="Texto Origin Config 1" xml:space="preserve">
+  <data name="Texto Origin Config" xml:space="preserve">
     <value>Añade la carpeta C:\ProgramData\Origin\LocalContent (puede estar oculta)</value>
-  </data>
-  <data name="Texto Origin Config 2" xml:space="preserve">
-    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Origin\Games</value>
   </data>
   <data name="Texto Origin No Config" xml:space="preserve">
     <value>Origin no esta configurado</value>

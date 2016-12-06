@@ -49,12 +49,9 @@ Public NotInheritable Class MainPage
         buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
 
-        tbOriginConfigInstrucciones1.Text = recursos.GetString("Texto Origin Config 1")
-        buttonOriginConfigLocalContentPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbOriginConfigLocalContentPath.Text = recursos.GetString("Texto Carpeta")
-        tbOriginConfigInstrucciones2.Text = recursos.GetString("Texto Origin Config 2")
-        buttonOriginConfigGamesPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbOriginConfigGamesPath.Text = recursos.GetString("Texto Carpeta")
+        tbOriginConfigInstrucciones.Text = recursos.GetString("Texto Origin Config")
+        buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        tbOriginConfigPath.Text = recursos.GetString("Texto Carpeta")
 
         tbWindowsStoreConfigInstrucciones.Text = recursos.GetString("Texto Windows Store Config")
         buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Añadir")
@@ -98,39 +95,22 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        Dim carpetaOriginLocalContent As StorageFolder = Nothing
+        Dim carpetaOrigin As StorageFolder = Nothing
 
         Try
-            carpetaOriginLocalContent = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginLocalContentPath")
+            carpetaOrigin = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginPath")
 
-            If Not carpetaOriginLocalContent Is Nothing Then
-                tbOriginConfigLocalContentPath.Text = carpetaOriginLocalContent.Path
-                buttonOriginConfigLocalContentPathTexto.Text = recursos.GetString("Boton Cambiar")
-            End If
-        Catch ex As Exception
+            If Not carpetaOrigin Is Nothing Then
+                tbOriginConfigPath.Text = carpetaOrigin.Path
+                buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
 
-        End Try
-
-        Dim carpetaOriginGames As StorageFolder = Nothing
-
-        Try
-            carpetaOriginGames = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginGamesPath")
-
-            If Not carpetaOriginGames Is Nothing Then
-                tbOriginConfigGamesPath.Text = carpetaOriginGames.Path
-                buttonOriginConfigGamesPathTexto.Text = recursos.GetString("Boton Cambiar")
-            End If
-        Catch ex As Exception
-
-        End Try
-
-        If Not carpetaOriginLocalContent Is Nothing Then
-            If Not carpetaOriginGames Is Nothing Then
                 listaOrigin = New List(Of Juego)
 
-                Origin.Cargar(listaOrigin, carpetaOriginLocalContent, carpetaOriginGames, gridOriginContenido, progressBarOrigin, tbOriginMensaje)
+                Origin.Cargar(listaOrigin, carpetaOrigin, gridOriginContenido, progressBarOrigin, tbOriginMensaje)
             End If
-        End If
+        Catch ex As Exception
+
+        End Try
 
         '--------------------------------------------------------
 
@@ -182,11 +162,9 @@ Public NotInheritable Class MainPage
             tbGOGGalaxyMensaje.Text = recursos.GetString("Texto GOG Galaxy No Config")
         End If
 
-        If carpetaOriginLocalContent Is Nothing Then
-            If carpetaOriginGames Is Nothing Then
-                tbOriginMensaje.Visibility = Visibility.Visible
-                tbOriginMensaje.Text = recursos.GetString("Texto Origin No Config")
-            End If
+        If carpetaOrigin Is Nothing Then
+            tbOriginMensaje.Visibility = Visibility.Visible
+            tbOriginMensaje.Text = recursos.GetString("Texto Origin No Config")
         End If
 
         If carpetaWindowsStore Is Nothing Then
@@ -197,7 +175,7 @@ Public NotInheritable Class MainPage
         '--------------------------------------------------------
 
         If carpetaGOGGalaxy Is Nothing Then
-            If carpetaOriginLocalContent Is Nothing And carpetaOriginGames Is Nothing Then
+            If carpetaOrigin Is Nothing Then
                 If carpetaWindowsStore Is Nothing Then
                     GridVisibilidad(gridConfig, False)
                 Else
@@ -420,40 +398,9 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub buttonOriginConfigLocalContentPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonOriginConfigLocalContentPath.Click
+    Private Async Sub buttonOriginConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonOriginConfigPath.Click
 
-        Dim carpetaOriginLocalContent As StorageFolder
-
-        Try
-            Dim picker As FolderPicker = New FolderPicker()
-
-            picker.FileTypeFilter.Add("*")
-            picker.ViewMode = PickerViewMode.List
-
-            carpetaOriginLocalContent = Await picker.PickSingleFolderAsync()
-
-            If Not carpetaOriginLocalContent Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("OriginLocalContentPath", carpetaOriginLocalContent)
-                tbOriginConfigLocalContentPath.Text = carpetaOriginLocalContent.Path
-
-                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                buttonOriginConfigLocalContentPathTexto.Text = recursos.GetString("Boton Cambiar")
-
-                Dim carpetaOriginGames As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginGamesPath")
-
-                listaOrigin = New List(Of Juego)
-
-                Origin.Cargar(listaOrigin, carpetaOriginLocalContent, carpetaOriginGames, gridOriginContenido, progressBarOrigin, tbOriginMensaje)
-            End If
-        Catch ex As Exception
-
-        End Try
-
-    End Sub
-
-    Private Async Sub buttonOriginConfigGamesPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonOriginConfigGamesPath.Click
-
-        Dim carpetaOriginGames As StorageFolder
+        Dim carpetaOrigin As StorageFolder
 
         Try
             Dim picker As FolderPicker = New FolderPicker()
@@ -461,20 +408,18 @@ Public NotInheritable Class MainPage
             picker.FileTypeFilter.Add("*")
             picker.ViewMode = PickerViewMode.List
 
-            carpetaOriginGames = Await picker.PickSingleFolderAsync()
+            carpetaOrigin = Await picker.PickSingleFolderAsync()
 
-            If Not carpetaOriginGames Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("OriginGamesPath", carpetaOriginGames)
-                tbOriginConfigGamesPath.Text = carpetaOriginGames.Path
+            If Not carpetaOrigin Is Nothing Then
+                StorageApplicationPermissions.FutureAccessList.AddOrReplace("OriginPath", carpetaOrigin)
+                tbOriginConfigPath.Text = carpetaOrigin.Path
 
                 Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                buttonOriginConfigGamesPathTexto.Text = recursos.GetString("Boton Cambiar")
-
-                Dim carpetaOriginLocalContent As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginLocalContentPath")
+                buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
 
                 listaOrigin = New List(Of Juego)
 
-                Origin.Cargar(listaOrigin, carpetaOriginLocalContent, carpetaOriginGames, gridOriginContenido, progressBarOrigin, tbOriginMensaje)
+                Origin.Cargar(listaOrigin, carpetaOrigin, gridOriginContenido, progressBarOrigin, tbOriginMensaje)
             End If
         Catch ex As Exception
 

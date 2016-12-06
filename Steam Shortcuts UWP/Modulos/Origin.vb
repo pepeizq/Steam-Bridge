@@ -3,7 +3,7 @@ Imports Windows.Storage.Streams
 
 Module Origin
 
-    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpetaLocalContent As StorageFolder, carpetaJuegos As StorageFolder, grid As Grid, progreso As ProgressBar, textobloque As TextBlock)
+    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, textobloque As TextBlock)
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
@@ -12,8 +12,8 @@ Module Origin
         Dim listaGrid As New ListView
         listaGrid.Name = "listaOrigin"
 
-        If Not carpetaLocalContent Is Nothing Then
-            Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpetaLocalContent.GetFoldersAsync()
+        If Not carpeta Is Nothing Then
+            Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
 
             For Each carpetaJuego As StorageFolder In carpetasJuegos
                 Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaJuego.GetFilesAsync()
@@ -52,16 +52,16 @@ Module Origin
 
                             listaJuegos.Add(juego)
 
-                            Dim bitmap As BitmapImage = New BitmapImage
-                            If Not juego.Icono Is Nothing Then
-                                Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
-                                    bitmap.DecodePixelWidth = 40
-                                    bitmap.DecodePixelHeight = 40
-                                    Await bitmap.SetSourceAsync(stream)
-                                End Using
-                            End If
+                            'Dim bitmap As BitmapImage = New BitmapImage
+                            'If Not juego.Icono Is Nothing Then
+                            '    Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
+                            '        bitmap.DecodePixelWidth = 40
+                            '        bitmap.DecodePixelHeight = 40
+                            '        Await bitmap.SetSourceAsync(stream)
+                            '    End Using
+                            'End If
 
-                            listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
+                            listaGrid.Items.Add(Listado.GenerarGrid(juego, Nothing))
                             grid.Children.Clear()
                             grid.Children.Add(listaGrid)
                         End If
@@ -76,16 +76,16 @@ Module Origin
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
-                Dim bitmap As BitmapImage = New BitmapImage
-                If Not juego.Icono Is Nothing Then
-                    Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
-                        bitmap.DecodePixelWidth = 40
-                        bitmap.DecodePixelHeight = 40
-                        Await bitmap.SetSourceAsync(stream)
-                    End Using
-                End If
+                'Dim bitmap As BitmapImage = New BitmapImage
+                'If Not juego.Icono Is Nothing Then
+                '    Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
+                '        bitmap.DecodePixelWidth = 40
+                '        bitmap.DecodePixelHeight = 40
+                '        Await bitmap.SetSourceAsync(stream)
+                '    End Using
+                'End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
+                listaGrid.Items.Add(Listado.GenerarGrid(juego, Nothing))
             Next
         End If
 

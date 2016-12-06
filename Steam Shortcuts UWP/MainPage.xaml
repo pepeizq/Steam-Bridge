@@ -67,7 +67,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <ProgressBar x:Name="progressBarGOGGalaxy" Grid.Row="0" Margin="10,5" Visibility="Collapsed" IsIndeterminate="True"/>
+                        <ProgressBar x:Name="progressBarGOGGalaxy" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
                         <Grid x:Name="gridGOGGalaxyContenido" Grid.Row="1" Margin="0,0,0,10"/>
 
@@ -80,7 +80,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <ProgressBar x:Name="progressBarOrigin" Grid.Row="0" Margin="10,5" Visibility="Collapsed" IsIndeterminate="True"/>
+                        <ProgressBar x:Name="progressBarOrigin" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
                         <Grid x:Name="gridOriginContenido" Grid.Row="1" Margin="0,0,0,10"/>
 
@@ -93,7 +93,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <ProgressBar x:Name="progressBarWindowsStore" Grid.Row="0" Margin="10,5" Visibility="Collapsed" IsIndeterminate="True"/>
+                        <ProgressBar x:Name="progressBarWindowsStore" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
                         <Grid x:Name="gridWindowsStoreContenido" Grid.Row="1" Margin="0,0,0,10"/>
 
@@ -191,43 +191,24 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 
-                                <TextBlock x:Name="tbOriginConfigInstrucciones1" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="1" Margin="5,5,5,15">
+                                <TextBlock x:Name="tbOriginConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                                <Grid Grid.Row="1" Margin="5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button x:Name="buttonOriginConfigLocalContentPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                    <Button x:Name="buttonOriginConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" >
                                             <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonOriginConfigLocalContentPathTexto"/>
+                                            <TextBlock x:Name="buttonOriginConfigPathTexto"/>
                                         </StackPanel>
                                     </Button>
                                     <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbOriginConfigLocalContentPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                                <TextBlock x:Name="tbOriginConfigInstrucciones2" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="3" Margin="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button x:Name="buttonOriginConfigGamesPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonOriginConfigGamesPathTexto"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbOriginConfigGamesPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="tbOriginConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                 </Grid>
                             </Grid>
 

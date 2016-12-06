@@ -39,7 +39,7 @@ Module Listado
         '----------------------------------------------------
 
         Dim borde As New Border
-        Dim imagen As New Image
+        Dim imagen As Image = Nothing
 
         If Not bitmap Is Nothing Then
             If Not juego.ColorFondo = Nothing Then
@@ -81,6 +81,7 @@ Module Listado
                 End If
             End If
 
+            imagen = New Image
             imagen.Source = bitmap
 
             imagen.Width = 40
@@ -88,15 +89,12 @@ Module Listado
 
             borde.Width = 40
             borde.Height = 40
-        Else
-            borde.Width = 0
-            borde.Height = 40
-        End If
 
-        borde.Child = imagen
-        borde.Margin = New Thickness(10, 0, 10, 0)
-        Grid.SetColumn(borde, 1)
-        grid.Children.Add(borde)
+            borde.Child = imagen
+            borde.Margin = New Thickness(10, 0, 10, 0)
+            Grid.SetColumn(borde, 1)
+            grid.Children.Add(borde)
+        End If
 
         '----------------------------------------------------
 
@@ -106,7 +104,12 @@ Module Listado
         textoBloque.Margin = New Thickness(10, 0, 0, 0)
         textoBloque.FontSize = 15
 
-        Grid.SetColumn(textoBloque, 2)
+        If imagen Is Nothing Then
+            Grid.SetColumn(textoBloque, 1)
+        Else
+            Grid.SetColumn(textoBloque, 2)
+        End If
+
         grid.Children.Add(textoBloque)
 
         Return grid
