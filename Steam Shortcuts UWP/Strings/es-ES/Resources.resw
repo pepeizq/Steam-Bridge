@@ -138,6 +138,9 @@
   <data name="Boton Contactar" xml:space="preserve">
     <value>Contactar</value>
   </data>
+  <data name="Boton Uplay Config Aviso" xml:space="preserve">
+    <value>Ejemplo Foto Registro</value>
+  </data>
   <data name="Boton Volver" xml:space="preserve">
     <value>Volver</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="Boton Web" xml:space="preserve">
     <value>Más Apps</value>
+  </data>
+  <data name="Boton Windows Store Tutorial" xml:space="preserve">
+    <value>Tutorial para obtener permisos</value>
   </data>
   <data name="Error 1" xml:space="preserve">
     <value>Error al añadir los accesos directos, cierra Steam</value>
@@ -163,7 +169,7 @@
     <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\GalaxyClient\Games</value>
   </data>
   <data name="Texto GOG Galaxy No Config" xml:space="preserve">
-    <value>GOG Galaxy no esta configurado</value>
+    <value>GOG Galaxy no está configurado</value>
   </data>
   <data name="Texto No Juegos" xml:space="preserve">
     <value>No se han detectado juegos</value>
@@ -172,21 +178,33 @@
     <value>Añade la carpeta C:\ProgramData\Origin\LocalContent (puede estar oculta)</value>
   </data>
   <data name="Texto Origin No Config" xml:space="preserve">
-    <value>Origin no esta configurado</value>
+    <value>Origin no está configurado</value>
   </data>
   <data name="Texto Steam Config" xml:space="preserve">
-    <value>Añade la carpeta principal de Steam, ejemplo: C:\Steam</value>
+    <value>Añade la carpeta donde Steam está instalado, ejemplo: C:\Steam</value>
   </data>
   <data name="Texto Steam No Config" xml:space="preserve">
-    <value>Steam no esta configurado</value>
+    <value>Steam no está configurado</value>
   </data>
   <data name="Texto Steam Overlay Config" xml:space="preserve">
-    <value>Esta opción esta en Beta, si tienes problemas con algún juego por favor contacta</value>
+    <value>Esta opción se encuentra en Beta, si tienes problemas con algún juego por favor contacta</value>
+  </data>
+  <data name="Texto Uplay Config Aviso" xml:space="preserve">
+    <value>Aviso: Algunos juegos pueden que solo arranquen Uplay, por favor si contactas con nosotros envíanos una foto del registro de Windows como en el ejemplo.</value>
+  </data>
+  <data name="Texto Uplay Config Cliente" xml:space="preserve">
+    <value>Añade la carpeta donde Uplay está instalado, ejemplo C:\Program Files\Ubisoft Game Launcher\</value>
+  </data>
+  <data name="Texto Uplay Config Juegos" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Ubisoft Game Launcher\Games</value>
+  </data>
+  <data name="Texto Uplay No Config" xml:space="preserve">
+    <value>Uplay no está configurado</value>
   </data>
   <data name="Texto Windows Store Config" xml:space="preserve">
     <value>Añade la carpeta C:\Archivos de Programa\WindowsApps (debes de tener permisos de lectura)</value>
   </data>
   <data name="Texto Windows Store No Config" xml:space="preserve">
-    <value>Windows Store no esta configurado</value>
+    <value>Windows Store no está configurado</value>
   </data>
 </root>

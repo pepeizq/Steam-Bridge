@@ -171,6 +171,19 @@ Module Listado
                 Next
             End If
 
+            Dim listViewUplay As ListView = pagina.FindName("listaUplay")
+
+            If Not listViewUplay Is Nothing Then
+                For Each grid As Grid In listViewUplay.Items
+                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
+                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
+
+                    If juego.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+            End If
+
             Dim listViewWindowsStore As ListView = pagina.FindName("listaWindowsStore")
 
             If Not listViewWindowsStore Is Nothing Then

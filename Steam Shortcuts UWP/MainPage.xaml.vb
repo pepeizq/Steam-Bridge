@@ -11,6 +11,7 @@ Public NotInheritable Class MainPage
 
     Dim listaGOGGalaxy As List(Of Juego)
     Dim listaOrigin As List(Of Juego)
+    Dim listaUplay As List(Of Juego)
     Dim listaWindowsStore As List(Of Juego)
 
     Private Async Sub Page_Loading(sender As FrameworkElement, args As Object)
@@ -53,9 +54,19 @@ Public NotInheritable Class MainPage
         buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbOriginConfigPath.Text = recursos.GetString("Texto Carpeta")
 
+        tbUplayConfigInstruccionesCliente.Text = recursos.GetString("Texto Uplay Config Cliente")
+        buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Añadir")
+        tbUplayConfigPathCliente.Text = recursos.GetString("Texto Carpeta")
+        tbUplayConfigInstruccionesJuegos.Text = recursos.GetString("Texto Uplay Config Juegos")
+        buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Añadir")
+        tbUplayConfigPathJuegos.Text = recursos.GetString("Texto Carpeta")
+        tbUplayConfigInstruccionesAviso.Text = recursos.GetString("Texto Uplay Config Aviso")
+        buttonUplayConfigAviso.Content = recursos.GetString("Boton Uplay Config Aviso")
+
         tbWindowsStoreConfigInstrucciones.Text = recursos.GetString("Texto Windows Store Config")
         buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
+        buttonWindowsStoreConfigTutorial.Content = recursos.GetString("Boton Windows Store Tutorial")
 
         '--------------------------------------------------------
 
@@ -114,6 +125,41 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
+        Dim carpetaUplayCliente As StorageFolder = Nothing
+        Dim carpetaUplayJuegos As StorageFolder = Nothing
+
+        Try
+            carpetaUplayCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
+
+            If Not carpetaUplayCliente Is Nothing Then
+                tbUplayConfigPathCliente.Text = carpetaUplayCliente.Path
+                buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Cambiar")
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            carpetaUplayJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+
+            If Not carpetaUplayJuegos Is Nothing Then
+                tbUplayConfigPathJuegos.Text = carpetaUplayJuegos.Path
+                buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Cambiar")
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        If Not carpetaUplayCliente Is Nothing Then
+            If Not carpetaUplayJuegos Is Nothing Then
+                listaUplay = New List(Of Juego)
+
+                Uplay.Cargar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, tbUplayMensaje)
+            End If
+        End If
+
+        '--------------------------------------------------------
+
         Dim carpetaWindowsStore As StorageFolder = Nothing
 
         Try
@@ -167,6 +213,11 @@ Public NotInheritable Class MainPage
             tbOriginMensaje.Text = recursos.GetString("Texto Origin No Config")
         End If
 
+        If carpetaUplayCliente Is Nothing And carpetaUplayJuegos Is Nothing Then
+            tbUplayMensaje.Visibility = Visibility.Visible
+            tbUplayMensaje.Text = recursos.GetString("Texto Uplay No Config")
+        End If
+
         If carpetaWindowsStore Is Nothing Then
             tbWindowsStoreMensaje.Visibility = Visibility.Visible
             tbWindowsStoreMensaje.Text = recursos.GetString("Texto Windows Store No Config")
@@ -176,11 +227,16 @@ Public NotInheritable Class MainPage
 
         If carpetaGOGGalaxy Is Nothing Then
             If carpetaOrigin Is Nothing Then
-                If carpetaWindowsStore Is Nothing Then
-                    GridVisibilidad(gridConfig, False)
+                If carpetaUplayCliente Is Nothing And carpetaUplayJuegos Is Nothing Then
+                    If carpetaWindowsStore Is Nothing Then
+                        GridVisibilidad(gridConfig, False)
+                    Else
+                        hamburgerMaestro.SelectedIndex = 3
+                        GridVisibilidad(gridWindowsStore, True)
+                    End If
                 Else
                     hamburgerMaestro.SelectedIndex = 2
-                    GridVisibilidad(gridWindowsStore, True)
+                    GridVisibilidad(gridUplay, True)
                 End If
             Else
                 hamburgerMaestro.SelectedIndex = 1
@@ -203,6 +259,7 @@ Public NotInheritable Class MainPage
 
         gridGOGGalaxy.Visibility = Visibility.Collapsed
         gridOrigin.Visibility = Visibility.Collapsed
+        gridUplay.Visibility = Visibility.Collapsed
         gridWindowsStore.Visibility = Visibility.Collapsed
 
         gridConfig.Visibility = Visibility.Collapsed
@@ -247,6 +304,16 @@ Public NotInheritable Class MainPage
                 End If
             End If
 
+            If Not listaUplay Is Nothing Then
+                If listaUplay.Count > 0 Then
+                    For Each juego As Juego In listaUplay
+                        If juego.Añadir = True Then
+                            listaFinal.Add(juego)
+                        End If
+                    Next
+                End If
+            End If
+
             If Not listaWindowsStore Is Nothing Then
                 If listaWindowsStore.Count > 0 Then
                     For Each juego As Juego In listaWindowsStore
@@ -276,6 +343,8 @@ Public NotInheritable Class MainPage
         buttonConfigGOGGalaxy.BorderBrush = New SolidColorBrush(Colors.Transparent)
         buttonConfigOrigin.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
         buttonConfigOrigin.BorderBrush = New SolidColorBrush(Colors.Transparent)
+        buttonConfigUplay.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
+        buttonConfigUplay.BorderBrush = New SolidColorBrush(Colors.Transparent)
         buttonConfigWindowsStore.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
         buttonConfigWindowsStore.BorderBrush = New SolidColorBrush(Colors.Transparent)
 
@@ -285,6 +354,7 @@ Public NotInheritable Class MainPage
         gridConfigSteam.Visibility = Visibility.Collapsed
         gridConfigSteamOverlay.Visibility = Visibility.Collapsed
         gridConfigGOGGalaxy.Visibility = Visibility.Collapsed
+        gridConfigUplay.Visibility = Visibility.Collapsed
         gridConfigOrigin.Visibility = Visibility.Collapsed
         gridConfigWindowsStore.Visibility = Visibility.Collapsed
 
@@ -427,6 +497,94 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Sub buttonConfigUplay_Click(sender As Object, e As RoutedEventArgs) Handles buttonConfigUplay.Click
+
+        GridConfigVisibilidad(gridConfigUplay, buttonConfigUplay)
+
+    End Sub
+
+    Private Async Sub buttonUplayConfigPathCliente_Click(sender As Object, e As RoutedEventArgs) Handles buttonUplayConfigPathCliente.Click
+
+        Dim carpetaUplayCliente As StorageFolder
+
+        Try
+            Dim picker As FolderPicker = New FolderPicker()
+
+            picker.FileTypeFilter.Add("*")
+            picker.ViewMode = PickerViewMode.List
+
+            carpetaUplayCliente = Await picker.PickSingleFolderAsync()
+
+            If Not carpetaUplayCliente Is Nothing Then
+                StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathCliente", carpetaUplayCliente)
+                tbUplayConfigPathCliente.Text = carpetaUplayCliente.Path
+
+                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+                buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Cambiar")
+
+                Dim carpetaUplayJuegos As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+
+                If Not carpetaUplayJuegos Is Nothing Then
+                    listaUplay = New List(Of Juego)
+
+                    tbUplayConfigPathJuegos.Text = carpetaUplayJuegos.Path
+                    buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Cambiar")
+
+                    Uplay.Cargar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, tbUplayMensaje)
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Async Sub buttonUplayConfigPathJuegos_Click(sender As Object, e As RoutedEventArgs) Handles buttonUplayConfigPathJuegos.Click
+
+        Dim carpetaUplayJuegos As StorageFolder
+
+        Try
+            Dim picker As FolderPicker = New FolderPicker()
+
+            picker.FileTypeFilter.Add("*")
+            picker.ViewMode = PickerViewMode.List
+
+            carpetaUplayJuegos = Await picker.PickSingleFolderAsync()
+
+            If Not carpetaUplayJuegos Is Nothing Then
+                StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathJuegos", carpetaUplayJuegos)
+                tbUplayConfigPathJuegos.Text = carpetaUplayJuegos.Path
+
+                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+                buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Cambiar")
+
+                Dim carpetaUplayCliente As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
+
+                If Not carpetaUplayCliente Is Nothing Then
+                    listaUplay = New List(Of Juego)
+
+                    tbUplayConfigPathCliente.Text = carpetaUplayCliente.Path
+                    buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Cambiar")
+
+                    Uplay.Cargar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, tbUplayMensaje)
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Async Sub buttonUplayConfigAviso_Click(sender As Object, e As RoutedEventArgs) Handles buttonUplayConfigAviso.Click
+
+        Try
+            Await Launcher.LaunchUriAsync(New Uri("http://i.imgur.com/VFwY7nN.png"))
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
     Private Sub buttonConfigWindowsStore_Click(sender As Object, e As RoutedEventArgs) Handles buttonConfigWindowsStore.Click
 
         GridConfigVisibilidad(gridConfigWindowsStore, buttonConfigWindowsStore)
@@ -462,6 +620,16 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Async Sub buttonWindowsStoreConfigTutorial_Click(sender As Object, e As RoutedEventArgs) Handles buttonWindowsStoreConfigTutorial.Click
+
+        Try
+            Await Launcher.LaunchUriAsync(New Uri("https://www.maketecheasier.com/access-windowsapps-folder-windows-10/"))
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
     'HAMBURGER------------------------------------------------
 
     Private Sub hamburgerMaestro_ItemClick(sender As Object, e As ItemClickEventArgs) Handles hamburgerMaestro.ItemClick
@@ -473,6 +641,8 @@ Public NotInheritable Class MainPage
         ElseIf menuItem.Tag = 1 Then
             GridVisibilidad(gridOrigin, True)
         ElseIf menuItem.Tag = 2 Then
+            GridVisibilidad(gridUplay, True)
+        ElseIf menuItem.Tag = 3 Then
             GridVisibilidad(gridWindowsStore, True)
         End If
 
