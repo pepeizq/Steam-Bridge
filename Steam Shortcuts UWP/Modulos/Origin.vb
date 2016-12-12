@@ -1,13 +1,69 @@
-﻿Imports Windows.Storage
+﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.Storage
+Imports Windows.Storage.AccessCache
+Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
 
 Module Origin
 
-    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, textobloque As TextBlock)
+    Private Sub Icono(coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
+
+        hamburger.ItemsSource = Nothing
+
+        Dim item As HamburgerMenuGlyphItem = New HamburgerMenuGlyphItem
+        item.Tag = 1
+        item.Label = "Origin"
+        item.Glyph = "/Assets/origin_logo.png"
+        coleccion.Add(item)
+        coleccion.Sort(Function(x, y) x.Label.CompareTo(y.Label))
+
+        hamburger.ItemsSource = coleccion
+
+    End Sub
+
+    Public Async Function Config(tbConfigPath As TextBlock, buttonConfigPath As TextBlock, reg As TextBox, picker As Boolean) As Task(Of Boolean)
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            If picker = True Then
+                Dim carpetapicker As FolderPicker = New FolderPicker()
+
+                carpetapicker.FileTypeFilter.Add("*")
+                carpetapicker.ViewMode = PickerViewMode.List
+
+                carpeta = Await carpetapicker.PickSingleFolderAsync()
+            Else
+                carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginPath")
+            End If
+
+            If Not carpeta Is Nothing Then
+                If carpeta.Path.Contains("Origin\LocalContent") Then
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace("OriginPath", carpeta)
+                    tbConfigPath.Text = carpeta.Path
+                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    Registro.Mensaje(reg, "Config", "Origin detectado")
+                    Return True
+                Else
+                    Registro.Mensaje(reg, "Config", "Origin no detectado")
+                    Return False
+                End If
+            Else
+                Registro.Mensaje(reg, "Config", "Origin no seleccionado")
+                Return False
+            End If
+        Catch ex As Exception
+            Registro.Mensaje(reg, "Config", "Origin error")
+            Return False
+        End Try
+
+    End Function
+
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
-        textobloque.Visibility = Visibility.Collapsed
 
         Dim listaGrid As New ListView
         listaGrid.Name = "listaOrigin"
@@ -52,6 +108,10 @@ Module Origin
 
                             listaJuegos.Add(juego)
 
+                            If listaJuegos.Count = 1 Then
+                                Origin.Icono(coleccion, hamburger)
+                            End If
+
                             'Dim bitmap As BitmapImage = New BitmapImage
                             'If Not juego.Icono Is Nothing Then
                             '    Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
@@ -61,7 +121,7 @@ Module Origin
                             '    End Using
                             'End If
 
-                            listaGrid.Items.Add(Listado.GenerarGrid(juego, Nothing))
+                            listaGrid.Items.Add(Listado.GenerarGrid(juego, Nothing, False))
                             grid.Children.Clear()
                             grid.Children.Add(listaGrid)
                         End If
@@ -69,7 +129,6 @@ Module Origin
                 Next
             Next
         End If
-
 
         If listaJuegos.Count > 0 Then
             listaGrid.Items.Clear()
@@ -85,17 +144,13 @@ Module Origin
                 '    End Using
                 'End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, Nothing))
+                listaGrid.Items.Add(Listado.GenerarGrid(juego, Nothing, True))
             Next
         End If
 
         If listaJuegos.Count = 0 Then
-            textobloque.Visibility = Visibility.Visible
-
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            textobloque.Text = recursos.GetString("Texto No Juegos")
-        Else
-            textobloque.Visibility = Visibility.Collapsed
+            Toast("Steam Bridge - Origin", recursos.GetString("Texto No Juegos"))
         End If
 
         grid.Children.Clear()

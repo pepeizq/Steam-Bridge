@@ -2,19 +2,20 @@
 Imports Windows.ApplicationModel.DataTransfer
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
-Imports Windows.Storage.Pickers
 Imports Windows.System
 Imports Windows.UI
 
 Public NotInheritable Class MainPage
     Inherits Page
 
+    Dim coleccion As HamburgerMenuItemCollection = New HamburgerMenuItemCollection
+
     Dim listaGOGGalaxy As List(Of Juego)
     Dim listaOrigin As List(Of Juego)
     Dim listaUplay As List(Of Juego)
     Dim listaWindowsStore As List(Of Juego)
 
-    Private Async Sub Page_Loading(sender As FrameworkElement, args As Object)
+    Private Async Sub Page_Loaded(sender As FrameworkElement, args As Object)
 
         Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
 
@@ -68,22 +69,12 @@ Public NotInheritable Class MainPage
         tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
         buttonWindowsStoreConfigTutorial.Content = recursos.GetString("Boton Windows Store Tutorial")
 
+        buttonConfigRegistro.Content = recursos.GetString("Registro")
+        tbConfigRegistroAviso.Text = recursos.GetString("Registro Aviso")
+
         '--------------------------------------------------------
 
-        Dim carpetaSteam As StorageFolder = Nothing
-
-        Try
-            carpetaSteam = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
-
-            If Not carpetaSteam Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("SteamPath", carpetaSteam)
-                tbSteamConfigPath.Text = carpetaSteam.Path
-
-                buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
-            End If
-        Catch ex As Exception
-
-        End Try
+        Steam.Arranque(tbSteamConfigPath, buttonSteamConfigPathTexto, tbConfigRegistro, False)
 
         '--------------------------------------------------------
 
@@ -91,18 +82,20 @@ Public NotInheritable Class MainPage
 
         Try
             carpetaGOGGalaxy = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("GOGGalaxyPath")
-
-            If Not carpetaGOGGalaxy Is Nothing Then
-                tbGOGGalaxyConfigPath.Text = carpetaGOGGalaxy.Path
-                buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
-
-                listaGOGGalaxy = New List(Of Juego)
-
-                GOGGalaxy.Cargar(listaGOGGalaxy, carpetaGOGGalaxy, gridGOGGalaxyContenido, progressBarGOGGalaxy, tbGOGGalaxyMensaje)
-            End If
         Catch ex As Exception
 
         End Try
+
+        Dim galaxyBool As Boolean = False
+
+        If Not carpetaGOGGalaxy Is Nothing Then
+            galaxyBool = Await GOGGalaxy.Config(tbGOGGalaxyConfigPath, buttonGOGGalaxyConfigPathTexto, tbConfigRegistro, False)
+
+            If galaxyBool = True Then
+                listaGOGGalaxy = New List(Of Juego)
+                GOGGalaxy.Generar(listaGOGGalaxy, carpetaGOGGalaxy, gridGOGGalaxyContenido, progressBarGOGGalaxy, coleccion, hamburgerMaestro)
+            End If
+        End If
 
         '--------------------------------------------------------
 
@@ -110,51 +103,49 @@ Public NotInheritable Class MainPage
 
         Try
             carpetaOrigin = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginPath")
-
-            If Not carpetaOrigin Is Nothing Then
-                tbOriginConfigPath.Text = carpetaOrigin.Path
-                buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
-
-                listaOrigin = New List(Of Juego)
-
-                Origin.Cargar(listaOrigin, carpetaOrigin, gridOriginContenido, progressBarOrigin, tbOriginMensaje)
-            End If
         Catch ex As Exception
 
         End Try
+
+        Dim originBool As Boolean = False
+
+        If Not carpetaOrigin Is Nothing Then
+            originBool = Await Origin.Config(tbOriginConfigPath, buttonOriginConfigPathTexto, tbConfigRegistro, False)
+
+            If originBool = True Then
+                listaOrigin = New List(Of Juego)
+                Origin.Generar(listaOrigin, carpetaOrigin, gridOriginContenido, progressBarOrigin, coleccion, hamburgerMaestro)
+            End If
+        End If
 
         '--------------------------------------------------------
 
         Dim carpetaUplayCliente As StorageFolder = Nothing
-        Dim carpetaUplayJuegos As StorageFolder = Nothing
 
         Try
             carpetaUplayCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
-
-            If Not carpetaUplayCliente Is Nothing Then
-                tbUplayConfigPathCliente.Text = carpetaUplayCliente.Path
-                buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Cambiar")
-            End If
         Catch ex As Exception
 
         End Try
+
+        Dim carpetaUplayJuegos As StorageFolder = Nothing
 
         Try
             carpetaUplayJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
-
-            If Not carpetaUplayJuegos Is Nothing Then
-                tbUplayConfigPathJuegos.Text = carpetaUplayJuegos.Path
-                buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Cambiar")
-            End If
         Catch ex As Exception
 
         End Try
 
+        Dim uplaybool As Boolean = False
+
         If Not carpetaUplayCliente Is Nothing Then
             If Not carpetaUplayJuegos Is Nothing Then
-                listaUplay = New List(Of Juego)
+                uplaybool = Await Uplay.Config(99, tbUplayConfigPathCliente, buttonUplayConfigPathTextoCliente, tbUplayConfigPathJuegos, buttonUplayConfigPathTextoJuegos, tbConfigRegistro, False)
 
-                Uplay.Cargar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, tbUplayMensaje)
+                If uplaybool = True Then
+                    listaUplay = New List(Of Juego)
+                    Uplay.Generar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, coleccion, hamburgerMaestro)
+                End If
             End If
         End If
 
@@ -164,18 +155,20 @@ Public NotInheritable Class MainPage
 
         Try
             carpetaWindowsStore = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("WindowsStorePath")
-
-            If Not carpetaWindowsStore Is Nothing Then
-                tbWindowsStoreConfigPath.Text = carpetaWindowsStore.Path
-                buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
-
-                listaWindowsStore = New List(Of Juego)
-
-                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, gridWindowsStoreContenido, progressBarWindowsStore, tbWindowsStoreMensaje)
-            End If
         Catch ex As Exception
 
         End Try
+
+        Dim windowsbool As Boolean = False
+
+        If Not carpetaWindowsStore Is Nothing Then
+            windowsbool = Await WindowsStore.Config(tbWindowsStoreConfigPath, buttonWindowsStoreConfigPathTexto, tbConfigRegistro, False)
+
+            If windowsbool = True Then
+                listaWindowsStore = New List(Of Juego)
+                WindowsStore.Generar(listaWindowsStore, carpetaWindowsStore, gridWindowsStoreContenido, progressBarWindowsStore, coleccion, hamburgerMaestro)
+            End If
+        End If
 
         '--------------------------------------------------------
 
@@ -203,47 +196,22 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        If carpetaGOGGalaxy Is Nothing Then
-            tbGOGGalaxyMensaje.Visibility = Visibility.Visible
-            tbGOGGalaxyMensaje.Text = recursos.GetString("Texto GOG Galaxy No Config")
-        End If
-
-        If carpetaOrigin Is Nothing Then
-            tbOriginMensaje.Visibility = Visibility.Visible
-            tbOriginMensaje.Text = recursos.GetString("Texto Origin No Config")
-        End If
-
-        If carpetaUplayCliente Is Nothing And carpetaUplayJuegos Is Nothing Then
-            tbUplayMensaje.Visibility = Visibility.Visible
-            tbUplayMensaje.Text = recursos.GetString("Texto Uplay No Config")
-        End If
-
-        If carpetaWindowsStore Is Nothing Then
-            tbWindowsStoreMensaje.Visibility = Visibility.Visible
-            tbWindowsStoreMensaje.Text = recursos.GetString("Texto Windows Store No Config")
-        End If
-
-        '--------------------------------------------------------
-
-        If carpetaGOGGalaxy Is Nothing Then
-            If carpetaOrigin Is Nothing Then
-                If carpetaUplayCliente Is Nothing And carpetaUplayJuegos Is Nothing Then
-                    If carpetaWindowsStore Is Nothing Then
+        If galaxyBool = False Then
+            If originBool = False Then
+                If uplaybool = False Then
+                    If windowsbool = False Then
                         GridVisibilidad(gridConfig, False)
+                        GridConfigVisibilidad(gridConfigSteam, buttonConfigSteam)
                     Else
-                        hamburgerMaestro.SelectedIndex = 3
                         GridVisibilidad(gridWindowsStore, True)
                     End If
                 Else
-                    hamburgerMaestro.SelectedIndex = 2
                     GridVisibilidad(gridUplay, True)
                 End If
             Else
-                hamburgerMaestro.SelectedIndex = 1
                 GridVisibilidad(gridOrigin, True)
             End If
         Else
-            hamburgerMaestro.SelectedIndex = 0
             GridVisibilidad(gridGOGGalaxy, True)
         End If
 
@@ -278,7 +246,7 @@ Public NotInheritable Class MainPage
         Try
             carpetaSteam = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
         Catch ex As Exception
-            MessageBox.EnseñarMensaje(recursos.GetString("Texto Steam No Config"))
+            'Notificaciones.Toast("Steam Bridge", recursos.GetString("Texto Steam No Config"))
         End Try
 
         If Not carpetaSteam Is Nothing Then
@@ -325,7 +293,7 @@ Public NotInheritable Class MainPage
             End If
 
             If listaFinal.Count > 0 Then
-                Steam.CrearAccesos(listaFinal, carpetaSteam, buttonAñadirJuegos)
+                Steam.CrearAccesos(listaFinal, carpetaSteam, buttonAñadirJuegos, tbConfigRegistro)
             End If
         End If
 
@@ -347,6 +315,8 @@ Public NotInheritable Class MainPage
         buttonConfigUplay.BorderBrush = New SolidColorBrush(Colors.Transparent)
         buttonConfigWindowsStore.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
         buttonConfigWindowsStore.BorderBrush = New SolidColorBrush(Colors.Transparent)
+        buttonConfigRegistro.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
+        buttonConfigRegistro.BorderBrush = New SolidColorBrush(Colors.Transparent)
 
         button.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#bfbfbf"))
         button.BorderBrush = New SolidColorBrush(Colors.Black)
@@ -357,6 +327,7 @@ Public NotInheritable Class MainPage
         gridConfigUplay.Visibility = Visibility.Collapsed
         gridConfigOrigin.Visibility = Visibility.Collapsed
         gridConfigWindowsStore.Visibility = Visibility.Collapsed
+        gridConfigRegistro.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
 
@@ -368,28 +339,9 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub buttonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
+    Private Sub buttonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
 
-        Dim carpetaSteam As StorageFolder
-
-        Try
-            Dim picker As FolderPicker = New FolderPicker()
-
-            picker.FileTypeFilter.Add("*")
-            picker.ViewMode = PickerViewMode.List
-
-            carpetaSteam = Await picker.PickSingleFolderAsync()
-
-            If Not carpetaSteam Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("SteamPath", carpetaSteam)
-                tbSteamConfigPath.Text = carpetaSteam.Path
-
-                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
-            End If
-        Catch ex As Exception
-
-        End Try
+        Steam.Arranque(tbSteamConfigPath, buttonSteamConfigPathTexto, tbConfigRegistro, True)
 
     End Sub
 
@@ -435,30 +387,19 @@ Public NotInheritable Class MainPage
 
     Private Async Sub buttonGOGGalaxyConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonGOGGalaxyConfigPath.Click
 
-        Dim carpetaGOGGalaxy As StorageFolder
+        Dim galaxyBool As Boolean = Await GOGGalaxy.Config(tbGOGGalaxyConfigPath, buttonGOGGalaxyConfigPathTexto, tbConfigRegistro, True)
+        Dim carpeta As StorageFolder = Nothing
 
         Try
-            Dim picker As FolderPicker = New FolderPicker()
-
-            picker.FileTypeFilter.Add("*")
-            picker.ViewMode = PickerViewMode.List
-
-            carpetaGOGGalaxy = Await picker.PickSingleFolderAsync()
-
-            If Not carpetaGOGGalaxy Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("GOGGalaxyPath", carpetaGOGGalaxy)
-                tbGOGGalaxyConfigPath.Text = carpetaGOGGalaxy.Path
-
-                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
-
-                listaGOGGalaxy = New List(Of Juego)
-
-                GOGGalaxy.Cargar(listaGOGGalaxy, carpetaGOGGalaxy, gridGOGGalaxyContenido, progressBarGOGGalaxy, tbGOGGalaxyMensaje)
-            End If
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("GOGGalaxyPath")
         Catch ex As Exception
 
         End Try
+
+        If galaxyBool = True Then
+            listaGOGGalaxy = New List(Of Juego)
+            GOGGalaxy.Generar(listaGOGGalaxy, carpeta, gridGOGGalaxyContenido, progressBarGOGGalaxy, coleccion, hamburgerMaestro)
+        End If
 
     End Sub
 
@@ -470,30 +411,19 @@ Public NotInheritable Class MainPage
 
     Private Async Sub buttonOriginConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonOriginConfigPath.Click
 
-        Dim carpetaOrigin As StorageFolder
+        Dim originBool As Boolean = Await Origin.Config(tbOriginConfigPath, buttonOriginConfigPathTexto, tbConfigRegistro, True)
+        Dim carpeta As StorageFolder = Nothing
 
         Try
-            Dim picker As FolderPicker = New FolderPicker()
-
-            picker.FileTypeFilter.Add("*")
-            picker.ViewMode = PickerViewMode.List
-
-            carpetaOrigin = Await picker.PickSingleFolderAsync()
-
-            If Not carpetaOrigin Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("OriginPath", carpetaOrigin)
-                tbOriginConfigPath.Text = carpetaOrigin.Path
-
-                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
-
-                listaOrigin = New List(Of Juego)
-
-                Origin.Cargar(listaOrigin, carpetaOrigin, gridOriginContenido, progressBarOrigin, tbOriginMensaje)
-            End If
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginPath")
         Catch ex As Exception
 
         End Try
+
+        If originBool = True Then
+            listaOrigin = New List(Of Juego)
+            Origin.Generar(listaOrigin, carpeta, gridOriginContenido, progressBarOrigin, coleccion, hamburgerMaestro)
+        End If
 
     End Sub
 
@@ -505,73 +435,55 @@ Public NotInheritable Class MainPage
 
     Private Async Sub buttonUplayConfigPathCliente_Click(sender As Object, e As RoutedEventArgs) Handles buttonUplayConfigPathCliente.Click
 
-        Dim carpetaUplayCliente As StorageFolder
+        Dim uplayBool As Boolean = Await Uplay.Config(0, tbUplayConfigPathCliente, buttonUplayConfigPathTextoCliente, tbUplayConfigPathJuegos, buttonUplayConfigPathTextoJuegos, tbConfigRegistro, True)
+
+        Dim carpetaCliente As StorageFolder = Nothing
 
         Try
-            Dim picker As FolderPicker = New FolderPicker()
-
-            picker.FileTypeFilter.Add("*")
-            picker.ViewMode = PickerViewMode.List
-
-            carpetaUplayCliente = Await picker.PickSingleFolderAsync()
-
-            If Not carpetaUplayCliente Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathCliente", carpetaUplayCliente)
-                tbUplayConfigPathCliente.Text = carpetaUplayCliente.Path
-
-                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Cambiar")
-
-                Dim carpetaUplayJuegos As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
-
-                If Not carpetaUplayJuegos Is Nothing Then
-                    listaUplay = New List(Of Juego)
-
-                    tbUplayConfigPathJuegos.Text = carpetaUplayJuegos.Path
-                    buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Cambiar")
-
-                    Uplay.Cargar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, tbUplayMensaje)
-                End If
-            End If
+            carpetaCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
         Catch ex As Exception
 
         End Try
+
+        Dim carpetaJuegos As StorageFolder = Nothing
+
+        Try
+            carpetaJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+        Catch ex As Exception
+
+        End Try
+
+        If uplayBool = True Then
+            listaUplay = New List(Of Juego)
+            Uplay.Generar(listaUplay, carpetaCliente, carpetaJuegos, gridUplayContenido, progressBarUplay, coleccion, hamburgerMaestro)
+        End If
 
     End Sub
 
     Private Async Sub buttonUplayConfigPathJuegos_Click(sender As Object, e As RoutedEventArgs) Handles buttonUplayConfigPathJuegos.Click
 
-        Dim carpetaUplayJuegos As StorageFolder
+        Dim uplayBool As Boolean = Await Uplay.Config(1, tbUplayConfigPathCliente, buttonUplayConfigPathTextoCliente, tbUplayConfigPathJuegos, buttonUplayConfigPathTextoJuegos, tbConfigRegistro, True)
+
+        Dim carpetaCliente As StorageFolder = Nothing
 
         Try
-            Dim picker As FolderPicker = New FolderPicker()
-
-            picker.FileTypeFilter.Add("*")
-            picker.ViewMode = PickerViewMode.List
-
-            carpetaUplayJuegos = Await picker.PickSingleFolderAsync()
-
-            If Not carpetaUplayJuegos Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathJuegos", carpetaUplayJuegos)
-                tbUplayConfigPathJuegos.Text = carpetaUplayJuegos.Path
-
-                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Cambiar")
-
-                Dim carpetaUplayCliente As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
-
-                If Not carpetaUplayCliente Is Nothing Then
-                    listaUplay = New List(Of Juego)
-
-                    tbUplayConfigPathCliente.Text = carpetaUplayCliente.Path
-                    buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Cambiar")
-
-                    Uplay.Cargar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, tbUplayMensaje)
-                End If
-            End If
+            carpetaCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
         Catch ex As Exception
 
         End Try
+
+        Dim carpetaJuegos As StorageFolder = Nothing
+
+        Try
+            carpetaJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+        Catch ex As Exception
+
+        End Try
+
+        If uplayBool = True Then
+            listaUplay = New List(Of Juego)
+            Uplay.Generar(listaUplay, carpetaCliente, carpetaJuegos, gridUplayContenido, progressBarUplay, coleccion, hamburgerMaestro)
+        End If
 
     End Sub
 
@@ -593,30 +505,19 @@ Public NotInheritable Class MainPage
 
     Private Async Sub buttonWindowsStoreConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonWindowsStoreConfigPath.Click
 
-        Dim carpetaWindowsStore As StorageFolder
+        Dim windowsBool As Boolean = Await WindowsStore.Config(tbWindowsStoreConfigPath, buttonWindowsStoreConfigPathTexto, tbConfigRegistro, True)
+        Dim carpeta As StorageFolder = Nothing
 
         Try
-            Dim picker As FolderPicker = New FolderPicker()
-
-            picker.FileTypeFilter.Add("*")
-            picker.ViewMode = PickerViewMode.List
-
-            carpetaWindowsStore = Await picker.PickSingleFolderAsync()
-
-            If Not carpetaWindowsStore Is Nothing Then
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace("WindowsStorePath", carpetaWindowsStore)
-                tbWindowsStoreConfigPath.Text = carpetaWindowsStore.Path
-
-                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Cambiar")
-
-                listaWindowsStore = New List(Of Juego)
-
-                WindowsStore.Cargar(listaWindowsStore, carpetaWindowsStore, gridWindowsStoreContenido, progressBarWindowsStore, tbWindowsStoreMensaje)
-            End If
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("WindowsStorePath")
         Catch ex As Exception
 
         End Try
+
+        If windowsBool = True Then
+            listaWindowsStore = New List(Of Juego)
+            WindowsStore.Generar(listaWindowsStore, carpeta, gridWindowsStoreContenido, progressBarWindowsStore, coleccion, hamburgerMaestro)
+        End If
 
     End Sub
 
@@ -627,6 +528,12 @@ Public NotInheritable Class MainPage
         Catch ex As Exception
 
         End Try
+
+    End Sub
+
+    Private Sub buttonConfigRegistro_Click(sender As Object, e As RoutedEventArgs) Handles buttonConfigRegistro.Click
+
+        GridConfigVisibilidad(gridConfigRegistro, buttonConfigRegistro)
 
     End Sub
 

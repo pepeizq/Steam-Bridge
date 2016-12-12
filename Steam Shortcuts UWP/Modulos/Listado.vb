@@ -3,7 +3,7 @@ Imports Windows.UI
 
 Module Listado
 
-    Public Function GenerarGrid(juego As Juego, bitmap As BitmapImage)
+    Public Function GenerarGrid(juego As Juego, bitmap As BitmapImage, estado As Boolean)
 
         Dim grid As New Grid
 
@@ -29,6 +29,12 @@ Module Listado
         checkBox.Margin = New Thickness(5, 0, 5, 0)
         checkBox.MinWidth = 20
         checkBox.Name = "cbJuego"
+
+        If estado = True Then
+            checkBox.Foreground = New SolidColorBrush(Colors.Black)
+        Else
+            checkBox.Foreground = New SolidColorBrush(Colors.Gray)
+        End If
 
         AddHandler checkBox.Checked, AddressOf cbChecked
         AddHandler checkBox.Unchecked, AddressOf cbUnChecked
@@ -103,6 +109,12 @@ Module Listado
         textoBloque.VerticalAlignment = VerticalAlignment.Center
         textoBloque.Margin = New Thickness(10, 0, 0, 0)
         textoBloque.FontSize = 15
+
+        If estado = True Then
+            textoBloque.Foreground = New SolidColorBrush(Colors.Black)
+        Else
+            textoBloque.Foreground = New SolidColorBrush(Colors.Gray)
+        End If
 
         If imagen Is Nothing Then
             Grid.SetColumn(textoBloque, 1)

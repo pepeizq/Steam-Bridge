@@ -1,14 +1,83 @@
 ﻿Imports System.Text
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
+Imports Windows.Storage.AccessCache
+Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
 
 Module GOGGalaxy
 
-    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, textobloque As TextBlock)
+    Public Sub Icono(coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
+
+        hamburger.ItemsSource = Nothing
+
+        Dim item As HamburgerMenuGlyphItem = New HamburgerMenuGlyphItem
+        item.Tag = 0
+        item.Label = "GOG Galaxy"
+        item.Glyph = "/Assets/gog_logo.png"
+        coleccion.Add(item)
+        coleccion.Sort(Function(x, y) x.Label.CompareTo(y.Label))
+
+        hamburger.ItemsSource = coleccion
+
+    End Sub
+
+    Public Async Function Config(tbConfigPath As TextBlock, buttonConfigPath As TextBlock, reg As TextBox, picker As Boolean) As Task(Of Boolean)
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            If picker = True Then
+                Dim carpetapicker As FolderPicker = New FolderPicker()
+
+                carpetapicker.FileTypeFilter.Add("*")
+                carpetapicker.ViewMode = PickerViewMode.List
+
+                carpeta = Await carpetapicker.PickSingleFolderAsync()
+            Else
+                carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("GOGGalaxyPath")
+            End If
+
+            If Not carpeta Is Nothing Then
+                Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
+                Dim detectadoBool As Boolean = False
+
+                For Each carpetaJuego As StorageFolder In carpetasJuegos
+                    Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaJuego.GetFilesAsync()
+
+                    For Each fichero As StorageFile In ficheros
+                        If fichero.DisplayName.Contains("goggame-") Then
+                            detectadoBool = True
+                        End If
+                    Next
+                Next
+
+                If detectadoBool = True Then
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace("GOGGalaxyPath", carpeta)
+                    tbConfigPath.Text = carpeta.Path
+                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    Registro.Mensaje(reg, "Config", "GOG Galaxy detectado")
+                    Return True
+                Else
+                    Registro.Mensaje(reg, "Config", "GOG Galaxy no detectado")
+                    Return False
+                End If
+            Else
+                Registro.Mensaje(reg, "Config", "GOG Galaxy no seleccionado")
+                Return False
+            End If
+        Catch ex As Exception
+            Registro.Mensaje(reg, "Config", "GOG Galaxy error")
+            Return False
+        End Try
+
+    End Function
+
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
-        textobloque.Visibility = Visibility.Collapsed
 
         Dim listaGrid As New ListView
         listaGrid.Name = "listaGOGGalaxy"
@@ -97,6 +166,10 @@ Module GOGGalaxy
 
                             listaJuegos.Add(juego)
 
+                            If listaJuegos.Count = 1 Then
+                                GOGGalaxy.Icono(coleccion, hamburger)
+                            End If
+
                             Dim bitmap As BitmapImage = New BitmapImage
                             If Not juego.Icono Is Nothing Then
                                 Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
@@ -106,7 +179,7 @@ Module GOGGalaxy
                                 End Using
                             End If
 
-                            listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
+                            listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
                             grid.Children.Clear()
                             grid.Children.Add(listaGrid)
                         End If
@@ -129,17 +202,13 @@ Module GOGGalaxy
                     End Using
                 End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
+                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
             Next
         End If
 
         If listaJuegos.Count = 0 Then
-            textobloque.Visibility = Visibility.Visible
-
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            textobloque.Text = recursos.GetString("Texto No Juegos")
-        Else
-            textobloque.Visibility = Visibility.Collapsed
+            Toast("Steam Bridge - GOG Galaxy", recursos.GetString("Texto No Juegos"))
         End If
 
         grid.Children.Clear()

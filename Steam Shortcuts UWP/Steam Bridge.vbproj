@@ -119,8 +119,9 @@
     <Compile Include="Modulos\FicheroVbs.vb" />
     <Compile Include="Modulos\GOGGalaxy.vb" />
     <Compile Include="Modulos\Listado.vb" />
-    <Compile Include="Modulos\MessageBox.vb" />
+    <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Origin.vb" />
+    <Compile Include="Modulos\Registro.vb" />
     <Compile Include="Modulos\Steam.vb" />
     <Compile Include="Modulos\Uplay.vb" />
     <Compile Include="Modulos\WindowsStore.vb" />

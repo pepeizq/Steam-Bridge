@@ -1,13 +1,67 @@
 ﻿Imports Microsoft.Toolkit.Uwp
 Imports Windows.Graphics.Imaging
 Imports Windows.Storage
+Imports Windows.Storage.AccessCache
+Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
 
 Module Steam
 
-    Public Async Sub CrearAccesos(lista As List(Of Juego), carpeta As StorageFolder, boton As Button)
+    Public Async Sub Arranque(tbConfigPath As TextBlock, buttonConfigPath As TextBlock, reg As TextBox, picker As Boolean)
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            If picker = True Then
+                Dim carpetapicker As FolderPicker = New FolderPicker()
+
+                carpetapicker.FileTypeFilter.Add("*")
+                carpetapicker.ViewMode = PickerViewMode.List
+
+                carpeta = Await carpetapicker.PickSingleFolderAsync()
+            Else
+                carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
+            End If
+
+            If Not carpeta Is Nothing Then
+                Dim ejecutable As StorageFile = Nothing
+
+                Try
+                    ejecutable = Await carpeta.GetFileAsync("Steam.exe")
+                Catch ex As Exception
+
+                End Try
+
+                If Not ejecutable Is Nothing Then
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace("SteamPath", carpeta)
+                    tbConfigPath.Text = carpeta.Path
+                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    Registro.Mensaje(reg, "Config", "Steam detectado")
+                Else
+                    If picker = True Then
+                        Registro.Mensaje(reg, "Config", "Steam no seleccionado")
+                    Else
+                        Registro.Mensaje(reg, "Config", "Steam no detectado")
+                    End If
+                End If
+            Else
+                If picker = True Then
+                    Registro.Mensaje(reg, "Config", "Steam no seleccionado")
+                Else
+                    Registro.Mensaje(reg, "Config", "Steam no detectado")
+                End If
+            End If
+        Catch ex As Exception
+            Registro.Mensaje(reg, "Config", "Steam error")
+        End Try
+
+    End Sub
+
+    Public Async Sub CrearAccesos(lista As List(Of Juego), carpeta As StorageFolder, boton As Button, reg As TextBox)
 
         boton.IsEnabled = False
+        Registro.Mensaje(reg, "Steam", lista.Count.ToString + " juegos pendientes")
 
         Dim exito As Boolean = False
         Dim usuarioID As String = Nothing
@@ -19,8 +73,9 @@ Module Steam
 
                 Try
                     conexiones = Await subcarpeta.GetFileAsync("connection_log.txt")
+                    Registro.Mensaje(reg, "Steam", "connection_log.txt detectado")
                 Catch ex As Exception
-
+                    Registro.Mensaje(reg, "Steam", "connection_log.txt no detectado")
                 End Try
 
                 If Not conexiones Is Nothing Then
@@ -28,8 +83,9 @@ Module Steam
 
                     Try
                         lineas = Await FileIO.ReadTextAsync(conexiones)
+                        Registro.Mensaje(reg, "Steam", "connection_log.txt cargado")
                     Catch ex As Exception
-
+                        Registro.Mensaje(reg, "Steam", "connection_log.txt no cargado")
                     End Try
 
                     If Not lineas = Nothing Then
@@ -40,13 +96,25 @@ Module Steam
                             int = lineas.LastIndexOf("SetSteamID")
                             temp = lineas.Remove(0, int + 5)
 
-                            int2 = temp.IndexOf("[U:1:")
-                            temp2 = temp.Remove(0, int2 + 5)
+                            Dim i As Integer = 0
+                            While i < 100
+                                If temp.Contains("[U:1:") Then
+                                    int2 = temp.IndexOf("[U:1:")
+                                    temp2 = temp.Remove(0, int2 + 5)
 
-                            int3 = temp2.IndexOf("]")
-                            temp3 = temp2.Remove(int3, temp2.Length - int3)
+                                    temp = temp2
 
-                            usuarioID = temp3.Trim
+                                    int3 = temp2.IndexOf("]")
+                                    temp3 = temp2.Remove(int3, temp2.Length - int3)
+
+                                    usuarioID = temp3.Trim
+
+                                    If usuarioID.Length > 1 Then
+                                        Exit While
+                                    End If
+                                End If
+                                i += 1
+                            End While
                         End If
                     End If
                 End If
@@ -55,24 +123,30 @@ Module Steam
 
         '------------------------------------------------
 
-        If Not usuarioID = Nothing Then
+        Dim numero As Integer = 0
+
+        If usuarioID = Nothing Then
+            Registro.Mensaje(reg, "Steam", "usuarioID no detectado")
+        Else
+            Registro.Mensaje(reg, "Steam", "usuarioID detectado")
             Dim shortcuts As StorageFile = Nothing
 
             Try
                 shortcuts = Await carpeta.GetFileAsync("userdata\" + usuarioID + "\config\shortcuts.vdf")
+                Registro.Mensaje(reg, "Steam", "shortcuts.vdf detectado")
             Catch ex As Exception
-
+                Registro.Mensaje(reg, "Steam", "shortcuts.vdf no detectado")
             End Try
 
             Dim lineas As String = Nothing
 
             If shortcuts Is Nothing Then
                 shortcuts = Await carpeta.CreateFileAsync("userdata\" + usuarioID + "\config\shortcuts.vdf", CreationCollisionOption.ReplaceExisting)
+                Registro.Mensaje(reg, "Steam", "shortcuts.vdf creado")
             Else
                 lineas = Await StorageFileHelper.ReadTextFromFileAsync(carpeta, "userdata\" + usuarioID + "\config\shortcuts.vdf")
+                Registro.Mensaje(reg, "Steam", "shortcuts.vdf cargado")
             End If
-
-            Dim numero As Integer = 0
 
             If Not lineas = Nothing Then
                 If lineas.Contains("appname") Then
@@ -173,11 +247,11 @@ Module Steam
                             Dim stream As IRandomAccessStream = Await iconoFichero.OpenAsync(FileAccessMode.ReadWrite)
                             Dim encoder As BitmapEncoder = Await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream)
 
-                            Dim pixelStream As Stream = WriteableBitmap.PixelBuffer.AsStream()
+                            Dim pixelStream As Stream = writeableBitmap.PixelBuffer.AsStream()
                             Dim pixels As Byte() = New Byte(pixelStream.Length - 1) {}
                             Await pixelStream.ReadAsync(pixels, 0, pixels.Length)
 
-                            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, CUInt(WriteableBitmap.PixelWidth), CUInt(WriteableBitmap.PixelHeight), 96.0, 96.0, pixels)
+                            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, CUInt(writeableBitmap.PixelWidth), CUInt(writeableBitmap.PixelHeight), 96.0, 96.0, pixels)
                             Await encoder.FlushAsync()
                             stream.Dispose()
 
@@ -250,6 +324,7 @@ Module Steam
                 End If
 
                 lineas = lineas + ChrW(0) + numero.ToString + ChrW(0) + ChrW(1) + "appname" + ChrW(0) + nombre + ChrW(0) + ChrW(1) + "exe" + ChrW(0) + ChrW(34) + ejecutable + ChrW(34) + argumentos + ChrW(0) + ChrW(1) + "StartDir" + ChrW(0) + ChrW(34) + inicio + ChrW(34) + ChrW(0) + ChrW(1) + "icon" + ChrW(0) + imagen + ChrW(0) + ChrW(1) + "ShortcutPath" + ChrW(0) + ChrW(0) + ChrW(2) + "IsHidden" + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(2) + "AllowDesktopConfig" + ChrW(0) + ChrW(1) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(2) + "OpenVR" + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + "tags" + ChrW(0) + categoria + ChrW(8) + ChrW(8)
+                Registro.Mensaje(reg, "Steam", nombre + " precargado")
 
                 numero += 1
             Next
@@ -266,13 +341,17 @@ Module Steam
 
         If exito = True Then
             If lista.Count = 1 Then
-                MessageBox.EnseñarMensaje(recursos.GetString("Exito"))
+                Notificaciones.Toast("Steam Bridge", recursos.GetString("Exito"))
             Else
-                MessageBox.EnseñarMensaje(recursos.GetString("Exitos"))
+                Notificaciones.Toast("Steam Bridge", recursos.GetString("Exitos"))
             End If
+            Registro.Mensaje(reg, "Steam", "shortcuts.vdf actualizado")
         Else
-            MessageBox.EnseñarMensaje(recursos.GetString("Error 1"))
+            Notificaciones.Toast("Steam Bridge", recursos.GetString("Error 1"))
+            Registro.Mensaje(reg, "Steam", "shortcuts.vdf fallo en la escritura")
         End If
+
+        Registro.Mensaje(reg, "Steam", lista.Count.ToString + " juegos añadidos")
 
     End Sub
 

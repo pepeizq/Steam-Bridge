@@ -162,23 +162,23 @@
   <data name="Exitos" xml:space="preserve">
     <value>Juegos añadidos en Steam</value>
   </data>
+  <data name="Registro" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="Registro Aviso" xml:space="preserve">
+    <value>En caso de error envíanos una captura de pantalla o copia el texto, nos ayudara.</value>
+  </data>
   <data name="Texto Carpeta" xml:space="preserve">
     <value>No has añadido una carpeta</value>
   </data>
   <data name="Texto GOG Galaxy Config" xml:space="preserve">
     <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\GalaxyClient\Games</value>
   </data>
-  <data name="Texto GOG Galaxy No Config" xml:space="preserve">
-    <value>GOG Galaxy no está configurado</value>
-  </data>
   <data name="Texto No Juegos" xml:space="preserve">
     <value>No se han detectado juegos</value>
   </data>
   <data name="Texto Origin Config" xml:space="preserve">
     <value>Añade la carpeta C:\ProgramData\Origin\LocalContent (puede estar oculta)</value>
-  </data>
-  <data name="Texto Origin No Config" xml:space="preserve">
-    <value>Origin no está configurado</value>
   </data>
   <data name="Texto Steam Config" xml:space="preserve">
     <value>Añade la carpeta donde Steam está instalado, ejemplo: C:\Steam</value>
@@ -198,13 +198,7 @@
   <data name="Texto Uplay Config Juegos" xml:space="preserve">
     <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Ubisoft Game Launcher\Games</value>
   </data>
-  <data name="Texto Uplay No Config" xml:space="preserve">
-    <value>Uplay no está configurado</value>
-  </data>
   <data name="Texto Windows Store Config" xml:space="preserve">
     <value>Añade la carpeta C:\Archivos de Programa\WindowsApps (debes de tener permisos de lectura)</value>
-  </data>
-  <data name="Texto Windows Store No Config" xml:space="preserve">
-    <value>Windows Store no está configurado</value>
   </data>
 </root>

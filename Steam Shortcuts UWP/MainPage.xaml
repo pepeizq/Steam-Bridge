@@ -6,7 +6,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Loading="Page_Loading">
+    mc:Ignorable="d" Loaded="Page_Loaded">
 
     <Page.Resources>
         <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuGlyphItem">
@@ -41,16 +41,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <controls:HamburgerMenu x:Name="hamburgerMaestro" Grid.Row="0" ItemTemplate="{StaticResource HamburgerMenuImageItem}" OptionsItemTemplate="{StaticResource HamburgerMenuImageItemOption}" HamburgerHeight="64" HamburgerWidth="64" CompactPaneLength="64" SelectedIndex="0">
-                <controls:HamburgerMenu.ItemsSource>
-                    <controls:HamburgerMenuItemCollection>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemGOGGalaxy" Label="GOG Galaxy" Glyph="/Assets/gog_logo.png" Tag="0"/>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemOrigin" Label="Origin" Glyph="/Assets/origin_logo.png" Tag="1"/>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemUplay" Label="Uplay" Glyph="/Assets/uplay_logo.png" Tag="2"/>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemWindowsStore" Label="Windows Store" Glyph="/Assets/windowsstore_logo.png" Tag="3"/>
-                    </controls:HamburgerMenuItemCollection>
-                </controls:HamburgerMenu.ItemsSource>
-
+            <controls:HamburgerMenu x:Name="hamburgerMaestro" Grid.Row="0" ItemTemplate="{StaticResource HamburgerMenuImageItem}" OptionsItemTemplate="{StaticResource HamburgerMenuImageItemOption}" HamburgerHeight="64" HamburgerWidth="64" CompactPaneLength="64">
                 <controls:HamburgerMenu.OptionsItemsSource>
                     <controls:HamburgerMenuItemCollection>
                         <controls:HamburgerMenuGlyphItem x:Name="menuItemConfig" Glyph="&#xE713;" Tag="99"/>
@@ -71,8 +62,6 @@
                         <ProgressBar x:Name="progressBarGOGGalaxy" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
                         <Grid x:Name="gridGOGGalaxyContenido" Grid.Row="1" Margin="0,0,0,10"/>
-
-                        <TextBlock x:Name="tbGOGGalaxyMensaje" Grid.Row="1" Margin="5" Visibility="Collapsed"/>
                     </Grid>
 
                     <Grid x:Name="gridOrigin" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
@@ -84,8 +73,6 @@
                         <ProgressBar x:Name="progressBarOrigin" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
                         <Grid x:Name="gridOriginContenido" Grid.Row="1" Margin="0,0,0,10"/>
-
-                        <TextBlock x:Name="tbOriginMensaje" Grid.Row="1" Margin="5" Visibility="Collapsed"/>
                     </Grid>
 
                     <Grid x:Name="gridUplay" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
@@ -97,8 +84,6 @@
                         <ProgressBar x:Name="progressBarUplay" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
                         <Grid x:Name="gridUplayContenido" Grid.Row="1" Margin="0,0,0,10"/>
-
-                        <TextBlock x:Name="tbUplayMensaje" Grid.Row="1" Margin="5" Visibility="Collapsed"/>
                     </Grid>
 
                     <Grid x:Name="gridWindowsStore" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
@@ -110,8 +95,6 @@
                         <ProgressBar x:Name="progressBarWindowsStore" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
                         <Grid x:Name="gridWindowsStoreContenido" Grid.Row="1" Margin="0,0,0,10"/>
-
-                        <TextBlock x:Name="tbWindowsStoreMensaje" Grid.Row="1" Margin="5" Visibility="Collapsed"/>
                     </Grid>
 
                     <Grid x:Name="gridConfig" Background="#FFF0F0F0" Visibility="Collapsed" Padding="10">
@@ -137,7 +120,9 @@
                                 <Button x:Name="buttonConfigGOGGalaxy" Content="GOG Galaxy" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
                                 <Button x:Name="buttonConfigOrigin" Content="Origin" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
                                 <Button x:Name="buttonConfigUplay" Content="Uplay" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
-                                <Button x:Name="buttonConfigWindowsStore" Content="Windows Store" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
+                                <Button x:Name="buttonConfigWindowsStore" Content="Windows Store" Height="56" Width="150" Margin="5,5,5,25" Background="#FFE4E4E4" FontSize="17"/>
+
+                                <Button x:Name="buttonConfigRegistro" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
                             </StackPanel>
 
                             <Grid x:Name="gridConfigSteam" Grid.Column="1" Margin="5" Visibility="Collapsed">
@@ -306,6 +291,16 @@
                                     <TextBlock x:Name="tbWindowsStoreConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                 </Grid>
                                 <Button x:Name="buttonWindowsStoreConfigTutorial" Grid.Row="2" Padding="10" Background="#FFE4E4E4" Margin="5"/>
+                            </Grid>
+
+                            <Grid x:Name="gridConfigRegistro" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="tbConfigRegistroAviso" Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                                <TextBox x:Name="tbConfigRegistro" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0,2,0,0" Background="Transparent" Padding="10" />
                             </Grid>
                         </Grid>
                     </Grid>

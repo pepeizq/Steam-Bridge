@@ -1,14 +1,121 @@
 ﻿Imports System.Text
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
+Imports Windows.Storage.AccessCache
+Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
 
 Module Uplay
 
-    Public Async Sub Cargar(listaJuegos As List(Of Juego), carpetaCliente As StorageFolder, carpetaJuegos As StorageFolder, grid As Grid, progreso As ProgressBar, textobloque As TextBlock)
+    Private Sub Icono(coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
+
+        hamburger.ItemsSource = Nothing
+
+        Dim item As HamburgerMenuGlyphItem = New HamburgerMenuGlyphItem
+        item.Tag = 2
+        item.Label = "Uplay"
+        item.Glyph = "/Assets/uplay_logo.png"
+        coleccion.Add(item)
+        coleccion.Sort(Function(x, y) x.Label.CompareTo(y.Label))
+
+        hamburger.ItemsSource = coleccion
+
+    End Sub
+
+    Public Async Function Config(opcion As Integer, tbConfigPathCliente As TextBlock, buttonConfigPathCliente As TextBlock, tbConfigPathJuegos As TextBlock, buttonConfigPathJuegos As TextBlock, reg As TextBox, picker As Boolean) As Task(Of Boolean)
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim carpetaCliente As StorageFolder = Nothing
+        Dim carpetaJuegos As StorageFolder = Nothing
+        Dim boolCliente As Boolean = False
+        Dim boolJuegos As Boolean = False
+
+        Try
+            If picker = True Then
+                Dim carpetapicker As FolderPicker = New FolderPicker()
+
+                carpetapicker.FileTypeFilter.Add("*")
+                carpetapicker.ViewMode = PickerViewMode.List
+
+                If opcion = 0 Then
+                    carpetaCliente = Await carpetapicker.PickSingleFolderAsync()
+                ElseIf opcion = 1 Then
+                    carpetaJuegos = Await carpetapicker.PickSingleFolderAsync()
+                End If
+            Else
+                carpetaCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
+                carpetaJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+            End If
+
+            If Not carpetaCliente Is Nothing Then
+                Dim ejecutable As StorageFile = Nothing
+
+                Try
+                    ejecutable = Await carpetaCliente.GetFileAsync("Uplay.exe")
+                Catch ex As Exception
+
+                End Try
+
+                If Not ejecutable Is Nothing Then
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathCliente", carpetaCliente)
+                    tbConfigPathCliente.Text = carpetaCliente.Path
+                    buttonConfigPathCliente.Text = recursos.GetString("Boton Cambiar")
+                    Registro.Mensaje(reg, "Config", "Uplay cliente detectado")
+                    boolCliente = True
+                Else
+                    Registro.Mensaje(reg, "Config", "Uplay cliente no detectado")
+                End If
+            Else
+                Registro.Mensaje(reg, "Config", "Uplay cliente no seleccionado")
+            End If
+
+            If Not carpetaJuegos Is Nothing Then
+                Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpetaJuegos.GetFoldersAsync()
+
+                Dim boolManifiesto As Boolean = False
+
+                For Each carpetaJuego_ As StorageFolder In carpetasJuegos
+                    Dim manifiesto As StorageFile = Nothing
+
+                    Try
+                        manifiesto = Await carpetaJuego_.GetFileAsync("uplay_install.manifest")
+                    Catch ex As Exception
+
+                    End Try
+
+                    If Not manifiesto Is Nothing Then
+                        boolManifiesto = True
+                    End If
+                Next
+
+                If boolManifiesto = True Then
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathJuegos", carpetaJuegos)
+                    tbConfigPathJuegos.Text = carpetaJuegos.Path
+                    buttonConfigPathJuegos.Text = recursos.GetString("Boton Cambiar")
+                    Registro.Mensaje(reg, "Config", "Uplay juegos detectado")
+                    boolJuegos = True
+                Else
+                    Registro.Mensaje(reg, "Config", "Uplay juegos no detectado")
+                End If
+            Else
+                Registro.Mensaje(reg, "Config", "Uplay juegos no seleccionado")
+            End If
+        Catch ex As Exception
+            Registro.Mensaje(reg, "Config", "Uplay error")
+        End Try
+
+        If boolCliente = True And boolJuegos = True Then
+            Return True
+        Else
+            Return False
+        End If
+
+    End Function
+
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpetaCliente As StorageFolder, carpetaJuegos As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
-        textobloque.Visibility = Visibility.Collapsed
 
         Dim listaGrid As New ListView
         listaGrid.Name = "listaUplay"
@@ -60,6 +167,10 @@ Module Uplay
 
                             listaJuegos.Add(juego)
 
+                            If listaJuegos.Count = 1 Then
+                                Uplay.Icono(coleccion, hamburger)
+                            End If
+
                             Dim bitmap As BitmapImage = New BitmapImage
                             If Not juego.Icono Is Nothing Then
                                 Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
@@ -69,7 +180,7 @@ Module Uplay
                                 End Using
                             End If
 
-                            listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
+                            listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
                             grid.Children.Clear()
                             grid.Children.Add(listaGrid)
                         End If
@@ -92,17 +203,13 @@ Module Uplay
                     End Using
                 End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap))
+                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
             Next
         End If
 
         If listaJuegos.Count = 0 Then
-            textobloque.Visibility = Visibility.Visible
-
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            textobloque.Text = recursos.GetString("Texto No Juegos")
-        Else
-            textobloque.Visibility = Visibility.Collapsed
+            Toast("Steam Bridge - Uplay", recursos.GetString("Texto No Juegos"))
         End If
 
         grid.Children.Clear()
