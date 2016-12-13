@@ -157,6 +157,19 @@ Module Listado
             Dim botonDisponible As Boolean = False
             Dim boton As Button = pagina.FindName("buttonAñadirJuegos")
 
+            Dim listViewBattlenet As ListView = pagina.FindName("listaBattlenet")
+
+            If Not listViewBattlenet Is Nothing Then
+                For Each grid As Grid In listViewBattlenet.Items
+                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
+                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
+
+                    If juego.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+            End If
+
             Dim listViewGOGGalaxy As ListView = pagina.FindName("listaGOGGalaxy")
 
             If Not listViewGOGGalaxy Is Nothing Then

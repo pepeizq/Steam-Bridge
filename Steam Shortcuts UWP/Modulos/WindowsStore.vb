@@ -6,21 +6,6 @@ Imports Windows.Storage.Streams
 
 Module WindowsStore
 
-    Private Sub Icono(coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
-
-        hamburger.ItemsSource = Nothing
-
-        Dim item As HamburgerMenuGlyphItem = New HamburgerMenuGlyphItem
-        item.Tag = 3
-        item.Label = "Windows Store"
-        item.Glyph = "/Assets/windowsstore_logo.png"
-        coleccion.Add(item)
-        coleccion.Sort(Function(x, y) x.Label.CompareTo(y.Label))
-
-        hamburger.ItemsSource = coleccion
-
-    End Sub
-
     Public Async Function Config(tbConfigPath As TextBlock, buttonConfigPath As TextBlock, reg As TextBox, picker As Boolean) As Task(Of Boolean)
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
@@ -60,7 +45,7 @@ Module WindowsStore
 
     End Function
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburguesa As HamburgerMenu)
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
@@ -198,7 +183,7 @@ Module WindowsStore
                                     listaJuegos.Add(juego)
 
                                     If listaJuegos.Count = 1 Then
-                                        WindowsStore.Icono(coleccion, hamburger)
+                                        Hamburger.Generar("Windows Store", "4", "/Assets/windowsstore_logo.png", coleccion, hamburguesa)
                                     End If
 
                                     Dim bitmap As BitmapImage = New BitmapImage

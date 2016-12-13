@@ -168,6 +168,12 @@
   <data name="Registro Aviso" xml:space="preserve">
     <value>In case of error help send us a screenshot or copy the text, will help us (the log is in spanish, is not a bug).</value>
   </data>
+  <data name="Steam No Config" xml:space="preserve">
+    <value>Steam was not detected</value>
+  </data>
+  <data name="Texto Battlenet Config" xml:space="preserve">
+    <value>Add the folder where are installed the games, example C:\Battle.net\Games</value>
+  </data>
   <data name="Texto Carpeta" xml:space="preserve">
     <value>You have not added a folder</value>
   </data>

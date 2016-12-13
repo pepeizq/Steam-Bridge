@@ -10,6 +10,7 @@ Public NotInheritable Class MainPage
 
     Dim coleccion As HamburgerMenuItemCollection = New HamburgerMenuItemCollection
 
+    Dim listaBattlenet As List(Of Juego)
     Dim listaGOGGalaxy As List(Of Juego)
     Dim listaOrigin As List(Of Juego)
     Dim listaUplay As List(Of Juego)
@@ -47,6 +48,10 @@ Public NotInheritable Class MainPage
 
         tbSteamOverlayConfigInstrucciones.Text = recursos.GetString("Texto Steam Overlay Config")
 
+        tbBattlenetConfigInstrucciones.Text = recursos.GetString("Texto Battlenet Config")
+        buttonBattlenetConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        tbBattlenetConfigPath.Text = recursos.GetString("Texto Carpeta")
+
         tbGOGGalaxyConfigInstrucciones.Text = recursos.GetString("Texto GOG Galaxy Config")
         buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
@@ -75,6 +80,27 @@ Public NotInheritable Class MainPage
         '--------------------------------------------------------
 
         Steam.Arranque(tbSteamConfigPath, buttonSteamConfigPathTexto, tbConfigRegistro, False)
+
+        '--------------------------------------------------------
+
+        Dim carpetaBattlenet As StorageFolder = Nothing
+
+        Try
+            carpetaBattlenet = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("BattlenetPath")
+        Catch ex As Exception
+
+        End Try
+
+        Dim battleBool As Boolean = False
+
+        If Not carpetaBattlenet Is Nothing Then
+            battleBool = Await Battlenet.Config(tbBattlenetConfigPath, buttonBattlenetConfigPathTexto, tbConfigRegistro, False)
+
+            If battleBool = True Then
+                listaBattlenet = New List(Of Juego)
+                Battlenet.Generar(listaBattlenet, carpetaBattlenet, gridBattlenetContenido, progressBarBattlenet, coleccion, hamburgerMaestro)
+            End If
+        End If
 
         '--------------------------------------------------------
 
@@ -196,23 +222,27 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        If galaxyBool = False Then
-            If originBool = False Then
-                If uplaybool = False Then
-                    If windowsbool = False Then
-                        GridVisibilidad(gridConfig, False)
-                        GridConfigVisibilidad(gridConfigSteam, buttonConfigSteam)
+        If battleBool = False Then
+            If galaxyBool = False Then
+                If originBool = False Then
+                    If uplaybool = False Then
+                        If windowsbool = False Then
+                            GridVisibilidad(gridConfig, False)
+                            GridConfigVisibilidad(gridConfigSteam, buttonConfigSteam)
+                        Else
+                            GridVisibilidad(gridWindowsStore, True)
+                        End If
                     Else
-                        GridVisibilidad(gridWindowsStore, True)
+                        GridVisibilidad(gridUplay, True)
                     End If
                 Else
-                    GridVisibilidad(gridUplay, True)
+                    GridVisibilidad(gridOrigin, True)
                 End If
             Else
-                GridVisibilidad(gridOrigin, True)
+                GridVisibilidad(gridGOGGalaxy, True)
             End If
         Else
-            GridVisibilidad(gridGOGGalaxy, True)
+            GridVisibilidad(gridBattlenet, True)
         End If
 
     End Sub
@@ -225,6 +255,7 @@ Public NotInheritable Class MainPage
             barraInferior.Visibility = Visibility.Collapsed
         End If
 
+        gridBattlenet.Visibility = Visibility.Collapsed
         gridGOGGalaxy.Visibility = Visibility.Collapsed
         gridOrigin.Visibility = Visibility.Collapsed
         gridUplay.Visibility = Visibility.Collapsed
@@ -246,11 +277,21 @@ Public NotInheritable Class MainPage
         Try
             carpetaSteam = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
         Catch ex As Exception
-            'Notificaciones.Toast("Steam Bridge", recursos.GetString("Texto Steam No Config"))
+            Notificaciones.Toast("Steam Bridge", recursos.GetString("Steam No Config"))
         End Try
 
         If Not carpetaSteam Is Nothing Then
             Dim listaFinal As List(Of Juego) = New List(Of Juego)
+
+            If Not listaBattlenet Is Nothing Then
+                If listaBattlenet.Count > 0 Then
+                    For Each juego As Juego In listaBattlenet
+                        If juego.Añadir = True Then
+                            listaFinal.Add(juego)
+                        End If
+                    Next
+                End If
+            End If
 
             If Not listaGOGGalaxy Is Nothing Then
                 If listaGOGGalaxy.Count > 0 Then
@@ -307,6 +348,8 @@ Public NotInheritable Class MainPage
         buttonConfigSteam.BorderBrush = New SolidColorBrush(Colors.Transparent)
         buttonConfigSteamOverlay.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
         buttonConfigSteamOverlay.BorderBrush = New SolidColorBrush(Colors.Transparent)
+        buttonConfigBattlenet.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
+        buttonConfigBattlenet.BorderBrush = New SolidColorBrush(Colors.Transparent)
         buttonConfigGOGGalaxy.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
         buttonConfigGOGGalaxy.BorderBrush = New SolidColorBrush(Colors.Transparent)
         buttonConfigOrigin.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
@@ -323,6 +366,7 @@ Public NotInheritable Class MainPage
 
         gridConfigSteam.Visibility = Visibility.Collapsed
         gridConfigSteamOverlay.Visibility = Visibility.Collapsed
+        gridConfigBattlenet.Visibility = Visibility.Collapsed
         gridConfigGOGGalaxy.Visibility = Visibility.Collapsed
         gridConfigUplay.Visibility = Visibility.Collapsed
         gridConfigOrigin.Visibility = Visibility.Collapsed
@@ -376,6 +420,30 @@ Public NotInheritable Class MainPage
 
         Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
         opciones.Values("WindowsStoreSteamOverlay") = False
+
+    End Sub
+
+    Private Sub buttonConfigBattlenet_Click(sender As Object, e As RoutedEventArgs) Handles buttonConfigBattlenet.Click
+
+        GridConfigVisibilidad(gridConfigBattlenet, buttonConfigBattlenet)
+
+    End Sub
+
+    Private Async Sub buttonBattlenetConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonBattlenetConfigPath.Click
+
+        Dim battleBool As Boolean = Await Battlenet.Config(tbBattlenetConfigPath, buttonBattlenetConfigPathTexto, tbConfigRegistro, True)
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("BattlenetPath")
+        Catch ex As Exception
+
+        End Try
+
+        If battleBool = True Then
+            listaBattlenet = New List(Of Juego)
+            Battlenet.Generar(listaBattlenet, carpeta, gridBattlenetContenido, progressBarBattlenet, coleccion, hamburgerMaestro)
+        End If
 
     End Sub
 
@@ -544,12 +612,14 @@ Public NotInheritable Class MainPage
         Dim menuItem As HamburgerMenuGlyphItem = TryCast(e.ClickedItem, HamburgerMenuGlyphItem)
 
         If menuItem.Tag = 0 Then
-            GridVisibilidad(gridGOGGalaxy, True)
+            GridVisibilidad(gridBattlenet, True)
         ElseIf menuItem.Tag = 1 Then
-            GridVisibilidad(gridOrigin, True)
+            GridVisibilidad(gridGOGGalaxy, True)
         ElseIf menuItem.Tag = 2 Then
-            GridVisibilidad(gridUplay, True)
+            GridVisibilidad(gridOrigin, True)
         ElseIf menuItem.Tag = 3 Then
+            GridVisibilidad(gridUplay, True)
+        ElseIf menuItem.Tag = 4 Then
             GridVisibilidad(gridWindowsStore, True)
         End If
 
@@ -584,6 +654,5 @@ Public NotInheritable Class MainPage
         request.Data.Properties.Description = "Add shortcuts in Steam"
 
     End Sub
-
 
 End Class

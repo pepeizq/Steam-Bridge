@@ -16,8 +16,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" Margin="10" Source="{Binding Glyph}" Stretch="UniformToFill" />
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16" Text="{x:Bind Label}" />
+                <Image Grid.Column="0" Margin="4" Source="{Binding Glyph}" Stretch="UniformToFill" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16" Text="{x:Bind Label}" Margin="10,0,0,0" />
             </Grid>
         </DataTemplate>
 
@@ -53,7 +53,18 @@
                 </controls:HamburgerMenu.OptionsItemsSource>
 
                 <Grid>
-                    <Grid x:Name="gridGOGGalaxy" Background="#FFF0F0F0" Padding="5">
+                    <Grid x:Name="gridBattlenet" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <ProgressBar x:Name="progressBarBattlenet" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+
+                        <Grid x:Name="gridBattlenetContenido" Grid.Row="1" Margin="0,0,0,10"/>
+                    </Grid>
+                    
+                    <Grid x:Name="gridGOGGalaxy" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -117,6 +128,7 @@
                                 <Button x:Name="buttonConfigSteam" Content="Steam" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
                                 <Button x:Name="buttonConfigSteamOverlay" Content="Steam Overlay" Height="56" Width="150" Margin="5,5,5,25" Background="#FFE4E4E4" FontSize="17"/>
 
+                                <Button x:Name="buttonConfigBattlenet" Content="Battle.net" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
                                 <Button x:Name="buttonConfigGOGGalaxy" Content="GOG Galaxy" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
                                 <Button x:Name="buttonConfigOrigin" Content="Origin" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
                                 <Button x:Name="buttonConfigUplay" Content="Uplay" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
@@ -162,6 +174,31 @@
                                 <CheckBox x:Name="cbWindowsStoreSteamOverlay" Grid.Row="2" Margin="5" Content="Windows Store"/>
                             </Grid>
 
+                            <Grid x:Name="gridConfigBattlenet" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="tbBattlenetConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                                <Grid Grid.Row="1" Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button x:Name="buttonBattlenetConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="buttonBattlenetConfigPathTexto"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="tbBattlenetConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Grid>
+                            
                             <Grid x:Name="gridConfigGOGGalaxy" Grid.Column="1" Margin="5" Visibility="Collapsed">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>

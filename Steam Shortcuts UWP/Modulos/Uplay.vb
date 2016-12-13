@@ -7,21 +7,6 @@ Imports Windows.Storage.Streams
 
 Module Uplay
 
-    Private Sub Icono(coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
-
-        hamburger.ItemsSource = Nothing
-
-        Dim item As HamburgerMenuGlyphItem = New HamburgerMenuGlyphItem
-        item.Tag = 2
-        item.Label = "Uplay"
-        item.Glyph = "/Assets/uplay_logo.png"
-        coleccion.Add(item)
-        coleccion.Sort(Function(x, y) x.Label.CompareTo(y.Label))
-
-        hamburger.ItemsSource = coleccion
-
-    End Sub
-
     Public Async Function Config(opcion As Integer, tbConfigPathCliente As TextBlock, buttonConfigPathCliente As TextBlock, tbConfigPathJuegos As TextBlock, buttonConfigPathJuegos As TextBlock, reg As TextBox, picker As Boolean) As Task(Of Boolean)
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
@@ -112,7 +97,7 @@ Module Uplay
 
     End Function
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpetaCliente As StorageFolder, carpetaJuegos As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburger As HamburgerMenu)
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpetaCliente As StorageFolder, carpetaJuegos As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburguesa As HamburgerMenu)
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
@@ -168,7 +153,7 @@ Module Uplay
                             listaJuegos.Add(juego)
 
                             If listaJuegos.Count = 1 Then
-                                Uplay.Icono(coleccion, hamburger)
+                                Hamburger.Generar("Uplay", "3", "/Assets/uplay_logo.png", coleccion, hamburguesa)
                             End If
 
                             Dim bitmap As BitmapImage = New BitmapImage

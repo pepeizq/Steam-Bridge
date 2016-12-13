@@ -271,38 +271,47 @@ Module Steam
                         argumentos = argumentos.Replace(ChrW(34) + "exit" + ChrW(34), "exit")
                     End If
 
+                    Dim boolvbs As Boolean = False
                     Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
                     If opciones.Values("WindowsStoreSteamOverlay") = True Then
                         If juego.Categoria = "Windows Store" Then
-                            Dim carpetaVbs As StorageFolder = Nothing
+                            boolvbs = True
+                        End If
+                    End If
+
+                    If juego.Categoria = "Battle.net" Then
+                        boolvbs = True
+                    End If
+
+                    If boolvbs = True Then
+                        Dim carpetaVbs As StorageFolder = Nothing
+
+                        Try
+                            carpetaVbs = Await carpeta.GetFolderAsync("userdata\" + usuarioID + "\config\shortcutsvbs")
+                        Catch ex As Exception
+
+                        End Try
+
+                        If carpetaVbs Is Nothing Then
+                            carpetaVbs = Await carpeta.CreateFolderAsync("userdata\" + usuarioID + "\config\shortcutsvbs")
+                        End If
+
+                        If Not carpetaVbs Is Nothing Then
+                            Dim vbsFichero As StorageFile = Nothing
 
                             Try
-                                carpetaVbs = Await carpeta.GetFolderAsync("userdata\" + usuarioID + "\config\shortcutsvbs")
+                                vbsFichero = Await carpetaVbs.GetFileAsync(nombre + ".vbs")
+                                Await vbsFichero.DeleteAsync()
                             Catch ex As Exception
 
                             End Try
 
-                            If carpetaVbs Is Nothing Then
-                                carpetaVbs = Await carpeta.CreateFolderAsync("userdata\" + usuarioID + "\config\shortcutsvbs")
-                            End If
+                            vbsFichero = Await carpetaVbs.CreateFileAsync(nombre + ".vbs")
+                            Await FileIO.WriteTextAsync(vbsFichero, FicheroVbs.Contenido(juego.Ejecutable, juego.Argumentos))
 
-                            If Not carpetaVbs Is Nothing Then
-                                Dim vbsFichero As StorageFile = Nothing
-
-                                Try
-                                    vbsFichero = Await carpetaVbs.GetFileAsync(nombre + ".vbs")
-                                    Await vbsFichero.DeleteAsync()
-                                Catch ex As Exception
-
-                                End Try
-
-                                vbsFichero = Await carpetaVbs.CreateFileAsync(nombre + ".vbs")
-                                Await FileIO.WriteTextAsync(vbsFichero, FicheroVbs.Contenido(juego.Ejecutable, juego.Argumentos))
-
-                                ejecutable = vbsFichero.Path
-                                argumentos = Nothing
-                            End If
+                            ejecutable = "C:\Windows\System32\cscript.exe" + ChrW(34) + " " + ChrW(34) + vbsFichero.Path
+                            argumentos = Nothing
                         End If
                     End If
                 End If
@@ -311,16 +320,18 @@ Module Steam
 
                 Dim inicio As String = Nothing
 
-                If Not juego.Ejecutable.ToLower.Contains("dosbox\dosbox.exe") Then
-                    inicio = "C:\Windows\"
-                Else
+                If ejecutable.ToLower.Contains("dosbox\dosbox.exe") Then
                     Dim temp As String
                     Dim int As Integer
 
-                    int = juego.Ejecutable.IndexOf("\dosbox.exe")
+                    int = juego.Ejecutable.IndexOf("dosbox.exe")
                     temp = juego.Ejecutable.Remove(int, juego.Ejecutable.Length - int)
 
                     inicio = temp
+                ElseIf ejecutable.Contains("C:\Windows\System32\cscript.exe") Then
+                    inicio = "C:\Windows\System32\"
+                Else
+                    inicio = "C:\Windows\"
                 End If
 
                 lineas = lineas + ChrW(0) + numero.ToString + ChrW(0) + ChrW(1) + "appname" + ChrW(0) + nombre + ChrW(0) + ChrW(1) + "exe" + ChrW(0) + ChrW(34) + ejecutable + ChrW(34) + argumentos + ChrW(0) + ChrW(1) + "StartDir" + ChrW(0) + ChrW(34) + inicio + ChrW(34) + ChrW(0) + ChrW(1) + "icon" + ChrW(0) + imagen + ChrW(0) + ChrW(1) + "ShortcutPath" + ChrW(0) + ChrW(0) + ChrW(2) + "IsHidden" + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(2) + "AllowDesktopConfig" + ChrW(0) + ChrW(1) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(2) + "OpenVR" + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + ChrW(0) + "tags" + ChrW(0) + categoria + ChrW(8) + ChrW(8)

@@ -116,8 +116,10 @@
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modulos\Battlenet.vb" />
     <Compile Include="Modulos\FicheroVbs.vb" />
     <Compile Include="Modulos\GOGGalaxy.vb" />
+    <Compile Include="Modulos\Hamburger.vb" />
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Origin.vb" />
@@ -133,6 +135,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\battlenet_logo.png" />
     <Content Include="Assets\gog_logo.png" />
     <Content Include="Assets\NewStoreLogo.scale-100.png" />
     <Content Include="Assets\NewStoreLogo.scale-125.png" />

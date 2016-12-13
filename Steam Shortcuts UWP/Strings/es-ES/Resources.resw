@@ -168,6 +168,12 @@
   <data name="Registro Aviso" xml:space="preserve">
     <value>En caso de error envíanos una captura de pantalla o copia el texto, nos ayudara.</value>
   </data>
+  <data name="Steam No Config" xml:space="preserve">
+    <value>Steam no se ha detectado</value>
+  </data>
+  <data name="Texto Battlenet Config" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Battle.net\Games</value>
+  </data>
   <data name="Texto Carpeta" xml:space="preserve">
     <value>No has añadido una carpeta</value>
   </data>
@@ -183,9 +189,6 @@
   <data name="Texto Steam Config" xml:space="preserve">
     <value>Añade la carpeta donde Steam está instalado, ejemplo: C:\Steam</value>
   </data>
-  <data name="Texto Steam No Config" xml:space="preserve">
-    <value>Steam no está configurado</value>
-  </data>
   <data name="Texto Steam Overlay Config" xml:space="preserve">
     <value>Esta opción se encuentra en Beta, si tienes problemas con algún juego por favor contacta</value>
   </data>
@@ -193,7 +196,7 @@
     <value>Aviso: Algunos juegos pueden que solo arranquen Uplay, por favor si contactas con nosotros envíanos una foto del registro de Windows como en el ejemplo.</value>
   </data>
   <data name="Texto Uplay Config Cliente" xml:space="preserve">
-    <value>Añade la carpeta donde Uplay está instalado, ejemplo C:\Program Files\Ubisoft Game Launcher\</value>
+    <value>Añade la carpeta donde Uplay está instalado, ejemplo C:\Archivos de Programa\Ubisoft Game Launcher\</value>
   </data>
   <data name="Texto Uplay Config Juegos" xml:space="preserve">
     <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Ubisoft Game Launcher\Games</value>
