@@ -188,11 +188,15 @@ Module WindowsStore
 
                                     Dim bitmap As BitmapImage = New BitmapImage
                                     If Not juego.Icono Is Nothing Then
-                                        Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
-                                            bitmap.DecodePixelWidth = 40
-                                            bitmap.DecodePixelHeight = 40
-                                            Await bitmap.SetSourceAsync(stream)
-                                        End Using
+                                        Try
+                                            Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
+                                                bitmap.DecodePixelWidth = 40
+                                                bitmap.DecodePixelHeight = 40
+                                                Await bitmap.SetSourceAsync(stream)
+                                            End Using
+                                        Catch ex As Exception
+
+                                        End Try
                                     End If
 
                                     listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
@@ -213,11 +217,15 @@ Module WindowsStore
             For Each juego As Juego In listaJuegos
                 Dim bitmap As BitmapImage = New BitmapImage
                 If Not juego.Icono Is Nothing Then
-                    Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
-                        bitmap.DecodePixelWidth = 40
-                        bitmap.DecodePixelHeight = 40
-                        Await bitmap.SetSourceAsync(stream)
-                    End Using
+                    Try
+                        Using stream As IRandomAccessStream = Await juego.Icono.OpenAsync(FileAccessMode.Read)
+                            bitmap.DecodePixelWidth = 40
+                            bitmap.DecodePixelHeight = 40
+                            Await bitmap.SetSourceAsync(stream)
+                        End Using
+                    Catch ex As Exception
+
+                    End Try
                 End If
 
                 listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
