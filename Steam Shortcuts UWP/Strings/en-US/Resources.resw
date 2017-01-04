@@ -133,7 +133,7 @@
     <value>Share</value>
   </data>
   <data name="Boton Configuracion" xml:space="preserve">
-    <value>Config</value>
+    <value>Configuration</value>
   </data>
   <data name="Boton Contactar" xml:space="preserve">
     <value>Contact</value>
