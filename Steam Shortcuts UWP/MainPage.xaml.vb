@@ -245,6 +245,16 @@ Public NotInheritable Class MainPage
             GridVisibilidad(gridBattlenet, True)
         End If
 
+        '--------------------------------------------------------
+
+        Dim coleccionHamburger As HamburgerMenuItemCollection = hamburgerMaestro.ItemsSource
+        hamburgerMaestro.ItemsSource = Nothing
+        hamburgerMaestro.ItemsSource = coleccionHamburger
+
+        Dim coleccionOpciones As HamburgerMenuItemCollection = hamburgerMaestro.OptionsItemsSource
+        hamburgerMaestro.OptionsItemsSource = Nothing
+        hamburgerMaestro.OptionsItemsSource = coleccionOpciones
+
     End Sub
 
     Private Sub GridVisibilidad(grid As Grid, barra As Boolean)

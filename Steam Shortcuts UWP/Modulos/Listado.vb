@@ -1,4 +1,5 @@
 ﻿Imports System.Globalization
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.UI
 
 Module Listado
@@ -45,7 +46,7 @@ Module Listado
         '----------------------------------------------------
 
         Dim borde As New Border
-        Dim imagen As Image = Nothing
+        Dim imagen As ImageEx = Nothing
 
         If Not bitmap Is Nothing Then
             If Not juego.ColorFondo = Nothing Then
@@ -87,7 +88,7 @@ Module Listado
                 End If
             End If
 
-            imagen = New Image
+            imagen = New ImageEx
             imagen.Source = bitmap
 
             imagen.Width = 40
