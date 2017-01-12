@@ -28,8 +28,13 @@ Module Uplay
                     carpetaJuegos = Await carpetapicker.PickSingleFolderAsync()
                 End If
             Else
-                carpetaCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
-                carpetaJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+                Try
+                    carpetaCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
+                    carpetaJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+                Catch ex As Exception
+                    carpetaCliente = Nothing
+                    carpetaJuegos = Nothing
+                End Try
             End If
 
             If Not carpetaCliente Is Nothing Then

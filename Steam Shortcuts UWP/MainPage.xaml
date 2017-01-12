@@ -125,16 +125,16 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                                <Button x:Name="buttonConfigSteam" Content="Steam" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
-                                <Button x:Name="buttonConfigSteamOverlay" Content="Steam Overlay" Height="56" Width="150" Margin="5,5,5,25" Background="#FFE4E4E4" FontSize="17"/>
+                                <Button x:Name="buttonConfigSteam" Content="Steam" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                                <Button x:Name="buttonConfigSteamOverlay" Content="Steam Overlay" Width="160" Margin="0,5,0,25" Background="#FFE4E4E4"/>
 
-                                <Button x:Name="buttonConfigBattlenet" Content="Battle.net" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
-                                <Button x:Name="buttonConfigGOGGalaxy" Content="GOG Galaxy" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
-                                <Button x:Name="buttonConfigOrigin" Content="Origin" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
-                                <Button x:Name="buttonConfigUplay" Content="Uplay" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
-                                <Button x:Name="buttonConfigWindowsStore" Content="Windows Store" Height="56" Width="150" Margin="5,5,5,25" Background="#FFE4E4E4" FontSize="17"/>
+                                <Button x:Name="buttonConfigBattlenet" Content="Battle.net" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                                <Button x:Name="buttonConfigGOGGalaxy" Content="GOG Galaxy" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                                <Button x:Name="buttonConfigOrigin" Content="Origin" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                                <Button x:Name="buttonConfigUplay" Content="Uplay" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                                <Button x:Name="buttonConfigWindowsStore" Content="Windows Store" Width="160" Margin="0,5,0,25" Background="#FFE4E4E4"/>
 
-                                <Button x:Name="buttonConfigRegistro" Height="56" Width="150" Margin="5" Background="#FFE4E4E4" FontSize="17"/>
+                                <Button x:Name="buttonConfigRegistro" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
                             </StackPanel>
 
                             <Grid x:Name="gridConfigSteam" Grid.Column="1" Margin="5" Visibility="Collapsed">
