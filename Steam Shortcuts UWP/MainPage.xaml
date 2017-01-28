@@ -8,350 +8,366 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded">
 
-    <Page.Resources>
-        <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid Height="64">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="64" />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+    <Page.TopAppBar>
+        <CommandBar x:Name="commadBarTop" Foreground="White">
+            <CommandBar.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="DarkOrchid" Offset="0.5" />
+                    <GradientStop Color="DarkOrchid" Offset="1.0" />
+                </LinearGradientBrush>
+            </CommandBar.Background>
 
-                <controls:ImageEx Grid.Column="0" Margin="4" Source="{Binding Glyph}" Stretch="UniformToFill" />
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16" Text="{x:Bind Label}" Margin="10,0,0,0" />
-            </Grid>
-        </DataTemplate>
+            <CommandBar.Content>
+                <Grid Height="48">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-        <DataTemplate x:Key="HamburgerMenuImageItemOption" x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid Height="64">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="64" />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+                    <Button x:Name="botonBattlenet" Grid.Column="0" Height="46" Width="46" Padding="2" Background="Transparent" Visibility="Collapsed">
+                        <controls:ImageEx Source="Assets/battlenet_logo.png" />
+                    </Button>
+                    <Button x:Name="botonGOGGalaxy" Grid.Column="1" Height="46" Width="46" Padding="2" Background="Transparent" Visibility="Collapsed">
+                        <controls:ImageEx Source="Assets/gog_logo.png" />
+                    </Button>
+                    <Button x:Name="botonOrigin" Grid.Column="2" Height="46" Width="46" Padding="2" Background="Transparent" Visibility="Collapsed">
+                        <controls:ImageEx Source="Assets/origin_logo.png" />
+                    </Button>
+                    <Button x:Name="botonUplay" Grid.Column="3" Height="46" Width="46" Padding="2" Background="Transparent" Visibility="Collapsed">
+                        <controls:ImageEx Source="Assets/uplay_logo.png" />
+                    </Button>
+                    <Button x:Name="botonWindowsStore" Grid.Column="4" Height="46" Width="46" Padding="2" Background="Transparent" Visibility="Collapsed">
+                        <controls:ImageEx Source="Assets/windowsstore_logo.png" />
+                    </Button>
+                </Grid>
+            </CommandBar.Content>
 
-                <FontIcon Grid.Column="0" Margin="10" FontSize="32" Glyph="{Binding Glyph}" FontFamily="Segoe MDL2 Assets"/>
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16" Text="{x:Bind Label}" />
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton x:Name="botonConfig" Icon="Setting" Foreground="White" FontSize="17"/>
+            </CommandBar.PrimaryCommands>
+
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="botonVotar" Icon="Like"/>
+                <AppBarButton x:Name="botonCompartir">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#59181;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarSeparator/>
+                <AppBarButton x:Name="botonContacto" Icon="Contact"/>
+                <AppBarButton x:Name="botonMasApps" Icon="World"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.TopAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Background="#FFE4E4E4">
+        <Grid Background="#FFF0F0F0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <controls:HamburgerMenu x:Name="hamburgerMaestro" Grid.Row="0" ItemTemplate="{StaticResource HamburgerMenuImageItem}" OptionsItemTemplate="{StaticResource HamburgerMenuImageItemOption}" HamburgerHeight="64" HamburgerWidth="64" CompactPaneLength="64">
-                <controls:HamburgerMenu.OptionsItemsSource>
-                    <controls:HamburgerMenuItemCollection>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemConfig" Glyph="&#xE713;" Tag="99"/>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemVote" Glyph="&#xE8E1;" Tag="100"/>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemShare" Glyph="&#xE72D;" Tag="101"/>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemContact" Glyph="&#xE77B;" Tag="102"/>
-                        <controls:HamburgerMenuGlyphItem x:Name="menuItemWeb" Glyph="&#xE712;" Tag="103"/>
-                    </controls:HamburgerMenuItemCollection>
-                </controls:HamburgerMenu.OptionsItemsSource>
+            <Grid Padding="5">
+                <Grid x:Name="gridBattlenet" Visibility="Collapsed" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <Grid>
-                    <Grid x:Name="gridBattlenet" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <ProgressBar x:Name="progressBarBattlenet" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
-                        <ProgressBar x:Name="progressBarBattlenet" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                    <Grid x:Name="gridBattlenetContenido" Grid.Row="1" Margin="0,0,0,10"/>
+                </Grid>
 
-                        <Grid x:Name="gridBattlenetContenido" Grid.Row="1" Margin="0,0,0,10"/>
-                    </Grid>
-                    
-                    <Grid x:Name="gridGOGGalaxy" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                <Grid x:Name="gridGOGGalaxy" Visibility="Collapsed" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                        <ProgressBar x:Name="progressBarGOGGalaxy" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                    <ProgressBar x:Name="progressBarGOGGalaxy" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
-                        <Grid x:Name="gridGOGGalaxyContenido" Grid.Row="1" Margin="0,0,0,10"/>
-                    </Grid>
+                    <Grid x:Name="gridGOGGalaxyContenido" Grid.Row="1" Margin="0,0,0,10"/>
+                </Grid>
 
-                    <Grid x:Name="gridOrigin" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                <Grid x:Name="gridOrigin" Visibility="Collapsed" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                        <ProgressBar x:Name="progressBarOrigin" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                    <ProgressBar x:Name="progressBarOrigin" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
-                        <Grid x:Name="gridOriginContenido" Grid.Row="1" Margin="0,0,0,10"/>
-                    </Grid>
+                    <Grid x:Name="gridOriginContenido" Grid.Row="1" Margin="0,0,0,10"/>
+                </Grid>
 
-                    <Grid x:Name="gridUplay" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                <Grid x:Name="gridUplay" Visibility="Collapsed" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                        <ProgressBar x:Name="progressBarUplay" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                    <ProgressBar x:Name="progressBarUplay" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
-                        <Grid x:Name="gridUplayContenido" Grid.Row="1" Margin="0,0,0,10"/>
-                    </Grid>
+                    <Grid x:Name="gridUplayContenido" Grid.Row="1" Margin="0,0,0,10"/>
+                </Grid>
 
-                    <Grid x:Name="gridWindowsStore" Background="#FFF0F0F0" Visibility="Collapsed" Padding="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                <Grid x:Name="gridWindowsStore" Visibility="Collapsed" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                        <ProgressBar x:Name="progressBarWindowsStore" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                    <ProgressBar x:Name="progressBarWindowsStore" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
 
-                        <Grid x:Name="gridWindowsStoreContenido" Grid.Row="1" Margin="0,0,0,10"/>
-                    </Grid>
+                    <Grid x:Name="gridWindowsStoreContenido" Grid.Row="1" Margin="0,0,0,10"/>
+                </Grid>
 
-                    <Grid x:Name="gridConfig" Background="#FFF0F0F0" Visibility="Collapsed" Padding="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                <Grid x:Name="gridConfig" Visibility="Collapsed" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                        <TextBlock x:Name="tbConfig" Grid.Column="0" FontSize="23" Margin="5,0,0,20"/>
-                        <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Black" Margin="0,0,0,5"/>
+                    <TextBlock x:Name="tbConfig" Grid.Column="0" FontSize="23" Margin="5,0,0,20"/>
+                    <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Black" Margin="0,0,0,5"/>
 
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                                <Button x:Name="buttonConfigSteam" Content="Steam" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
-                                <Button x:Name="buttonConfigSteamOverlay" Content="Steam Overlay" Width="160" Margin="0,5,0,25" Background="#FFE4E4E4"/>
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <Button x:Name="buttonConfigSteam" Content="Steam" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                            <Button x:Name="buttonConfigSteamOverlay" Content="Steam Overlay" Width="160" Margin="0,5,0,25" Background="#FFE4E4E4"/>
 
-                                <Button x:Name="buttonConfigBattlenet" Content="Battle.net" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
-                                <Button x:Name="buttonConfigGOGGalaxy" Content="GOG Galaxy" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
-                                <Button x:Name="buttonConfigOrigin" Content="Origin" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
-                                <Button x:Name="buttonConfigUplay" Content="Uplay" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
-                                <Button x:Name="buttonConfigWindowsStore" Content="Windows Store" Width="160" Margin="0,5,0,25" Background="#FFE4E4E4"/>
+                            <Button x:Name="buttonConfigBattlenet" Content="Battle.net" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                            <Button x:Name="buttonConfigGOGGalaxy" Content="GOG Galaxy" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                            <Button x:Name="buttonConfigOrigin" Content="Origin" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                            <Button x:Name="buttonConfigUplay" Content="Uplay" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                            <Button x:Name="buttonConfigWindowsStore" Content="Windows Store" Width="160" Margin="0,5,0,25" Background="#FFE4E4E4"/>
 
-                                <Button x:Name="buttonConfigRegistro" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
-                            </StackPanel>
+                            <Button x:Name="buttonConfigRegistro" Width="160" Margin="0,5" Background="#FFE4E4E4"/>
+                        </StackPanel>
 
-                            <Grid x:Name="gridConfigSteam" Grid.Column="1" Margin="5" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                        <Grid x:Name="gridConfigSteam" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                                <TextBlock x:Name="tbSteamConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="1" Margin="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="tbSteamConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                            <Grid Grid.Row="1" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                                    <Button x:Name="buttonSteamConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonSteamConfigPathTexto"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbSteamConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="gridConfigSteamOverlay" Grid.Column="1" Margin="5" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock x:Name="tbSteamOverlayConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
-                                <CheckBox x:Name="cbDosboxSteamOverlay" Grid.Row="1" Margin="5" Content="GOG Galaxy - DOSBox"/>
-                                <CheckBox x:Name="cbWindowsStoreSteamOverlay" Grid.Row="2" Margin="5" Content="Windows Store"/>
-                            </Grid>
-
-                            <Grid x:Name="gridConfigBattlenet" Grid.Column="1" Margin="5" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock x:Name="tbBattlenetConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="1" Margin="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button x:Name="buttonBattlenetConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonBattlenetConfigPathTexto"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbBattlenetConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Grid>
-                            
-                            <Grid x:Name="gridConfigGOGGalaxy" Grid.Column="1" Margin="5" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock x:Name="tbGOGGalaxyConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="1" Margin="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button x:Name="buttonGOGGalaxyConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonGOGGalaxyConfigPathTexto"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbGOGGalaxyConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="gridConfigOrigin" Grid.Column="1" Margin="5" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <TextBlock x:Name="tbOriginConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="1" Margin="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button x:Name="buttonOriginConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonOriginConfigPathTexto"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbOriginConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="gridConfigUplay" Grid.Column="1" Margin="5" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock x:Name="tbUplayConfigInstruccionesCliente" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="1" Margin="5,5,5,15">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button x:Name="buttonUplayConfigPathCliente" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonUplayConfigPathTextoCliente"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbUplayConfigPathCliente" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                                <TextBlock x:Name="tbUplayConfigInstruccionesJuegos" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="3" Margin="5,5,5,20">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button x:Name="buttonUplayConfigPathJuegos" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonUplayConfigPathTextoJuegos"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbUplayConfigPathJuegos" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                                <Grid Grid.Row="4" Margin="5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock x:Name="tbUplayConfigInstruccionesAviso" Grid.Row="0" TextWrapping="Wrap"/>
-                                    <Button x:Name="buttonUplayConfigAviso" Grid.Row="1" Padding="10" Background="#FFE4E4E4" Margin="0,10"/>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="gridConfigWindowsStore" Grid.Column="1" Margin="5" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock x:Name="tbWindowsStoreConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
-                                <Grid Grid.Row="1" Margin="5,5,5,20">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button x:Name="buttonWindowsStoreConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                            <TextBlock x:Name="buttonWindowsStoreConfigPathTexto"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="tbWindowsStoreConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                                <Button x:Name="buttonWindowsStoreConfigTutorial" Grid.Row="2" Padding="10" Background="#FFE4E4E4" Margin="5"/>
-                            </Grid>
-
-                            <Grid x:Name="gridConfigRegistro" Grid.Column="1" Margin="5" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock x:Name="tbConfigRegistroAviso" Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,10"/>
-                                <TextBox x:Name="tbConfigRegistro" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0,2,0,0" Background="Transparent" Padding="10" />
+                                <Button x:Name="buttonSteamConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="buttonSteamConfigPathTexto"/>
+                                    </StackPanel>
+                                </Button>
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbSteamConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Grid>
-                    </Grid>
 
-                    <Grid x:Name="gridWebContacto" Background="#FFF0F0F0" Visibility="Collapsed" Padding="10">
-                        <WebView x:Name="webViewContacto" Source="https://pepeizqapps.com/contact/" />
-                    </Grid>
+                        <Grid x:Name="gridConfigSteamOverlay" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <Grid x:Name="gridWeb" Background="#FFF0F0F0" Visibility="Collapsed" Padding="10">
-                        <WebView x:Name="webViewWeb" Source="https://pepeizqapps.com/" />
+                            <TextBlock x:Name="tbSteamOverlayConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                            <CheckBox x:Name="cbDosboxSteamOverlay" Grid.Row="1" Margin="5" Content="GOG Galaxy - DOSBox"/>
+                            <CheckBox x:Name="cbWindowsStoreSteamOverlay" Grid.Row="2" Margin="5" Content="Windows Store"/>
+                        </Grid>
+
+                        <Grid x:Name="gridConfigBattlenet" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="tbBattlenetConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                            <Grid Grid.Row="1" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="buttonBattlenetConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="buttonBattlenetConfigPathTexto"/>
+                                    </StackPanel>
+                                </Button>
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbBattlenetConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+
+                        <Grid x:Name="gridConfigGOGGalaxy" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="tbGOGGalaxyConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                            <Grid Grid.Row="1" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="buttonGOGGalaxyConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="buttonGOGGalaxyConfigPathTexto"/>
+                                    </StackPanel>
+                                </Button>
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbGOGGalaxyConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+
+                        <Grid x:Name="gridConfigOrigin" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="tbOriginConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                            <Grid Grid.Row="1" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="buttonOriginConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="buttonOriginConfigPathTexto"/>
+                                    </StackPanel>
+                                </Button>
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbOriginConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+
+                        <Grid x:Name="gridConfigUplay" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="tbUplayConfigInstruccionesCliente" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                            <Grid Grid.Row="1" Margin="5,5,5,15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="buttonUplayConfigPathCliente" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="buttonUplayConfigPathTextoCliente"/>
+                                    </StackPanel>
+                                </Button>
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbUplayConfigPathCliente" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                            <TextBlock x:Name="tbUplayConfigInstruccionesJuegos" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
+                            <Grid Grid.Row="3" Margin="5,5,5,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="buttonUplayConfigPathJuegos" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="buttonUplayConfigPathTextoJuegos"/>
+                                    </StackPanel>
+                                </Button>
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbUplayConfigPathJuegos" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Row="4" Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="tbUplayConfigInstruccionesAviso" Grid.Row="0" TextWrapping="Wrap"/>
+                                <Button x:Name="buttonUplayConfigAviso" Grid.Row="1" Padding="10" Background="#FFE4E4E4" Margin="0,10"/>
+                            </Grid>
+                        </Grid>
+
+                        <Grid x:Name="gridConfigWindowsStore" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="tbWindowsStoreConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                            <Grid Grid.Row="1" Margin="5,5,5,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="buttonWindowsStoreConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="buttonWindowsStoreConfigPathTexto"/>
+                                    </StackPanel>
+                                </Button>
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbWindowsStoreConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Button x:Name="buttonWindowsStoreConfigTutorial" Grid.Row="2" Padding="10" Background="#FFE4E4E4" Margin="5"/>
+                        </Grid>
+
+                        <Grid x:Name="gridConfigRegistro" Grid.Column="1" Margin="5" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="tbConfigRegistroAviso" Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                            <TextBox x:Name="tbConfigRegistro" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0,2,0,0" Background="Transparent" Padding="10" />
+                        </Grid>
                     </Grid>
                 </Grid>
-                             
-            </controls:HamburgerMenu>
+
+                <Grid x:Name="gridWebContacto" Visibility="Collapsed">
+                    <WebView x:Name="webViewContacto" Source="https://pepeizqapps.com/contact/" />
+                </Grid>
+
+                <Grid x:Name="gridWeb" Visibility="Collapsed">
+                    <WebView x:Name="webViewWeb" Source="https://pepeizqapps.com/" />
+                </Grid>
+            </Grid>
 
             <Border x:Name="barraInferior" Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="#FF99008B">
                 <Grid HorizontalAlignment="Center">
@@ -373,6 +389,6 @@
                     <TextBlock x:Name="tbAvisoAñadir" Grid.Column="3" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
-        </Grid> 
+        </Grid>
     </Grid>
 </Page>

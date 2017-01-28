@@ -8,8 +8,6 @@ Imports Windows.UI
 Public NotInheritable Class MainPage
     Inherits Page
 
-    Dim coleccion As HamburgerMenuItemCollection = New HamburgerMenuItemCollection
-
     Dim listaBattlenet As List(Of Juego)
     Dim listaGOGGalaxy As List(Of Juego)
     Dim listaOrigin As List(Of Juego)
@@ -31,11 +29,13 @@ Public NotInheritable Class MainPage
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
-        menuItemConfig.Label = recursos.GetString("Boton Configuracion")
-        menuItemVote.Label = recursos.GetString("Boton Votar")
-        menuItemShare.Label = recursos.GetString("Boton Compartir")
-        menuItemContact.Label = recursos.GetString("Boton Contactar")
-        menuItemWeb.Label = recursos.GetString("Boton Web")
+        botonConfig.Label = recursos.GetString("Boton Configuracion")
+        botonVotar.Label = recursos.GetString("Boton Votar")
+        botonCompartir.Label = recursos.GetString("Boton Compartir")
+        botonContacto.Label = recursos.GetString("Boton Contactar")
+        botonMasApps.Label = recursos.GetString("Boton Web")
+
+        commadBarTop.DefaultLabelPosition = CommandBarDefaultLabelPosition.Right
 
         buttonAñadirJuegosTexto.Text = recursos.GetString("Boton Añadir Juegos")
         tbAvisoAñadir.Text = recursos.GetString("Aviso Añadir Juegos")
@@ -98,7 +98,7 @@ Public NotInheritable Class MainPage
 
             If battleBool = True Then
                 listaBattlenet = New List(Of Juego)
-                Battlenet.Generar(listaBattlenet, carpetaBattlenet, gridBattlenetContenido, progressBarBattlenet, coleccion, hamburgerMaestro)
+                Battlenet.Generar(listaBattlenet, carpetaBattlenet, gridBattlenetContenido, progressBarBattlenet, botonBattlenet)
             End If
         End If
 
@@ -119,7 +119,7 @@ Public NotInheritable Class MainPage
 
             If galaxyBool = True Then
                 listaGOGGalaxy = New List(Of Juego)
-                GOGGalaxy.Generar(listaGOGGalaxy, carpetaGOGGalaxy, gridGOGGalaxyContenido, progressBarGOGGalaxy, coleccion, hamburgerMaestro)
+                GOGGalaxy.Generar(listaGOGGalaxy, carpetaGOGGalaxy, gridGOGGalaxyContenido, progressBarGOGGalaxy, botonGOGGalaxy)
             End If
         End If
 
@@ -140,7 +140,7 @@ Public NotInheritable Class MainPage
 
             If originBool = True Then
                 listaOrigin = New List(Of Juego)
-                Origin.Generar(listaOrigin, carpetaOrigin, gridOriginContenido, progressBarOrigin, coleccion, hamburgerMaestro)
+                Origin.Generar(listaOrigin, carpetaOrigin, gridOriginContenido, progressBarOrigin, botonOrigin)
             End If
         End If
 
@@ -170,7 +170,7 @@ Public NotInheritable Class MainPage
 
                 If uplaybool = True Then
                     listaUplay = New List(Of Juego)
-                    Uplay.Generar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, coleccion, hamburgerMaestro)
+                    Uplay.Generar(listaUplay, carpetaUplayCliente, carpetaUplayJuegos, gridUplayContenido, progressBarUplay, botonUplay)
                 End If
             End If
         End If
@@ -192,7 +192,7 @@ Public NotInheritable Class MainPage
 
             If windowsbool = True Then
                 listaWindowsStore = New List(Of Juego)
-                WindowsStore.Generar(listaWindowsStore, carpetaWindowsStore, gridWindowsStoreContenido, progressBarWindowsStore, coleccion, hamburgerMaestro)
+                WindowsStore.Generar(listaWindowsStore, carpetaWindowsStore, gridWindowsStoreContenido, progressBarWindowsStore, botonWindowsStore)
             End If
         End If
 
@@ -244,16 +244,6 @@ Public NotInheritable Class MainPage
         Else
             GridVisibilidad(gridBattlenet, True)
         End If
-
-        '--------------------------------------------------------
-
-        Dim coleccionHamburger As HamburgerMenuItemCollection = hamburgerMaestro.ItemsSource
-        hamburgerMaestro.ItemsSource = Nothing
-        hamburgerMaestro.ItemsSource = coleccionHamburger
-
-        Dim coleccionOpciones As HamburgerMenuItemCollection = hamburgerMaestro.OptionsItemsSource
-        hamburgerMaestro.OptionsItemsSource = Nothing
-        hamburgerMaestro.OptionsItemsSource = coleccionOpciones
 
     End Sub
 
@@ -452,7 +442,7 @@ Public NotInheritable Class MainPage
 
         If battleBool = True Then
             listaBattlenet = New List(Of Juego)
-            Battlenet.Generar(listaBattlenet, carpeta, gridBattlenetContenido, progressBarBattlenet, coleccion, hamburgerMaestro)
+            Battlenet.Generar(listaBattlenet, carpeta, gridBattlenetContenido, progressBarBattlenet, botonBattlenet)
         End If
 
     End Sub
@@ -476,7 +466,7 @@ Public NotInheritable Class MainPage
 
         If galaxyBool = True Then
             listaGOGGalaxy = New List(Of Juego)
-            GOGGalaxy.Generar(listaGOGGalaxy, carpeta, gridGOGGalaxyContenido, progressBarGOGGalaxy, coleccion, hamburgerMaestro)
+            GOGGalaxy.Generar(listaGOGGalaxy, carpeta, gridGOGGalaxyContenido, progressBarGOGGalaxy, botonGOGGalaxy)
         End If
 
     End Sub
@@ -500,7 +490,7 @@ Public NotInheritable Class MainPage
 
         If originBool = True Then
             listaOrigin = New List(Of Juego)
-            Origin.Generar(listaOrigin, carpeta, gridOriginContenido, progressBarOrigin, coleccion, hamburgerMaestro)
+            Origin.Generar(listaOrigin, carpeta, gridOriginContenido, progressBarOrigin, botonOrigin)
         End If
 
     End Sub
@@ -533,7 +523,7 @@ Public NotInheritable Class MainPage
 
         If uplayBool = True Then
             listaUplay = New List(Of Juego)
-            Uplay.Generar(listaUplay, carpetaCliente, carpetaJuegos, gridUplayContenido, progressBarUplay, coleccion, hamburgerMaestro)
+            Uplay.Generar(listaUplay, carpetaCliente, carpetaJuegos, gridUplayContenido, progressBarUplay, botonUplay)
         End If
 
     End Sub
@@ -560,7 +550,7 @@ Public NotInheritable Class MainPage
 
         If uplayBool = True Then
             listaUplay = New List(Of Juego)
-            Uplay.Generar(listaUplay, carpetaCliente, carpetaJuegos, gridUplayContenido, progressBarUplay, coleccion, hamburgerMaestro)
+            Uplay.Generar(listaUplay, carpetaCliente, carpetaJuegos, gridUplayContenido, progressBarUplay, botonUplay)
         End If
 
     End Sub
@@ -594,7 +584,7 @@ Public NotInheritable Class MainPage
 
         If windowsBool = True Then
             listaWindowsStore = New List(Of Juego)
-            WindowsStore.Generar(listaWindowsStore, carpeta, gridWindowsStoreContenido, progressBarWindowsStore, coleccion, hamburgerMaestro)
+            WindowsStore.Generar(listaWindowsStore, carpeta, gridWindowsStoreContenido, progressBarWindowsStore, botonWindowsStore)
         End If
 
     End Sub
@@ -615,54 +605,77 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    'HAMBURGER------------------------------------------------
+    '-------------------------------------------------------
 
-    Private Sub hamburgerMaestro_ItemClick(sender As Object, e As ItemClickEventArgs) Handles hamburgerMaestro.ItemClick
+    Private Sub botonBattlenet_Click(sender As Object, e As RoutedEventArgs) Handles botonBattlenet.Click
 
-        Dim menuItem As HamburgerMenuGlyphItem = TryCast(e.ClickedItem, HamburgerMenuGlyphItem)
-
-        If menuItem.Tag = 0 Then
-            GridVisibilidad(gridBattlenet, True)
-        ElseIf menuItem.Tag = 1 Then
-            GridVisibilidad(gridGOGGalaxy, True)
-        ElseIf menuItem.Tag = 2 Then
-            GridVisibilidad(gridOrigin, True)
-        ElseIf menuItem.Tag = 3 Then
-            GridVisibilidad(gridUplay, True)
-        ElseIf menuItem.Tag = 4 Then
-            GridVisibilidad(gridWindowsStore, True)
-        End If
+        GridVisibilidad(gridBattlenet, True)
 
     End Sub
 
-    Private Async Sub hamburgerMaestro_OptionsItemClick(sender As Object, e As ItemClickEventArgs) Handles hamburgerMaestro.OptionsItemClick
+    Private Sub botonGOGGalaxy_Click(sender As Object, e As RoutedEventArgs) Handles botonGOGGalaxy.Click
 
-        Dim menuItem As HamburgerMenuGlyphItem = TryCast(e.ClickedItem, HamburgerMenuGlyphItem)
+        GridVisibilidad(gridGOGGalaxy, True)
 
-        If menuItem.Tag = 99 Then
-            GridVisibilidad(gridConfig, False)
-            GridConfigVisibilidad(gridConfigSteam, buttonConfigSteam)
-        ElseIf menuItem.Tag = 100 Then
-            Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
-        ElseIf menuItem.Tag = 101 Then
-            Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
-            AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
-            DataTransferManager.ShowShareUI()
-        ElseIf menuItem.Tag = 102 Then
-            GridVisibilidad(gridWebContacto, False)
-        ElseIf menuItem.Tag = 103 Then
-            GridVisibilidad(gridWeb, False)
-        End If
+    End Sub
+
+    Private Sub botonOrigin_Click(sender As Object, e As RoutedEventArgs) Handles botonOrigin.Click
+
+        GridVisibilidad(gridOrigin, True)
+
+    End Sub
+
+    Private Sub botonUplay_Click(sender As Object, e As RoutedEventArgs) Handles botonUplay.Click
+
+        GridVisibilidad(gridUplay, True)
+
+    End Sub
+
+    Private Sub botonWindowsStore_Click(sender As Object, e As RoutedEventArgs) Handles botonWindowsStore.Click
+
+        GridVisibilidad(gridWindowsStore, True)
+
+    End Sub
+
+    Private Sub botonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
+
+        GridVisibilidad(gridConfig, False)
+        GridConfigVisibilidad(gridConfigSteam, buttonConfigSteam)
+
+    End Sub
+
+    Private Async Sub botonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
+
+    End Sub
+
+    Private Sub botonCompartir_Click(sender As Object, e As RoutedEventArgs) Handles botonCompartir.Click
+
+        Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
+        AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
+        DataTransferManager.ShowShareUI()
 
     End Sub
 
     Private Sub MainPage_DataRequested(sender As DataTransferManager, e As DataRequestedEventArgs)
 
         Dim request As DataRequest = e.Request
-        request.Data.SetText("Steam Bridge")
+        request.Data.SetText("Download: https://www.microsoft.com/store/apps/9nblggh441c9")
         request.Data.Properties.Title = "Steam Bridge"
         request.Data.Properties.Description = "Add shortcuts in Steam"
 
     End Sub
 
+    Private Sub botonContacto_Click(sender As Object, e As RoutedEventArgs) Handles botonContacto.Click
+
+        GridVisibilidad(gridWebContacto, False)
+
+    End Sub
+
+    Private Sub botonMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonMasApps.Click
+
+        GridVisibilidad(gridWeb, False)
+
+    End Sub
 End Class

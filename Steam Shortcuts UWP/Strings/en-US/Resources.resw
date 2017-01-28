@@ -153,6 +153,9 @@
   <data name="Boton Windows Store Tutorial" xml:space="preserve">
     <value>Tutorial to get permissions</value>
   </data>
+  <data name="Bridge" xml:space="preserve">
+    <value>Bridge</value>
+  </data>
   <data name="Error 1" xml:space="preserve">
     <value>Error adding shortcuts, close Steam</value>
   </data>

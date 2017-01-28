@@ -1,1 +1,1 @@
-E:\Proyectos\Steam Bridge\Steam Shortcuts UWP\AppPackages\Steam Bridge_0.8.1.0\Steam Bridge_0.8.1.0_x86_x64.appxbundle
+D:\Proyectos\Steam Bridge\Steam Shortcuts UWP\AppPackages\Steam Bridge_0.8.2.0\Steam Bridge_0.8.2.0_x86_x64.appxbundle

@@ -45,7 +45,7 @@ Module Origin
 
     End Function
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburguesa As HamburgerMenu)
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, boton As Button)
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
@@ -94,7 +94,7 @@ Module Origin
                             listaJuegos.Add(juego)
 
                             If listaJuegos.Count = 1 Then
-                                Hamburger.Generar("Origin", "2", "/Assets/origin_logo.png", coleccion, hamburguesa)
+                                boton.Visibility = Visibility.Visible
                             End If
 
                             'Dim bitmap As BitmapImage = New BitmapImage
@@ -136,6 +136,7 @@ Module Origin
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
             Toast("Steam Bridge - Origin", recursos.GetString("Texto No Juegos"))
+            boton.Visibility = Visibility.Collapsed
         End If
 
         grid.Children.Clear()

@@ -45,7 +45,7 @@ Module WindowsStore
 
     End Function
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, coleccion As HamburgerMenuItemCollection, hamburguesa As HamburgerMenu)
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, boton As Button)
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
@@ -183,7 +183,7 @@ Module WindowsStore
                                     listaJuegos.Add(juego)
 
                                     If listaJuegos.Count = 1 Then
-                                        Hamburger.Generar("Windows Store", "4", "/Assets/windowsstore_logo.png", coleccion, hamburguesa)
+                                        boton.Visibility = Visibility.Visible
                                     End If
 
                                     Dim bitmap As BitmapImage = New BitmapImage
@@ -235,6 +235,7 @@ Module WindowsStore
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
             Toast("Steam Bridge - Windows Store", recursos.GetString("Texto No Juegos"))
+            boton.Visibility = Visibility.Collapsed
         End If
 
         grid.Children.Clear()
