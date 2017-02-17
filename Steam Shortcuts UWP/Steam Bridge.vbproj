@@ -113,19 +113,22 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Clases\Juego.vb" />
+    <Compile Include="Clases\Tweet.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modulos\Battlenet.vb" />
+    <Compile Include="Modulos\Clientes\Battlenet.vb" />
+    <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\FicheroVbs.vb" />
-    <Compile Include="Modulos\GOGGalaxy.vb" />
+    <Compile Include="Modulos\Clientes\GOGGalaxy.vb" />
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
-    <Compile Include="Modulos\Origin.vb" />
+    <Compile Include="Modulos\Clientes\Origin.vb" />
     <Compile Include="Modulos\Registro.vb" />
     <Compile Include="Modulos\Steam.vb" />
-    <Compile Include="Modulos\Uplay.vb" />
-    <Compile Include="Modulos\WindowsStore.vb" />
+    <Compile Include="Modulos\Twitter.vb" />
+    <Compile Include="Modulos\Clientes\Uplay.vb" />
+    <Compile Include="Modulos\Clientes\WindowsStore.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +204,7 @@
     <Content Include="Assets\Store\StoreLogo.scale-150.png" />
     <Content Include="Assets\Store\StoreLogo.scale-200.png" />
     <Content Include="Assets\Store\StoreLogo.scale-400.png" />
+    <Content Include="Assets\twitter_logo.png" />
     <Content Include="Assets\uplay_logo.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-125.png" />

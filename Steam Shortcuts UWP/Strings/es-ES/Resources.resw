@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="App" xml:space="preserve">
+    <value>Aplicación</value>
+  </data>
   <data name="Aviso Añadir Juegos" xml:space="preserve">
     <value>Aviso: Steam debe estar cerrado antes de añadir juegos</value>
   </data>
@@ -206,5 +209,8 @@
   </data>
   <data name="Texto Windows Store Config" xml:space="preserve">
     <value>Añade la carpeta C:\Archivos de Programa\WindowsApps (debes de tener permisos de lectura)</value>
+  </data>
+  <data name="Twitter" xml:space="preserve">
+    <value>Enseñar últimas noticias de @pepeizqapps</value>
   </data>
 </root>
