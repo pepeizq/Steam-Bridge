@@ -120,8 +120,8 @@
   <data name="App" xml:space="preserve">
     <value>Aplicación</value>
   </data>
-  <data name="Aviso Añadir Juegos" xml:space="preserve">
-    <value>Aviso: Steam debe estar cerrado antes de añadir juegos</value>
+  <data name="Consejo Config" xml:space="preserve">
+    <value>Steam debe estar cerrado antes de añadir juegos</value>
   </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Añadir</value>
@@ -135,11 +135,14 @@
   <data name="Boton Compartir" xml:space="preserve">
     <value>Compartir</value>
   </data>
-  <data name="Boton Configuracion" xml:space="preserve">
+  <data name="Boton Config" xml:space="preserve">
     <value>Configuración</value>
   </data>
   <data name="Boton Contactar" xml:space="preserve">
     <value>Contactar</value>
+  </data>
+  <data name="Boton Inicio" xml:space="preserve">
+    <value>Inicio</value>
   </data>
   <data name="Boton Uplay Config Aviso" xml:space="preserve">
     <value>Ejemplo Foto Registro</value>
@@ -159,6 +162,9 @@
   <data name="Bridge" xml:space="preserve">
     <value>Bridge</value>
   </data>
+  <data name="Clientes" xml:space="preserve">
+    <value>Clientes</value>
+  </data>
   <data name="Error 1" xml:space="preserve">
     <value>Error al añadir los accesos directos, cierra Steam</value>
   </data>
@@ -173,6 +179,9 @@
   </data>
   <data name="Registro Aviso" xml:space="preserve">
     <value>En caso de error envíanos una captura de pantalla o copia el texto, nos ayudara.</value>
+  </data>
+  <data name="RSS" xml:space="preserve">
+    <value>Últimas Noticias</value>
   </data>
   <data name="Steam No Config" xml:space="preserve">
     <value>Steam no se ha detectado</value>
@@ -196,7 +205,7 @@
     <value>Añade la carpeta donde Steam está instalado, ejemplo: C:\Steam</value>
   </data>
   <data name="Texto Steam Overlay Config" xml:space="preserve">
-    <value>Esta opción se encuentra en Beta, si tienes problemas con algún juego por favor contacta</value>
+    <value>Steam Overlay: Esta opción se encuentra en Beta, si tienes problemas con algún juego por favor contacta</value>
   </data>
   <data name="Texto Uplay Config Aviso" xml:space="preserve">
     <value>Aviso: Algunos juegos pueden que solo arranquen Uplay, por favor si contactas con nosotros envíanos una foto del registro de Windows como en el ejemplo.</value>
@@ -210,7 +219,10 @@
   <data name="Texto Windows Store Config" xml:space="preserve">
     <value>Añade la carpeta C:\Archivos de Programa\WindowsApps (debes de tener permisos de lectura)</value>
   </data>
-  <data name="Twitter" xml:space="preserve">
-    <value>Enseñar últimas noticias de @pepeizqapps</value>
+  <data name="Grid Arranque" xml:space="preserve">
+    <value>Elige ventana donde arrancar</value>
+  </data>
+  <data name="No Juegos" xml:space="preserve">
+    <value>No se han detectado juegos o no está configurado</value>
   </data>
 </root>

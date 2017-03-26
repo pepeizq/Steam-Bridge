@@ -112,8 +112,8 @@
     <Compile Include="App.xaml.vb">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Clases\FeedRSS.vb" />
     <Compile Include="Clases\Juego.vb" />
-    <Compile Include="Clases\Tweet.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -125,8 +125,8 @@
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Clientes\Origin.vb" />
     <Compile Include="Modulos\Registro.vb" />
+    <Compile Include="Modulos\RSS.vb" />
     <Compile Include="Modulos\Steam.vb" />
-    <Compile Include="Modulos\Twitter.vb" />
     <Compile Include="Modulos\Clientes\Uplay.vb" />
     <Compile Include="Modulos\Clientes\WindowsStore.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -188,6 +188,7 @@
     <Content Include="Assets\Medium\Medium150x150Logo.scale-200.png" />
     <Content Include="Assets\Medium\Medium150x150Logo.scale-400.png" />
     <Content Include="Assets\origin_logo.png" />
+    <Content Include="Assets\rss_logo.png" />
     <Content Include="Assets\Small\Small71x71Logo.scale-100.png" />
     <Content Include="Assets\Small\Small71x71Logo.scale-125.png" />
     <Content Include="Assets\Small\Small71x71Logo.scale-150.png" />
@@ -198,13 +199,13 @@
     <Content Include="Assets\SplashScreen\SplashScreen.scale-150.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-200.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-400.png" />
+    <Content Include="Assets\steam_logo.png" />
     <Content Include="Assets\steam_logo.svg" />
     <Content Include="Assets\Store\StoreLogo.scale-100.png" />
     <Content Include="Assets\Store\StoreLogo.scale-125.png" />
     <Content Include="Assets\Store\StoreLogo.scale-150.png" />
     <Content Include="Assets\Store\StoreLogo.scale-200.png" />
     <Content Include="Assets\Store\StoreLogo.scale-400.png" />
-    <Content Include="Assets\twitter_logo.png" />
     <Content Include="Assets\uplay_logo.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-125.png" />

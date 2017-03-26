@@ -1,5 +1,4 @@
 ﻿Imports System.Text
-Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
@@ -7,7 +6,16 @@ Imports Windows.Storage.Streams
 
 Module Uplay
 
-    Public Async Function Config(opcion As Integer, tbConfigPathCliente As TextBlock, buttonConfigPathCliente As TextBlock, tbConfigPathJuegos As TextBlock, buttonConfigPathJuegos As TextBlock, reg As TextBox, picker As Boolean) As Task(Of Boolean)
+    Public Async Function Config(opcion As Integer, picker As Boolean) As Task(Of Boolean)
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim tbConfigPathCliente As TextBlock = pagina.FindName("tbUplayConfigPathCliente")
+        Dim buttonConfigPathCliente As TextBlock = pagina.FindName("buttonUplayConfigPathTextoCliente")
+        Dim tbConfigPathJuegos As TextBlock = pagina.FindName("tbUplayConfigPathJuegos")
+        Dim buttonConfigPathJuegos As TextBlock = pagina.FindName("buttonUplayConfigPathTextoJuegos")
+        Dim reg As TextBox = pagina.FindName("tbConfigRegistro")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpetaCliente As StorageFolder = Nothing
@@ -102,13 +110,20 @@ Module Uplay
 
     End Function
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpetaCliente As StorageFolder, carpetaJuegos As StorageFolder, grid As Grid, progreso As ProgressBar, boton As Button)
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpetaCliente As StorageFolder, carpetaJuegos As StorageFolder)
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim grid As Grid = pagina.FindName("gridUplayContenido")
+        Dim progreso As ProgressBar = pagina.FindName("progressBarUplay")
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
 
-        Dim listaGrid As New ListView
-        listaGrid.Name = "listaUplay"
+        Dim listaGrid As New ListView With {
+            .Name = "listaUplay"
+        }
 
         If Not carpetaJuegos Is Nothing Then
             Dim carpetasJuegos_ As IReadOnlyList(Of StorageFolder) = Await carpetaJuegos.GetFoldersAsync()
@@ -157,10 +172,6 @@ Module Uplay
 
                             listaJuegos.Add(juego)
 
-                            If listaJuegos.Count = 1 Then
-                                boton.Visibility = Visibility.Visible
-                            End If
-
                             Dim bitmap As BitmapImage = New BitmapImage
                             If Not juego.Icono Is Nothing Then
                                 Try
@@ -208,7 +219,12 @@ Module Uplay
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
             Toast("Steam Bridge - Uplay", recursos.GetString("Texto No Juegos"))
-            boton.Visibility = Visibility.Collapsed
+
+            Dim tbNoJuegos As TextBlock = pagina.FindName("tbUplayNoJuegos")
+            tbNoJuegos.Visibility = Visibility.Visible
+        Else
+            Dim tbNoJuegos As TextBlock = pagina.FindName("tbUplayNoJuegos")
+            tbNoJuegos.Visibility = Visibility.Collapsed
         End If
 
         grid.Children.Clear()

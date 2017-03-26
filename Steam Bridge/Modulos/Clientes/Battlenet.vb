@@ -1,5 +1,4 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Windows.Graphics.Imaging
+﻿Imports Windows.Graphics.Imaging
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.FileProperties
@@ -8,7 +7,14 @@ Imports Windows.Storage.Streams
 
 Module Battlenet
 
-    Public Async Function Config(tbConfigPath As TextBlock, buttonConfigPath As TextBlock, reg As TextBox, picker As Boolean) As Task(Of Boolean)
+    Public Async Function Config(picker As Boolean) As Task(Of Boolean)
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim tbConfigPath As TextBlock = pagina.FindName("tbBattlenetConfigPath")
+        Dim buttonConfigPath As TextBlock = pagina.FindName("buttonBattlenetConfigPathTexto")
+        Dim reg As TextBox = pagina.FindName("tbConfigRegistro")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -87,13 +93,20 @@ Module Battlenet
 
     End Function
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder, grid As Grid, progreso As ProgressBar, boton As Button)
+    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder)
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim grid As Grid = pagina.FindName("gridBattlenetContenido")
+        Dim progreso As ProgressBar = pagina.FindName("progressBarBattlenet")
 
         grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
 
-        Dim listaGrid As New ListView
-        listaGrid.Name = "listaBattlenet"
+        Dim listaGrid As New ListView With {
+            .Name = "listaBattlenet"
+        }
 
         If Not carpeta Is Nothing Then
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
@@ -138,10 +151,6 @@ Module Battlenet
                         Dim juego As New Juego(nombre, ejecutable, argumentos, icono, Nothing, False, "Battle.net")
 
                         listaJuegos.Add(juego)
-
-                        If listaJuegos.Count = 1 Then
-                            boton.Visibility = Visibility.Visible
-                        End If
 
                         Dim bitmap As BitmapImage = New BitmapImage
                         If Not juego.Icono Is Nothing Then
@@ -188,8 +197,13 @@ Module Battlenet
 
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            Toast("Steam Bridge - Battle.net", recursos.GetString("Texto No Juegos"))
-            boton.Visibility = Visibility.Collapsed
+            Toast("Steam Bridge - Blizzard App", recursos.GetString("Texto No Juegos"))
+
+            Dim tbNoJuegos As TextBlock = pagina.FindName("tbBattlenetNoJuegos")
+            tbNoJuegos.Visibility = Visibility.Visible
+        Else
+            Dim tbNoJuegos As TextBlock = pagina.FindName("tbBattlenetNoJuegos")
+            tbNoJuegos.Visibility = Visibility.Collapsed
         End If
 
         grid.Children.Clear()

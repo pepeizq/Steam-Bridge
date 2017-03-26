@@ -120,8 +120,8 @@
   <data name="App" xml:space="preserve">
     <value>Application</value>
   </data>
-  <data name="Aviso Añadir Juegos" xml:space="preserve">
-    <value>Warning: Steam must be closed before adding games</value>
+  <data name="Consejo Config" xml:space="preserve">
+    <value>Steam must be closed before adding games</value>
   </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Add</value>
@@ -135,11 +135,14 @@
   <data name="Boton Compartir" xml:space="preserve">
     <value>Share</value>
   </data>
-  <data name="Boton Configuracion" xml:space="preserve">
+  <data name="Boton Config" xml:space="preserve">
     <value>Configuration</value>
   </data>
   <data name="Boton Contactar" xml:space="preserve">
     <value>Contact</value>
+  </data>
+  <data name="Boton Inicio" xml:space="preserve">
+    <value>Home</value>
   </data>
   <data name="Boton Uplay Config Aviso" xml:space="preserve">
     <value>Example Screenshot Registry</value>
@@ -159,6 +162,9 @@
   <data name="Bridge" xml:space="preserve">
     <value>Bridge</value>
   </data>
+  <data name="Clientes" xml:space="preserve">
+    <value>Clients</value>
+  </data>
   <data name="Error 1" xml:space="preserve">
     <value>Error adding shortcuts, close Steam</value>
   </data>
@@ -173,6 +179,9 @@
   </data>
   <data name="Registro Aviso" xml:space="preserve">
     <value>In case of error help send us a screenshot or copy the text, will help us (the log is in spanish, is not a bug).</value>
+  </data>
+  <data name="RSS" xml:space="preserve">
+    <value>Latest News</value>
   </data>
   <data name="Steam No Config" xml:space="preserve">
     <value>Steam was not detected</value>
@@ -196,7 +205,7 @@
     <value>Add the folder where Steam is installed, example: C:\Steam</value>
   </data>
   <data name="Texto Steam Overlay Config" xml:space="preserve">
-    <value>This option is in Beta, if you have problems with any game please contact</value>
+    <value>Steam Overlay: This option is in Beta, if you have problems with any game please contact</value>
   </data>
   <data name="Texto Uplay Config Aviso" xml:space="preserve">
     <value>Warning: Some games may may just start Uplay, please if you contact with us send a screenshot of the Windows Registry like in the example.</value>
@@ -210,7 +219,10 @@
   <data name="Texto Windows Store Config" xml:space="preserve">
     <value>Add the folder C:\Program Files\WindowsApps (you must have read permissions)</value>
   </data>
-  <data name="Twitter" xml:space="preserve">
-    <value>Show latest news from @pepeizqapps</value>
+  <data name="Grid Arranque" xml:space="preserve">
+    <value>Select window where start</value>
+  </data>
+  <data name="No Juegos" xml:space="preserve">
+    <value>No games detected or is not configured</value>
   </data>
 </root>
