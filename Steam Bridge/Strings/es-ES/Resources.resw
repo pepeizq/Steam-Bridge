@@ -225,4 +225,7 @@
   <data name="No Juegos" xml:space="preserve">
     <value>No se han detectado juegos o no está configurado</value>
   </data>
+  <data name="Borrar Config" xml:space="preserve">
+    <value>Resetear Configuración</value>
+  </data>
 </root>

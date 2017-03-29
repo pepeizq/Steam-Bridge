@@ -319,6 +319,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock x:Name="tbConfigAppTitulo" Grid.Row="0" FontSize="23" Margin="5,0,0,15"/>
@@ -343,6 +344,12 @@
                     <TextBlock x:Name="tbSteamOverlayConfigInstrucciones" Grid.Row="4" Margin="5,25,5,5" TextWrapping="Wrap" />
                     <CheckBox x:Name="cbDosboxSteamOverlay" Grid.Row="5" Margin="5" Content="GOG Galaxy - DOSBox"/>
                     <CheckBox x:Name="cbWindowsStoreSteamOverlay" Grid.Row="6" Margin="5" Content="Windows Store"/>
+                    <Button x:Name="botonBorrarConfig" Grid.Row="7" Padding="10" Background="#FFE4E4E4" Margin="0,25,0,5">
+                        <StackPanel Orientation="Horizontal" >
+                            <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Delete"/>
+                            <TextBlock x:Name="botonBorrarConfigTexto"/>
+                        </StackPanel>
+                    </Button>
                 </Grid>
                
                 <Grid x:Name="gridConfigClientes" Visibility="Collapsed">

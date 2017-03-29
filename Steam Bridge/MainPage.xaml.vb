@@ -58,6 +58,7 @@ Public NotInheritable Class MainPage
         buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
         tbSteamOverlayConfigInstrucciones.Text = recursos.GetString("Texto Steam Overlay Config")
+        botonBorrarConfigTexto.Text = recursos.GetString("Borrar Config")
 
         tbConfigClientesTitulo.Text = recursos.GetString("Clientes")
         tbBattlenetConfigInstrucciones.Text = recursos.GetString("Texto Battlenet Config")
@@ -90,11 +91,6 @@ Public NotInheritable Class MainPage
         tbConfigRegistroAviso.Text = recursos.GetString("Registro Aviso")
 
         '--------------------------------------------------------
-
-        Steam.Arranque(tbSteamConfigPath, buttonSteamConfigPathTexto, tbConfigRegistro, False)
-
-        '--------------------------------------------------------
-
         tbConsejoConfig.Text = recursos.GetString("Consejo Config")
         tbInicioGrid.Text = recursos.GetString("Grid Arranque")
 
@@ -781,4 +777,73 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Async Sub BotonBorrarConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarConfig.Click
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+
+        Await ApplicationData.Current.ClearAsync()
+
+        Try
+            StorageApplicationPermissions.FutureAccessList.Remove("SteamPath")
+            buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            StorageApplicationPermissions.FutureAccessList.Remove("BattlenetPath")
+            gridBattlenetContenido.Children.Clear()
+            buttonBattlenetConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            tbBattlenetConfigPath.Text = recursos.GetString("Texto Carpeta")
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            StorageApplicationPermissions.FutureAccessList.Remove("GOGGalaxyPath")
+            gridGOGGalaxyContenido.Children.Clear()
+            buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            StorageApplicationPermissions.FutureAccessList.Remove("OriginPath")
+            gridOriginContenido.Children.Clear()
+            buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            tbOriginConfigPath.Text = recursos.GetString("Texto Carpeta")
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            StorageApplicationPermissions.FutureAccessList.Remove("UplayPathCliente")
+            StorageApplicationPermissions.FutureAccessList.Remove("UplayPathJuegos")
+            gridUplayContenido.Children.Clear()
+            buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Añadir")
+            tbUplayConfigPathCliente.Text = recursos.GetString("Texto Carpeta")
+            buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Añadir")
+            tbUplayConfigPathJuegos.Text = recursos.GetString("Texto Carpeta")
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            StorageApplicationPermissions.FutureAccessList.Remove("WindowsStorePath")
+            gridWindowsStoreContenido.Children.Clear()
+            buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub ButtonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
+
+        Steam.Arranque(tbSteamConfigPath, buttonSteamConfigPathTexto, tbConfigRegistro, True)
+
+    End Sub
 End Class
