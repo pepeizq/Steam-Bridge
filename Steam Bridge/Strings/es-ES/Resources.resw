@@ -120,8 +120,8 @@
   <data name="App" xml:space="preserve">
     <value>Aplicación</value>
   </data>
-  <data name="Consejo Config" xml:space="preserve">
-    <value>Steam debe estar cerrado antes de añadir juegos</value>
+  <data name="Aviso Añadir Juegos" xml:space="preserve">
+    <value>Steam debe estar cerrado</value>
   </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Añadir</value>
@@ -227,5 +227,8 @@
   </data>
   <data name="Borrar Config" xml:space="preserve">
     <value>Resetear Configuración</value>
+  </data>
+  <data name="Boton Bridge" xml:space="preserve">
+    <value>Bridge</value>
   </data>
 </root>

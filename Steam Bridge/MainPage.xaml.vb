@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Windows.ApplicationModel.Core
 Imports Windows.ApplicationModel.DataTransfer
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
@@ -16,30 +17,28 @@ Public NotInheritable Class MainPage
 
     Private Sub Page_Loaded(sender As FrameworkElement, args As Object)
 
-        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
+        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        barra.BackgroundColor = Colors.DarkMagenta
-        barra.ForegroundColor = Colors.White
-        barra.InactiveForegroundColor = Colors.White
-        barra.ButtonBackgroundColor = Colors.DarkMagenta
+        Acrilico.Generar(gridTopAcrilico)
+        Acrilico.Generar(gridMenuAcrilico)
+
+        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+        barra.ButtonBackgroundColor = Colors.Transparent
         barra.ButtonForegroundColor = Colors.White
-        barra.ButtonInactiveForegroundColor = Colors.White
+        barra.ButtonPressedBackgroundColor = Colors.DarkMagenta
+        barra.ButtonInactiveBackgroundColor = Colors.Transparent
+        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
+        coreBarra.ExtendViewIntoTitleBar = True
 
         '--------------------------------------------------------
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
-        botonInicioTexto.Text = recursos.GetString("Boton Inicio")
+        botonBridgeTexto.Text = recursos.GetString("Boton Bridge")
         botonConfigTexto.Text = recursos.GetString("Boton Config")
-
-        commadBarTop.DefaultLabelPosition = CommandBarDefaultLabelPosition.Right
-
-        botonInicioVotarTexto.Text = recursos.GetString("Boton Votar")
-        botonInicioCompartirTexto.Text = recursos.GetString("Boton Compartir")
-        botonInicioContactoTexto.Text = recursos.GetString("Boton Contactar")
-        botonInicioMasAppsTexto.Text = recursos.GetString("Boton Web")
-
-        tbRSS.Text = recursos.GetString("RSS")
+        botonVotarTexto.Text = recursos.GetString("Boton Votar")
+        botonMasAppsTexto.Text = recursos.GetString("Boton Web")
 
         tbBattlenetNoJuegos.Text = recursos.GetString("No Juegos")
         tbGOGGalaxyNoJuegos.Text = recursos.GetString("No Juegos")
@@ -48,19 +47,18 @@ Public NotInheritable Class MainPage
         tbWindowsStoreNoJuegos.Text = recursos.GetString("No Juegos")
 
         buttonAñadirJuegosTexto.Text = recursos.GetString("Boton Añadir Juegos")
+        tbAvisoAñadirJuegos.Text = recursos.GetString("Aviso Añadir Juegos")
 
-        botonConfigApp.Content = recursos.GetString("App")
+        botonConfigApp.Content = recursos.GetString("Bridge")
         botonConfigClientes.Content = recursos.GetString("Clientes")
         botonConfigRegistro.Content = recursos.GetString("Registro")
 
-        tbConfigAppTitulo.Text = recursos.GetString("App")
         tbSteamConfigInstrucciones.Text = recursos.GetString("Texto Steam Config")
         buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
         tbSteamOverlayConfigInstrucciones.Text = recursos.GetString("Texto Steam Overlay Config")
         botonBorrarConfigTexto.Text = recursos.GetString("Borrar Config")
 
-        tbConfigClientesTitulo.Text = recursos.GetString("Clientes")
         tbBattlenetConfigInstrucciones.Text = recursos.GetString("Texto Battlenet Config")
         buttonBattlenetConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbBattlenetConfigPath.Text = recursos.GetString("Texto Carpeta")
@@ -87,58 +85,12 @@ Public NotInheritable Class MainPage
         tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
         buttonWindowsStoreConfigTutorial.Content = recursos.GetString("Boton Windows Store Tutorial")
 
-        tbConfigRegistroTitulo.Text = recursos.GetString("Registro")
         tbConfigRegistroAviso.Text = recursos.GetString("Registro Aviso")
 
         '--------------------------------------------------------
-        tbConsejoConfig.Text = recursos.GetString("Consejo Config")
-        tbInicioGrid.Text = recursos.GetString("Grid Arranque")
 
-        cbItemArranqueInicio.Content = recursos.GetString("Boton Inicio")
-        cbItemArranqueConfig.Content = recursos.GetString("Boton Config")
-
-        If ApplicationData.Current.LocalSettings.Values("cbarranque") = Nothing Then
-            cbArranque.SelectedIndex = 0
-            ApplicationData.Current.LocalSettings.Values("cbarranque") = "0"
-        Else
-            cbArranque.SelectedIndex = ApplicationData.Current.LocalSettings.Values("cbarranque")
-
-            If cbArranque.SelectedIndex = 0 Then
-                GridVisibilidad(gridInicio, botonInicio)
-            ElseIf cbArranque.SelectedIndex = 1 Then
-                GridVisibilidad(gridBridge, botonBridge)
-                EjecutarBattleNet()
-            ElseIf cbArranque.SelectedIndex = 2 Then
-                GridVisibilidad(gridBridge, botonBridge)
-                EjecutarGOGGalaxy()
-            ElseIf cbArranque.SelectedIndex = 3 Then
-                GridVisibilidad(gridBridge, botonBridge)
-                EjecutarOrigin()
-            ElseIf cbArranque.SelectedIndex = 4 Then
-                GridVisibilidad(gridBridge, botonBridge)
-                EjecutarUplay()
-            ElseIf cbArranque.SelectedIndex = 5 Then
-                GridVisibilidad(gridBridge, botonBridge)
-                EjecutarWindowsStore()
-            ElseIf cbArranque.SelectedIndex = 6 Then
-                GridVisibilidad(gridConfig, botonConfig)
-            Else
-                GridVisibilidad(gridInicio, botonInicio)
-            End If
-        End If
-
-        tbVersionApp.Text = "App " + SystemInformation.ApplicationVersion.Major.ToString + "." + SystemInformation.ApplicationVersion.Minor.ToString + "." + SystemInformation.ApplicationVersion.Build.ToString + "." + SystemInformation.ApplicationVersion.Revision.ToString
-        tbVersionWindows.Text = "Windows " + SystemInformation.OperatingSystemVersion.Major.ToString + "." + SystemInformation.OperatingSystemVersion.Minor.ToString + "." + SystemInformation.OperatingSystemVersion.Build.ToString + "." + SystemInformation.OperatingSystemVersion.Revision.ToString
-
-        '--------------------------------------------------------
-
-        Try
-            RSS.Generar()
-        Catch ex As Exception
-
-        End Try
-
-        '--------------------------------------------------------
+        GridVisibilidad(gridBridge, botonBridge, recursos.GetString("Bridge"))
+        EjecutarBattleNet()
 
         Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
@@ -164,84 +116,54 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub GridVisibilidad(grid As Grid, boton As AppBarButton)
+    Private Sub GridVisibilidad(grid As Grid, boton As Button, seccion As String)
 
-        gridInicio.Visibility = Visibility.Collapsed
+        tbTitulo.Text = "Steam Bridge (" + SystemInformation.ApplicationVersion.Major.ToString + "." + SystemInformation.ApplicationVersion.Minor.ToString + "." + SystemInformation.ApplicationVersion.Build.ToString + "." + SystemInformation.ApplicationVersion.Revision.ToString + ") - " + seccion
+
         gridBridge.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
-        gridWeb.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
 
-        botonInicio.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonInicio.BorderThickness = New Thickness(0, 0, 0, 0)
-        botonBridge.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonBridge.BorderThickness = New Thickness(0, 0, 0, 0)
-        botonConfig.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonConfig.BorderThickness = New Thickness(0, 0, 0, 0)
+        botonBridge.Background = New SolidColorBrush(Colors.Transparent)
+        botonConfig.Background = New SolidColorBrush(Colors.Transparent)
 
         If Not boton Is Nothing Then
-            boton.BorderBrush = New SolidColorBrush(Colors.White)
-            boton.BorderThickness = New Thickness(0, 2, 0, 0)
+            boton.Background = New SolidColorBrush(Colors.DarkOrchid)
         End If
-
-    End Sub
-
-    Private Sub BotonInicio_Click(sender As Object, e As RoutedEventArgs) Handles botonInicio.Click
-
-        GridVisibilidad(gridInicio, botonInicio)
 
     End Sub
 
     Private Sub BotonBridge_Click(sender As Object, e As RoutedEventArgs) Handles botonBridge.Click
 
-        GridVisibilidad(gridBridge, botonBridge)
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        GridVisibilidad(gridBridge, botonBridge, recursos.GetString("Bridge"))
         EjecutarBattleNet()
 
     End Sub
 
     Private Sub BotonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
 
-        GridVisibilidad(gridConfig, botonConfig)
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        GridVisibilidad(gridConfig, botonConfig, recursos.GetString("Boton Config"))
         GridConfigVisibilidad(gridConfigApp, botonConfigApp)
 
     End Sub
 
-    Private Async Sub BotonInicioVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonInicioVotar.Click
+    Private Async Sub BotonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
 
         Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
 
     End Sub
 
-    Private Sub BotonInicioCompartir_Click(sender As Object, e As RoutedEventArgs) Handles botonInicioCompartir.Click
+    Private Sub BotonMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonMasApps.Click
 
-        Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
-        AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
-        DataTransferManager.ShowShareUI()
-
-    End Sub
-
-    Private Sub MainPage_DataRequested(sender As DataTransferManager, e As DataRequestedEventArgs)
-
-        Dim request As DataRequest = e.Request
-        request.Data.SetText("Download: https://www.microsoft.com/store/apps/9nblggh441c9")
-        request.Data.Properties.Title = "Steam Bridge"
-        request.Data.Properties.Description = "Add shortcuts in Steam"
-
-    End Sub
-
-    Private Sub BotonInicioContacto_Click(sender As Object, e As RoutedEventArgs) Handles botonInicioContacto.Click
-
-        GridVisibilidad(gridWeb, Nothing)
-
-    End Sub
-
-    Private Sub BotonInicioMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonInicioMasApps.Click
-
-        If spMasApps.Visibility = Visibility.Visible Then
-            spMasApps.Visibility = Visibility.Collapsed
+        If popupMasApps.IsOpen = True Then
+            botonMasApps.Background = New SolidColorBrush(Colors.Transparent)
+            popupMasApps.IsOpen = False
         Else
-            spMasApps.Visibility = Visibility.Visible
+            botonMasApps.Background = New SolidColorBrush(Colors.DarkOrchid)
+            popupMasApps.IsOpen = True
         End If
 
     End Sub
@@ -270,38 +192,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub LvRSSUpdates_ItemClick(sender As Object, e As ItemClickEventArgs) Handles lvRSSUpdates.ItemClick
-
-        Dim feed As FeedRSS = e.ClickedItem
-        Await Launcher.LaunchUriAsync(feed.Enlace)
-
-    End Sub
-
-    Private Sub CbArranque_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cbArranque.SelectionChanged
-
-        ApplicationData.Current.LocalSettings.Values("cbarranque") = cbArranque.SelectedIndex
-
-    End Sub
-
-    Private Async Sub BotonSocialTwitter_Click(sender As Object, e As RoutedEventArgs) Handles botonSocialTwitter.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("https://twitter.com/pepeizqapps"))
-
-    End Sub
-
-    Private Async Sub BotonSocialGitHub_Click(sender As Object, e As RoutedEventArgs) Handles botonSocialGitHub.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("https://github.com/pepeizq"))
-
-    End Sub
-
-    Private Async Sub BotonSocialPaypal_Click(sender As Object, e As RoutedEventArgs) Handles botonSocialPaypal.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("https://paypal.me/pepeizq/1"))
-
-    End Sub
-
-    '-----------------------------------------------------------------------------
+    'BRIDGE-----------------------------------------------------------------------------
 
     Private Sub GridBridgeVisibilidad(grid As Grid, boton As Button)
 
@@ -313,13 +204,13 @@ Public NotInheritable Class MainPage
 
         grid.Visibility = Visibility.Visible
 
-        botonBridgeBattlenet.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonBridgeGOG.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonBridgeOrigin.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonBridgeUplay.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonBridgeWindowsStore.BorderBrush = New SolidColorBrush(Colors.Transparent)
+        botonBridgeBattlenet.Background = New SolidColorBrush(Colors.Transparent)
+        botonBridgeGOG.Background = New SolidColorBrush(Colors.Transparent)
+        botonBridgeOrigin.Background = New SolidColorBrush(Colors.Transparent)
+        botonBridgeUplay.Background = New SolidColorBrush(Colors.Transparent)
+        botonBridgeWindowsStore.Background = New SolidColorBrush(Colors.Transparent)
 
-        boton.BorderBrush = New SolidColorBrush(Colors.White)
+        boton.Background = New SolidColorBrush(Colors.DarkMagenta)
 
     End Sub
 
@@ -581,6 +472,18 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Sub ButtonAñadirJuegos_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles buttonAñadirJuegos.PointerEntered
+
+        panelAvisoAñadirJuegos.Visibility = Visibility.Visible
+
+    End Sub
+
+    Private Sub ButtonAñadirJuegos_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles buttonAñadirJuegos.PointerExited
+
+        panelAvisoAñadirJuegos.Visibility = Visibility.Collapsed
+
+    End Sub
+
     'CONFIG------------------------------------------------
 
     Private Sub GridConfigVisibilidad(grid As Grid, boton As Button)
@@ -591,14 +494,10 @@ Public NotInheritable Class MainPage
 
         grid.Visibility = Visibility.Visible
 
-        botonConfigApp.BorderBrush = New SolidColorBrush(Colors.Transparent)
         botonConfigApp.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfigClientes.BorderBrush = New SolidColorBrush(Colors.Transparent)
         botonConfigClientes.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfigRegistro.BorderBrush = New SolidColorBrush(Colors.Transparent)
         botonConfigRegistro.Background = New SolidColorBrush(Colors.Transparent)
 
-        boton.BorderBrush = New SolidColorBrush(Colors.White)
         boton.Background = New SolidColorBrush(Colors.DarkMagenta)
 
     End Sub
@@ -864,4 +763,5 @@ Public NotInheritable Class MainPage
         Steam.Arranque(tbSteamConfigPath, buttonSteamConfigPathTexto, tbConfigRegistro, True)
 
     End Sub
+
 End Class
