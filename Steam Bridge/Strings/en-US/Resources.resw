@@ -138,8 +138,8 @@
   <data name="Boton Config" xml:space="preserve">
     <value>Configuration</value>
   </data>
-  <data name="Boton Contactar" xml:space="preserve">
-    <value>Contact</value>
+  <data name="Boton Reportar" xml:space="preserve">
+    <value>Report a Bug</value>
   </data>
   <data name="Boton Inicio" xml:space="preserve">
     <value>Home</value>
