@@ -40,8 +40,9 @@ Public NotInheritable Class MainPage
         botonVotarTexto.Text = recursos.GetString("Boton Votar")
         botonMasCosasTexto.Text = recursos.GetString("Boton Cosas")
 
-        botonReportarTexto.Text = recursos.GetString("Boton Reportar")
         botonMasAppsTexto.Text = recursos.GetString("Boton Web")
+        botonContactoTexto.Text = recursos.GetString("Boton Contacto")
+        botonReportarTexto.Text = recursos.GetString("Boton Reportar")
         botonCodigoFuenteTexto.Text = recursos.GetString("Boton Codigo Fuente")
 
         tbBattlenetNoJuegos.Text = recursos.GetString("No Juegos")
@@ -168,12 +169,6 @@ Public NotInheritable Class MainPage
         Else
             botonMasCosas.Background = New SolidColorBrush(Colors.DarkOrchid)
             popupMasCosas.IsOpen = True
-
-            Try
-                RSS.Generar()
-            Catch ex As Exception
-
-            End Try
         End If
 
     End Sub
@@ -184,15 +179,15 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub BotonRSS_Click(sender As Object, e As RoutedEventArgs) Handles botonRSS.Click
-
-        Await Launcher.LaunchUriAsync(New Uri(botonRSS.Tag.ToString))
-
-    End Sub
-
     Private Async Sub BotonMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonMasApps.Click
 
         Await Launcher.LaunchUriAsync(New Uri("https://pepeizqapps.com/"))
+
+    End Sub
+
+    Private Async Sub BotonContacto_Click(sender As Object, e As RoutedEventArgs) Handles botonContacto.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqapps.com/contact/"))
 
     End Sub
 
