@@ -250,6 +250,16 @@ Module Uplay
             ejecutable = "uplay://launch/413/0"
         ElseIf nombre = "Tom Clancy's Splinter Cell" Then
             ejecutable = "uplay://launch/109/0"
+        ElseIf nombre = "Far Cry 4" Then
+            ejecutable = "uplay://launch/420/0"
+        ElseIf nombre = "Anno 2205" Then
+            ejecutable = "uplay://launch/1253/0"
+        ElseIf nombre = "Assassin's Creed Unity" Then
+            ejecutable = "uplay://launch/720/0"
+        ElseIf nombre = "WATCH_DOGS" Then
+            ejecutable = "uplay://launch/274/0"
+        ElseIf nombre = "WATCH_DOGS2" Then
+            ejecutable = "uplay://launch/2688/0"
         End If
 
         If ejecutable = Nothing Then
