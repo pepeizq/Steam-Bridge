@@ -118,14 +118,15 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modulos\Acrilico.vb" />
-    <Compile Include="Modulos\Clientes\Battlenet.vb" />
+    <Compile Include="Modulos\Clientes\Blizzard.vb" />
+    <Compile Include="Modulos\Clientes\Twitch.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
-    <Compile Include="Modulos\FicheroVbs.vb" />
+    <Compile Include="Modulos\Ficheros\PowerShell.vb" />
+    <Compile Include="Modulos\Ficheros\VBScript.vb" />
     <Compile Include="Modulos\Clientes\GOGGalaxy.vb" />
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Clientes\Origin.vb" />
-    <Compile Include="Modulos\Registro.vb" />
     <Compile Include="Modulos\RSS.vb" />
     <Compile Include="Modulos\Steam.vb" />
     <Compile Include="Modulos\Clientes\Uplay.vb" />
@@ -177,7 +178,9 @@
     <Content Include="Assets\Badge\Badge.scale-200.png" />
     <Content Include="Assets\Badge\Badge.scale-400.png" />
     <Content Include="Assets\battlenet_logo.png" />
+    <Content Include="Assets\blizzard_logo2.png" />
     <Content Include="Assets\gog_logo.png" />
+    <Content Include="Assets\gog_logo2.png" />
     <Content Include="Assets\Large\Large310x310Logo.scale-100.png" />
     <Content Include="Assets\Large\Large310x310Logo.scale-125.png" />
     <Content Include="Assets\Large\Large310x310Logo.scale-150.png" />
@@ -189,6 +192,8 @@
     <Content Include="Assets\Medium\Medium150x150Logo.scale-200.png" />
     <Content Include="Assets\Medium\Medium150x150Logo.scale-400.png" />
     <Content Include="Assets\origin_logo.png" />
+    <Content Include="Assets\origin_logo2.png" />
+    <Content Include="Assets\psicon.png" />
     <Content Include="Assets\rss_logo.png" />
     <Content Include="Assets\Small\Small71x71Logo.scale-100.png" />
     <Content Include="Assets\Small\Small71x71Logo.scale-125.png" />
@@ -211,13 +216,17 @@
     <Content Include="Assets\Store\StoreLogo.scale-150.png" />
     <Content Include="Assets\Store\StoreLogo.scale-200.png" />
     <Content Include="Assets\Store\StoreLogo.scale-400.png" />
+    <Content Include="Assets\twitch_logo2.png" />
     <Content Include="Assets\uplay_logo.png" />
+    <Content Include="Assets\uplay_logo2.png" />
+    <Content Include="Assets\vbsicon.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\windowsstore_logo.png" />
+    <Content Include="Assets\windowsstore_logo2.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>

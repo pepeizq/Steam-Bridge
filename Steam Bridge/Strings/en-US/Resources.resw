@@ -187,7 +187,7 @@
     <value>Steam was not detected</value>
   </data>
   <data name="Texto Battlenet Config" xml:space="preserve">
-    <value>Add the folder where are installed the games, example C:\Battle.net\Games</value>
+    <value>Add the folder where are installed the games, example C:\Blizzard App\Games</value>
   </data>
   <data name="Texto Carpeta" xml:space="preserve">
     <value>You have not added a folder</value>
@@ -205,10 +205,10 @@
     <value>Add the folder where Steam is installed, example: C:\Steam</value>
   </data>
   <data name="Texto Steam Overlay Config" xml:space="preserve">
-    <value>Steam Overlay: This option is in Beta, if you have problems with any game please contact</value>
+    <value>Steam Overlay: This option is used to keep the Steam Overlay on other clients, but it is not perfect and can fail. Select one mode and try:</value>
   </data>
   <data name="Texto Uplay Config Aviso" xml:space="preserve">
-    <value>Warning: Some games may may just start Uplay, please if you contact with us send a screenshot of the Windows Registry like in the example.</value>
+    <value>Some games may just start Uplay, please if you contact with us send a screenshot of the Windows Registry like in the example.</value>
   </data>
   <data name="Texto Uplay Config Cliente" xml:space="preserve">
     <value>Add the folder where Uplay is installed, example C:\Program Files\Ubisoft Game Launcher\</value>
@@ -239,5 +239,8 @@
   </data>
   <data name="Boton Contacto" xml:space="preserve">
     <value>Contact</value>
+  </data>
+  <data name="Texto Twitch Config" xml:space="preserve">
+    <value>Add the folder C:\Users\[Your User]\AppData\Roaming\Twitch</value>
   </data>
 </root>

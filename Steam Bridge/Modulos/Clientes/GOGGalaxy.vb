@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
@@ -48,18 +49,14 @@ Module GOGGalaxy
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("GOGGalaxyPath", carpeta)
                     tbConfigPath.Text = carpeta.Path
                     buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
-                    Registro.Mensaje(reg, "Config", "GOG Galaxy detectado")
                     Return True
                 Else
-                    Registro.Mensaje(reg, "Config", "GOG Galaxy no detectado")
                     Return False
                 End If
             Else
-                Registro.Mensaje(reg, "Config", "GOG Galaxy no seleccionado")
                 Return False
             End If
         Catch ex As Exception
-            Registro.Mensaje(reg, "Config", "GOG Galaxy error")
             Return False
         End Try
 
@@ -70,15 +67,11 @@ Module GOGGalaxy
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim grid As Grid = pagina.FindName("gridGOGGalaxyContenido")
         Dim progreso As ProgressBar = pagina.FindName("progressBarGOGGalaxy")
-
-        grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
 
-        Dim listaGrid As New ListView With {
-            .Name = "listaGOGGalaxy"
-        }
+        Dim lvGrids As ListView = pagina.FindName("lvGOGGalaxy")
+        lvGrids.IsEnabled = False
 
         If Not carpeta Is Nothing Then
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
@@ -87,24 +80,8 @@ Module GOGGalaxy
                 Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaJuego.GetFilesAsync()
 
                 For Each fichero As StorageFile In ficheros
-                    If fichero.DisplayName.Contains("dosbox") And fichero.FileType.Contains(".conf") Then
-                        Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
-
-                        If opciones.Values("DOSBoxSteamOverlay") = True Then
-                            Dim buffer As IBuffer = Await FileIO.ReadBufferAsync(fichero)
-                            Dim lector As DataReader = DataReader.FromBuffer(buffer)
-                            Dim contenido(lector.UnconsumedBufferLength - 1) As Byte
-                            lector.ReadBytes(contenido)
-                            Dim texto As String = Encoding.UTF8.GetString(contenido, 0, contenido.Length)
-
-                            If Not texto = Nothing Then
-                                texto = texto.Replace("output=surface", "output=opengl")
-                                Await FileIO.WriteTextAsync(fichero, texto)
-                            End If
-                        End If
-                    End If
-
                     If fichero.DisplayName.Contains("goggame-") And fichero.FileType.Contains(".dll") Then
+                        Dim id As String = fichero.DisplayName.Replace("goggame-", Nothing)
                         Dim buffer As IBuffer = Await FileIO.ReadBufferAsync(fichero)
                         Dim lector As DataReader = DataReader.FromBuffer(buffer)
                         Dim contenido(lector.UnconsumedBufferLength - 1) As Byte
@@ -123,44 +100,14 @@ Module GOGGalaxy
 
                             Dim nombre As String = temp2.Trim
 
-                            Dim temp3, temp4, temp5, temp6 As String
-                            Dim int3, int4, int5, int6 As Integer
-
-                            int3 = texto.IndexOf("<Primary>")
-                            temp3 = texto.Remove(0, int3 + 2)
-
-                            int4 = temp3.IndexOf("</Primary>")
-                            temp4 = temp3.Remove(int4, temp3.Length - int4)
-
-                            int5 = temp4.IndexOf("path=")
-                            temp5 = temp4.Remove(0, int5 + 6)
-
-                            int6 = temp5.IndexOf(ChrW(34))
-                            temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                            Dim ejecutable As String = carpetaJuego.Path + "\" + temp6
-
-                            Dim argumentos As String = Nothing
-
-                            If temp4.Contains("arguments=") Then
-                                Dim temp7, temp8 As String
-                                Dim int7, int8 As Integer
-
-                                int7 = temp4.IndexOf("arguments=")
-                                temp7 = temp4.Remove(0, int7 + 11)
-
-                                int8 = temp7.IndexOf(ChrW(34))
-                                temp8 = temp7.Remove(int8, temp7.Length - int8)
-
-                                argumentos = temp8.Trim
-                            End If
+                            Dim ejecutable As String = "goggalaxy://openGameView/" + id
 
                             Dim iconoString As String = fichero.Path
                             iconoString = iconoString.Replace(".dll", ".ico")
 
                             Dim icono As StorageFile = Await StorageFile.GetFileFromPathAsync(iconoString)
 
-                            Dim juego As New Juego(nombre, ejecutable, argumentos, icono, Nothing, False, "GOG Galaxy")
+                            Dim juego As New Juego(nombre, ejecutable, Nothing, icono, Nothing, False, "GOG Galaxy")
 
                             listaJuegos.Add(juego)
 
@@ -177,9 +124,7 @@ Module GOGGalaxy
                                 End Try
                             End If
 
-                            listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
-                            grid.Children.Clear()
-                            grid.Children.Add(listaGrid)
+                            lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
                         End If
                     End If
                 Next
@@ -187,7 +132,7 @@ Module GOGGalaxy
         End If
 
         If listaJuegos.Count > 0 Then
-            listaGrid.Items.Clear()
+            lvGrids.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -204,24 +149,22 @@ Module GOGGalaxy
                     End Try
                 End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
             Next
         End If
+
+        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosGOGGalaxy")
 
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
             Toast("Steam Bridge - GOG Galaxy", recursos.GetString("Texto No Juegos"))
 
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbGOGGalaxyNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Visible
+            panelNoJuegos.Visibility = Visibility.Visible
         Else
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbGOGGalaxyNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Collapsed
+            panelNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        grid.Children.Clear()
-        grid.Children.Add(listaGrid)
-        grid.IsHitTestVisible = True
+        lvGrids.IsEnabled = True
         progreso.Visibility = Visibility.Collapsed
 
     End Sub

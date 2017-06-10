@@ -1,4 +1,5 @@
-﻿Imports Windows.Storage
+﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 
@@ -11,7 +12,6 @@ Module Origin
 
         Dim tbConfigPath As TextBlock = pagina.FindName("tbOriginConfigPath")
         Dim buttonConfigPath As TextBlock = pagina.FindName("buttonOriginConfigPathTexto")
-        Dim reg As TextBox = pagina.FindName("tbConfigRegistro")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -33,18 +33,14 @@ Module Origin
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("OriginPath", carpeta)
                     tbConfigPath.Text = carpeta.Path
                     buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
-                    Registro.Mensaje(reg, "Config", "Origin detectado")
                     Return True
                 Else
-                    Registro.Mensaje(reg, "Config", "Origin no detectado")
                     Return False
                 End If
             Else
-                Registro.Mensaje(reg, "Config", "Origin no seleccionado")
                 Return False
             End If
         Catch ex As Exception
-            Registro.Mensaje(reg, "Config", "Origin error")
             Return False
         End Try
 
@@ -55,15 +51,11 @@ Module Origin
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim grid As Grid = pagina.FindName("gridOriginContenido")
         Dim progreso As ProgressBar = pagina.FindName("progressBarOrigin")
-
-        grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
 
-        Dim listaGrid As New ListView With {
-            .Name = "listaOrigin"
-        }
+        Dim lvGrids As ListView = pagina.FindName("lvOrigin")
+        lvGrids.IsEnabled = False
 
         If Not carpeta Is Nothing Then
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
@@ -75,16 +67,65 @@ Module Origin
                     Dim ficheroext As String = fichero.DisplayName + fichero.FileType
 
                     If Not ficheroext = "map.crc" Then
-                        Dim nombre As String = carpetaJuego.Name
+                        Dim titulo As String = carpetaJuego.Name
 
-                        Dim ejecutable As String = "origin://launchgame/" + fichero.DisplayName
+                        titulo = titulo.Replace("Mirrors Edge", "Mirror's Edge")
 
-                        If ejecutable.Contains("OFB-EAST") Then
-                            ejecutable = ejecutable.Replace("OFB-EAST", "OFB-EAST:")
+                        Dim ejecutable As String = Nothing
+
+                        If fichero.FileType = ".ddc" Then
+                            Dim ficheroDDC As StorageFile = fichero
+
+                            Dim texto As String = Await FileIO.ReadTextAsync(ficheroDDC)
+
+                            If Not texto = Nothing Then
+                                If texto.Contains(ChrW(34) + "productId" + ChrW(34)) Then
+                                    Dim temp, temp2 As String
+                                    Dim int, int2 As Integer
+
+                                    int = texto.IndexOf(ChrW(34) + "productId" + ChrW(34))
+                                    temp = texto.Remove(0, int + 11)
+
+                                    int = temp.IndexOf(ChrW(34))
+                                    temp = temp.Remove(0, int + 1)
+
+                                    int2 = temp.IndexOf(ChrW(34))
+                                    temp2 = temp.Remove(int2, temp.Length - int2)
+
+                                    ejecutable = "origin://launchgame/" + temp2
+                                End If
+                            End If
+                        ElseIf fichero.FileType = ".mfst" Then
+                            Dim ficheroMFST As StorageFile = fichero
+
+                            Dim texto As String = Await FileIO.ReadTextAsync(ficheroMFST)
+
+                            If Not texto = Nothing Then
+                                If texto.Contains("&id=") Then
+                                    Dim temp, temp2 As String
+                                    Dim int, int2 As Integer
+
+                                    int = texto.IndexOf("&id=")
+                                    temp = texto.Remove(0, int + 4)
+
+                                    int2 = temp.IndexOf("&")
+                                    temp2 = temp.Remove(int2, temp.Length - int2)
+
+                                    ejecutable = "origin://launchgame/" + temp2
+                                End If
+                            End If
                         End If
 
-                        If ejecutable.Contains("DR") Then
-                            ejecutable = ejecutable.Replace("DR", "DR:")
+                        If ejecutable = Nothing Then
+                            ejecutable = "origin://launchgame/" + fichero.DisplayName
+
+                            If ejecutable.Contains("OFB-EAST") Then
+                                ejecutable = ejecutable.Replace("OFB-EAST", "OFB-EAST:")
+                            End If
+
+                            If ejecutable.Contains("DR") Then
+                                ejecutable = ejecutable.Replace("DR", "DR:")
+                            End If
                         End If
 
                         Dim argumentos As String = Nothing
@@ -94,14 +135,14 @@ Module Origin
                         Dim tituloBool As Boolean = False
                         Dim i As Integer = 0
                         While i < listaJuegos.Count
-                            If listaJuegos(i).Nombre = nombre Then
+                            If listaJuegos(i).Nombre = titulo Then
                                 tituloBool = True
                             End If
                             i += 1
                         End While
 
                         If tituloBool = False Then
-                            Dim juego As New Juego(nombre, ejecutable, argumentos, icono, Nothing, False, "Origin")
+                            Dim juego As New Juego(titulo, ejecutable, argumentos, icono, Nothing, False, "Origin")
 
                             listaJuegos.Add(juego)
 
@@ -114,9 +155,7 @@ Module Origin
                             '    End Using
                             'End If
 
-                            listaGrid.Items.Add(Listado.GenerarGrid(juego, Nothing, False))
-                            grid.Children.Clear()
-                            grid.Children.Add(listaGrid)
+                            lvGrids.Items.Add(Listado.GenerarGrid(juego, Nothing, False))
                         End If
                     End If
                 Next
@@ -124,7 +163,7 @@ Module Origin
         End If
 
         If listaJuegos.Count > 0 Then
-            listaGrid.Items.Clear()
+            lvGrids.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -137,24 +176,22 @@ Module Origin
                 '    End Using
                 'End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, Nothing, True))
+                lvGrids.Items.Add(Listado.GenerarGrid(juego, Nothing, True))
             Next
         End If
+
+        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosOrigin")
 
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
             Toast("Steam Bridge - Origin", recursos.GetString("Texto No Juegos"))
 
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbOriginNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Visible
+            panelNoJuegos.Visibility = Visibility.Visible
         Else
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbOriginNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Collapsed
+            panelNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        grid.Children.Clear()
-        grid.Children.Add(listaGrid)
-        grid.IsHitTestVisible = True
+        lvGrids.IsEnabled = True
         progreso.Visibility = Visibility.Collapsed
 
     End Sub

@@ -1,4 +1,5 @@
-﻿Imports Windows.Storage
+﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
@@ -34,18 +35,14 @@ Module WindowsStore
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("WindowsStorePath", carpeta)
                     tbConfigPath.Text = carpeta.Path
                     buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
-                    Registro.Mensaje(reg, "Config", "Windows Store detectado")
                     Return True
                 Else
-                    Registro.Mensaje(reg, "Config", "Windows Store no detectado")
                     Return False
                 End If
             Else
-                Registro.Mensaje(reg, "Config", "Windows Store no seleccionado")
                 Return False
             End If
         Catch ex As Exception
-            Registro.Mensaje(reg, "Config", "Windows Store error")
             Return False
         End Try
 
@@ -56,15 +53,11 @@ Module WindowsStore
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim grid As Grid = pagina.FindName("gridWindowsStoreContenido")
-        grid.IsHitTestVisible = False
-
         Dim progreso As ProgressBar = pagina.FindName("progressBarWindowsStore")
         progreso.Visibility = Visibility.Visible
 
-        Dim listaGrid As New ListView With {
-            .Name = "listaWindowsStore"
-        }
+        Dim lvGrids As ListView = pagina.FindName("lvWindowsStore")
+        lvGrids.IsEnabled = False
 
         Dim listaSubcarpetas As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
 
@@ -208,9 +201,7 @@ Module WindowsStore
                                         End Try
                                     End If
 
-                                    listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
-                                    grid.Children.Clear()
-                                    grid.Children.Add(listaGrid)
+                                    lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
                                 End If
                             End If
                         End If
@@ -220,7 +211,7 @@ Module WindowsStore
         Next
 
         If listaJuegos.Count > 0 Then
-            listaGrid.Items.Clear()
+            lvGrids.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -237,24 +228,22 @@ Module WindowsStore
                     End Try
                 End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
             Next
         End If
+
+        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosWindowsStore")
 
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
             Toast("Steam Bridge - Windows Store", recursos.GetString("Texto No Juegos"))
 
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbWindowsStoreNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Visible
+            panelNoJuegos.Visibility = Visibility.Visible
         Else
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbWindowsStoreNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Collapsed
+            panelNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        grid.Children.Clear()
-        grid.Children.Add(listaGrid)
-        grid.IsHitTestVisible = True
+        lvGrids.IsEnabled = True
         progreso.Visibility = Visibility.Collapsed
 
     End Sub

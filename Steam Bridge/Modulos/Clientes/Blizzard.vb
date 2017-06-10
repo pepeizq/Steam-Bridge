@@ -1,11 +1,12 @@
-﻿Imports Windows.Graphics.Imaging
+﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.Graphics.Imaging
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.FileProperties
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
 
-Module Battlenet
+Module Blizzard
 
     Public Async Function Config(picker As Boolean) As Task(Of Boolean)
 
@@ -76,18 +77,14 @@ Module Battlenet
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("BattlenetPath", carpeta)
                     tbConfigPath.Text = carpeta.Path
                     buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
-                    Registro.Mensaje(reg, "Config", "Battle.net detectado")
                     Return True
                 Else
-                    Registro.Mensaje(reg, "Config", "Battle.net no detectado")
                     Return False
                 End If
             Else
-                Registro.Mensaje(reg, "Config", "Battle.net no seleccionado")
                 Return False
             End If
         Catch ex As Exception
-            Registro.Mensaje(reg, "Config", "Battle.net error")
             Return False
         End Try
 
@@ -98,15 +95,11 @@ Module Battlenet
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim grid As Grid = pagina.FindName("gridBattlenetContenido")
         Dim progreso As ProgressBar = pagina.FindName("progressBarBattlenet")
-
-        grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
 
-        Dim listaGrid As New ListView With {
-            .Name = "listaBattlenet"
-        }
+        Dim lvGrids As ListView = pagina.FindName("lvBlizzard")
+        lvGrids.IsEnabled = False
 
         If Not carpeta Is Nothing Then
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
@@ -148,7 +141,7 @@ Module Battlenet
                         Dim tempIcono As String = fichero.Path.Replace(".exe", ".png")
                         icono = Await StorageFile.GetFileFromPathAsync(tempIcono)
 
-                        Dim juego As New Juego(nombre, ejecutable, argumentos, icono, Nothing, False, "Battle.net")
+                        Dim juego As New Juego(nombre, ejecutable, argumentos, icono, Nothing, False, "Blizzard App")
 
                         listaJuegos.Add(juego)
 
@@ -165,16 +158,14 @@ Module Battlenet
                             End Try
                         End If
 
-                        listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
-                        grid.Children.Clear()
-                        grid.Children.Add(listaGrid)
+                        lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
                     End If
                 Next
             Next
         End If
 
         If listaJuegos.Count > 0 Then
-            listaGrid.Items.Clear()
+            lvGrids.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -191,24 +182,22 @@ Module Battlenet
                     End Try
                 End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
             Next
         End If
+
+        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosBlizzard")
 
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
             Toast("Steam Bridge - Blizzard App", recursos.GetString("Texto No Juegos"))
 
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbBattlenetNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Visible
+            panelNoJuegos.Visibility = Visibility.Visible
         Else
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbBattlenetNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Collapsed
+            panelNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        grid.Children.Clear()
-        grid.Children.Add(listaGrid)
-        grid.IsHitTestVisible = True
+        lvGrids.IsEnabled = True
         progreso.Visibility = Visibility.Collapsed
 
     End Sub

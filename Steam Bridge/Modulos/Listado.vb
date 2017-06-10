@@ -11,34 +11,36 @@ Module Listado
         Dim col1 As New ColumnDefinition
         Dim col2 As New ColumnDefinition
         Dim col3 As New ColumnDefinition
+        Dim col4 As New ColumnDefinition
 
         col1.Width = New GridLength(1, GridUnitType.Auto)
         col2.Width = New GridLength(1, GridUnitType.Auto)
-        col3.Width = New GridLength(1, GridUnitType.Auto)
+        col3.Width = New GridLength(1, GridUnitType.Star)
+        col4.Width = New GridLength(1, GridUnitType.Auto)
 
         grid.ColumnDefinitions.Add(col1)
         grid.ColumnDefinitions.Add(col2)
         grid.ColumnDefinitions.Add(col3)
+        grid.ColumnDefinitions.Add(col4)
 
         grid.Margin = New Thickness(5, 5, 5, 5)
 
         '----------------------------------------------------
 
-        Dim checkBox As New CheckBox
-        checkBox.VerticalAlignment = VerticalAlignment.Center
-        checkBox.Tag = juego
-        checkBox.Margin = New Thickness(5, 0, 5, 0)
-        checkBox.MinWidth = 20
-        checkBox.Name = "cbJuego"
+        Dim checkBox As New CheckBox With {
+            .VerticalAlignment = VerticalAlignment.Center,
+            .Tag = juego,
+            .Margin = New Thickness(5, 0, 5, 0),
+            .MinWidth = 20,
+            .Name = "cbJuego",
+            .IsHitTestVisible = False
+        }
 
         If estado = True Then
             checkBox.Foreground = New SolidColorBrush(Colors.Black)
         Else
             checkBox.Foreground = New SolidColorBrush(Colors.Gray)
         End If
-
-        AddHandler checkBox.Checked, AddressOf cbChecked
-        AddHandler checkBox.Unchecked, AddressOf cbUnChecked
 
         Grid.SetColumn(checkBox, 0)
         grid.Children.Add(checkBox)
@@ -88,11 +90,11 @@ Module Listado
                 End If
             End If
 
-            imagen = New ImageEx
-            imagen.Source = bitmap
-
-            imagen.Width = 40
-            imagen.Height = 40
+            imagen = New ImageEx With {
+                .Source = bitmap,
+                .Width = 40,
+                .Height = 40
+            }
 
             borde.Width = 40
             borde.Height = 40
@@ -105,45 +107,63 @@ Module Listado
 
         '----------------------------------------------------
 
-        Dim textoBloque As New TextBlock
-        textoBloque.Text = juego.Nombre
-        textoBloque.VerticalAlignment = VerticalAlignment.Center
-        textoBloque.Margin = New Thickness(10, 0, 0, 0)
-        textoBloque.FontSize = 15
+        Dim tituloTexto As New TextBlock With {
+            .Text = juego.Nombre,
+            .VerticalAlignment = VerticalAlignment.Center,
+            .Margin = New Thickness(10, 0, 0, 0),
+            .FontSize = 15
+        }
 
         If estado = True Then
-            textoBloque.Foreground = New SolidColorBrush(Colors.Black)
+            tituloTexto.Foreground = New SolidColorBrush(Colors.Black)
         Else
-            textoBloque.Foreground = New SolidColorBrush(Colors.Gray)
+            tituloTexto.Foreground = New SolidColorBrush(Colors.Gray)
         End If
 
         If imagen Is Nothing Then
-            Grid.SetColumn(textoBloque, 1)
+            Grid.SetColumn(tituloTexto, 1)
         Else
-            Grid.SetColumn(textoBloque, 2)
+            Grid.SetColumn(tituloTexto, 2)
         End If
 
-        grid.Children.Add(textoBloque)
+        grid.Children.Add(tituloTexto)
+
+        '----------------------------------------------------
+
+        Dim enlaceTexto As New TextBlock With {
+            .Text = juego.Ejecutable + juego.Argumentos,
+            .VerticalAlignment = VerticalAlignment.Center,
+            .FontStyle = Text.FontStyle.Italic,
+            .Margin = New Thickness(10, 0, 10, 0),
+            .FontSize = 15
+        }
+
+        If estado = True Then
+            enlaceTexto.Foreground = New SolidColorBrush(Colors.Black)
+        Else
+            enlaceTexto.Foreground = New SolidColorBrush(Colors.Gray)
+        End If
+
+        Grid.SetColumn(enlaceTexto, 3)
+        grid.Children.Add(enlaceTexto)
 
         Return grid
     End Function
 
-    Private Sub cbChecked(ByVal sender As Object, ByVal e As RoutedEventArgs)
+    Public Sub Clickeo(ByVal sender As Object, ByVal e As ItemClickEventArgs)
 
-        Dim cb As CheckBox = e.OriginalSource
+        Dim grid As Grid = e.ClickedItem
+        Dim cb As CheckBox = grid.Children(0)
         Dim juegoCb As Juego = TryCast(cb.Tag, Juego)
 
-        juegoCb.Añadir = True
-        BotonCrearDisponible()
+        If cb.IsChecked = False Then
+            cb.IsChecked = True
+            juegoCb.Añadir = True
+        Else
+            cb.IsChecked = False
+            juegoCb.Añadir = False
+        End If
 
-    End Sub
-
-    Private Sub cbUnChecked(ByVal sender As Object, ByVal e As RoutedEventArgs)
-
-        Dim cb As CheckBox = e.OriginalSource
-        Dim juegoCb As Juego = TryCast(cb.Tag, Juego)
-
-        juegoCb.Añadir = False
         BotonCrearDisponible()
 
     End Sub
@@ -158,10 +178,10 @@ Module Listado
             Dim botonDisponible As Boolean = False
             Dim boton As Button = pagina.FindName("buttonAñadirJuegos")
 
-            Dim listViewBattlenet As ListView = pagina.FindName("listaBattlenet")
+            Dim listViewBlizzard As ListView = pagina.FindName("lvBlizzard")
 
-            If Not listViewBattlenet Is Nothing Then
-                For Each grid As Grid In listViewBattlenet.Items
+            If Not listViewBlizzard Is Nothing Then
+                For Each grid As Grid In listViewBlizzard.Items
                     Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
                     Dim juego As Juego = TryCast(cb(0).Tag, Juego)
 
@@ -171,7 +191,7 @@ Module Listado
                 Next
             End If
 
-            Dim listViewGOGGalaxy As ListView = pagina.FindName("listaGOGGalaxy")
+            Dim listViewGOGGalaxy As ListView = pagina.FindName("lvGOGGalaxy")
 
             If Not listViewGOGGalaxy Is Nothing Then
                 For Each grid As Grid In listViewGOGGalaxy.Items
@@ -184,7 +204,7 @@ Module Listado
                 Next
             End If
 
-            Dim listViewOrigin As ListView = pagina.FindName("listaOrigin")
+            Dim listViewOrigin As ListView = pagina.FindName("lvOrigin")
 
             If Not listViewOrigin Is Nothing Then
                 For Each grid As Grid In listViewOrigin.Items
@@ -197,7 +217,20 @@ Module Listado
                 Next
             End If
 
-            Dim listViewUplay As ListView = pagina.FindName("listaUplay")
+            Dim listViewTwitch As ListView = pagina.FindName("lvTwitch")
+
+            If Not listViewTwitch Is Nothing Then
+                For Each grid As Grid In listViewTwitch.Items
+                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
+                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
+
+                    If juego.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+            End If
+
+            Dim listViewUplay As ListView = pagina.FindName("lvUplay")
 
             If Not listViewUplay Is Nothing Then
                 For Each grid As Grid In listViewUplay.Items
@@ -210,7 +243,7 @@ Module Listado
                 Next
             End If
 
-            Dim listViewWindowsStore As ListView = pagina.FindName("listaWindowsStore")
+            Dim listViewWindowsStore As ListView = pagina.FindName("lvWindowsStore")
 
             If Not listViewWindowsStore Is Nothing Then
                 For Each grid As Grid In listViewWindowsStore.Items

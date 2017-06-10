@@ -1,4 +1,4 @@
-﻿Module FicheroVbs
+﻿Module VBScript
 
     Public Function Contenido(ejecutable As String, argumentos As String)
 

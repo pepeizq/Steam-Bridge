@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
@@ -58,13 +59,8 @@ Module Uplay
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathCliente", carpetaCliente)
                     tbConfigPathCliente.Text = carpetaCliente.Path
                     buttonConfigPathCliente.Text = recursos.GetString("Boton Cambiar")
-                    Registro.Mensaje(reg, "Config", "Uplay cliente detectado")
                     boolCliente = True
-                Else
-                    Registro.Mensaje(reg, "Config", "Uplay cliente no detectado")
                 End If
-            Else
-                Registro.Mensaje(reg, "Config", "Uplay cliente no seleccionado")
             End If
 
             If Not carpetaJuegos Is Nothing Then
@@ -90,16 +86,11 @@ Module Uplay
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathJuegos", carpetaJuegos)
                     tbConfigPathJuegos.Text = carpetaJuegos.Path
                     buttonConfigPathJuegos.Text = recursos.GetString("Boton Cambiar")
-                    Registro.Mensaje(reg, "Config", "Uplay juegos detectado")
                     boolJuegos = True
-                Else
-                    Registro.Mensaje(reg, "Config", "Uplay juegos no detectado")
                 End If
-            Else
-                Registro.Mensaje(reg, "Config", "Uplay juegos no seleccionado")
             End If
         Catch ex As Exception
-            Registro.Mensaje(reg, "Config", "Uplay error")
+
         End Try
 
         If boolCliente = True And boolJuegos = True Then
@@ -115,15 +106,11 @@ Module Uplay
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim grid As Grid = pagina.FindName("gridUplayContenido")
         Dim progreso As ProgressBar = pagina.FindName("progressBarUplay")
-
-        grid.IsHitTestVisible = False
         progreso.Visibility = Visibility.Visible
 
-        Dim listaGrid As New ListView With {
-            .Name = "listaUplay"
-        }
+        Dim lvGrids As ListView = pagina.FindName("lvUplay")
+        lvGrids.IsEnabled = False
 
         If Not carpetaJuegos Is Nothing Then
             Dim carpetasJuegos_ As IReadOnlyList(Of StorageFolder) = Await carpetaJuegos.GetFoldersAsync()
@@ -185,9 +172,7 @@ Module Uplay
                                 End Try
                             End If
 
-                            listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
-                            grid.Children.Clear()
-                            grid.Children.Add(listaGrid)
+                            lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
                         End If
                     End If
                 End If
@@ -195,7 +180,7 @@ Module Uplay
         End If
 
         If listaJuegos.Count > 0 Then
-            listaGrid.Items.Clear()
+            lvGrids.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -212,24 +197,22 @@ Module Uplay
                     End Try
                 End If
 
-                listaGrid.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
             Next
         End If
+
+        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosUplay")
 
         If listaJuegos.Count = 0 Then
             Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
             Toast("Steam Bridge - Uplay", recursos.GetString("Texto No Juegos"))
 
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbUplayNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Visible
+            panelNoJuegos.Visibility = Visibility.Visible
         Else
-            Dim tbNoJuegos As TextBlock = pagina.FindName("tbUplayNoJuegos")
-            tbNoJuegos.Visibility = Visibility.Collapsed
+            panelNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        grid.Children.Clear()
-        grid.Children.Add(listaGrid)
-        grid.IsHitTestVisible = True
+        lvGrids.IsEnabled = True
         progreso.Visibility = Visibility.Collapsed
 
     End Sub
