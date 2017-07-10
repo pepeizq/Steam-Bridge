@@ -93,7 +93,8 @@ Module Listado
             imagen = New ImageEx With {
                 .Source = bitmap,
                 .Width = 40,
-                .Height = 40
+                .Height = 40,
+                .IsCacheEnabled = True
             }
 
             borde.Width = 40
