@@ -41,35 +41,48 @@ Module Blizzard
                     Dim temp As String = Nothing
 
                     For Each fichero As StorageFile In ficheros
-                        If fichero.DisplayName = "Diablo III" And fichero.FileType = ".exe" Then
+                        Dim nombreFichero As String = fichero.DisplayName.ToLower
+
+                        If nombreFichero = "diablo iii" And fichero.FileType = ".exe" Then
                             detectadoBool = True
                             GenerarIcono(fichero, carpetaJuego)
                         End If
 
-                        If fichero.DisplayName = "Hearthstone" And fichero.FileType = ".exe" Then
+                        If nombreFichero = "hearthstone" And fichero.FileType = ".exe" Then
                             detectadoBool = True
                             GenerarIcono(fichero, carpetaJuego)
                         End If
 
-                        If fichero.DisplayName = "Heroes of the Storm" And fichero.FileType = ".exe" Then
+                        If nombreFichero = "heroes of the storm" And fichero.FileType = ".exe" Then
                             detectadoBool = True
                             GenerarIcono(fichero, carpetaJuego)
                         End If
 
-                        If fichero.DisplayName = "Overwatch" And fichero.FileType = ".exe" Then
+                        If nombreFichero = "overwatch" And fichero.FileType = ".exe" Then
                             detectadoBool = True
                             GenerarIcono(fichero, carpetaJuego)
                         End If
 
-                        If fichero.DisplayName = "SC2" And fichero.FileType = ".exe" Then
+                        If nombreFichero = "starcraft" And fichero.FileType = ".exe" Then
                             detectadoBool = True
                             GenerarIcono(fichero, carpetaJuego)
                         End If
 
-                        If fichero.DisplayName = "WoW" And fichero.FileType = ".exe" Then
+                        If nombreFichero = "sc2" And fichero.FileType = ".exe" Then
                             detectadoBool = True
                             GenerarIcono(fichero, carpetaJuego)
                         End If
+
+                        If nombreFichero = "starcraft ii" And fichero.FileType = ".exe" Then
+                            detectadoBool = True
+                            GenerarIcono(fichero, carpetaJuego)
+                        End If
+
+                        If nombreFichero = "wow" And fichero.FileType = ".exe" Then
+                            detectadoBool = True
+                            GenerarIcono(fichero, carpetaJuego)
+                        End If
+
                     Next
                 Next
 
@@ -109,37 +122,53 @@ Module Blizzard
 
                 For Each fichero As StorageFile In ficheros
                     Dim nombre As String = carpetaJuego.Name
+
                     Dim ejecutable As String = Nothing
                     Dim argumentos As String = Nothing
-                    Dim icono As StorageFile = Nothing
 
-                    If fichero.DisplayName = "Diablo III" And fichero.FileType = ".exe" Then
+                    Dim nombreFichero As String = fichero.DisplayName.ToLower
+
+                    If nombreFichero = "diablo iii" And fichero.FileType = ".exe" Then
                         ejecutable = "battlenet://D3"
                     End If
 
-                    If fichero.DisplayName = "Hearthstone" And fichero.FileType = ".exe" Then
+                    If nombreFichero = "hearthstone" And fichero.FileType = ".exe" Then
                         ejecutable = "battlenet://WTCG"
                     End If
 
-                    If fichero.DisplayName = "Heroes of the Storm" And fichero.FileType = ".exe" Then
+                    If nombreFichero = "heroes of the storm" And fichero.FileType = ".exe" Then
                         ejecutable = "battlenet://Hero"
                     End If
 
-                    If fichero.DisplayName = "Overwatch" And fichero.FileType = ".exe" Then
+                    If nombreFichero = "overwatch" And fichero.FileType = ".exe" Then
                         ejecutable = "battlenet://Pro"
                     End If
 
-                    If fichero.DisplayName = "SC2" And fichero.FileType = ".exe" Then
+                    If nombreFichero = "starcraft" And fichero.FileType = ".exe" Then
+                        ejecutable = "battlenet://S1"
+                    End If
+
+                    If nombreFichero = "sc2" And fichero.FileType = ".exe" Then
                         ejecutable = "battlenet://S2"
                     End If
 
-                    If fichero.DisplayName = "WoW" And fichero.FileType = ".exe" Then
+                    If nombreFichero = "starcraft ii" And fichero.FileType = ".exe" Then
+                        ejecutable = "battlenet://S2"
+                    End If
+
+                    If nombreFichero = "wow" And fichero.FileType = ".exe" Then
                         ejecutable = "battlenet://WoW"
                     End If
 
                     If Not ejecutable = Nothing Then
                         Dim tempIcono As String = fichero.Path.Replace(".exe", ".png")
-                        icono = Await StorageFile.GetFileFromPathAsync(tempIcono)
+                        Dim icono As StorageFile = Nothing
+
+                        Try
+                            icono = Await StorageFile.GetFileFromPathAsync(tempIcono)
+                        Catch ex As Exception
+
+                        End Try
 
                         Dim juego As New Juego(nombre, ejecutable, argumentos, icono, Nothing, False, "Blizzard App")
 
@@ -219,17 +248,26 @@ Module Blizzard
                 Await writeableBitmap.SetSourceAsync(fileStream)
             End Using
 
-            Dim iconoFichero As StorageFile = Await StorageFile.GetFileFromPathAsync(carpeta.Path + "\" + juego.DisplayName + ".png")
-            Dim stream As IRandomAccessStream = Await iconoFichero.OpenAsync(FileAccessMode.ReadWrite)
-            Dim encoder As BitmapEncoder = Await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream)
+            Dim iconoFichero As StorageFile = Nothing
 
-            Dim pixelStream As Stream = writeableBitmap.PixelBuffer.AsStream()
-            Dim pixels As Byte() = New Byte(pixelStream.Length - 1) {}
-            Await pixelStream.ReadAsync(pixels, 0, pixels.Length)
+            Try
+                iconoFichero = Await StorageFile.GetFileFromPathAsync(carpeta.Path + "\" + juego.DisplayName + ".png")
+            Catch ex As Exception
 
-            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, CUInt(writeableBitmap.PixelWidth), CUInt(writeableBitmap.PixelHeight), 96.0, 96.0, pixels)
-            Await encoder.FlushAsync()
-            stream.Dispose()
+            End Try
+
+            If Not iconoFichero Is Nothing Then
+                Dim stream As IRandomAccessStream = Await iconoFichero.OpenAsync(FileAccessMode.ReadWrite)
+                Dim encoder As BitmapEncoder = Await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream)
+
+                Dim pixelStream As Stream = writeableBitmap.PixelBuffer.AsStream()
+                Dim pixels As Byte() = New Byte(pixelStream.Length - 1) {}
+                Await pixelStream.ReadAsync(pixels, 0, pixels.Length)
+
+                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, CUInt(writeableBitmap.PixelWidth), CUInt(writeableBitmap.PixelHeight), 96.0, 96.0, pixels)
+                Await encoder.FlushAsync()
+                stream.Dispose()
+            End If
         End If
 
     End Sub
