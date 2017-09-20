@@ -16,84 +16,111 @@ Public NotInheritable Class MainPage
     Dim listaUplay As List(Of Juego)
     Dim listaWindowsStore As List(Of Juego)
 
+    Private Sub Nv_Loaded(sender As Object, e As RoutedEventArgs)
+
+        Dim recursos As New Resources.ResourceLoader()
+
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Bridge"), New SymbolIcon(Symbol.Home), 0))
+        nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), New SymbolIcon(Symbol.Setting), 1))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("MoreThings"), New SymbolIcon(Symbol.More), 2))
+
+    End Sub
+
+    Private Sub Nv_ItemInvoked(sender As NavigationView, args As NavigationViewItemInvokedEventArgs)
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+
+        Dim item As TextBlock = args.InvokedItem
+
+        If item.Text = recursos.GetString("Bridge") Then
+            GridVisibilidad(gridBridge, item.Text)
+        ElseIf item.Text = recursos.GetString("Config") Then
+            GridVisibilidad(gridConfig, item.Text)
+        ElseIf item.Text = recursos.GetString("MoreThings") Then
+            GridVisibilidad(gridMasCosas, item.Text)
+        End If
+
+    End Sub
+
     Private Sub Page_Loaded(sender As FrameworkElement, args As Object)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        Acrilico.Generar(gridTopAcrilico)
-        Acrilico.Generar(gridMenuAcrilico)
+        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
+        coreBarra.ExtendViewIntoTitleBar = True
 
         Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
         barra.ButtonBackgroundColor = Colors.Transparent
         barra.ButtonForegroundColor = Colors.White
-        barra.ButtonPressedBackgroundColor = Colors.DarkMagenta
         barra.ButtonInactiveBackgroundColor = Colors.Transparent
-        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
-        coreBarra.ExtendViewIntoTitleBar = True
 
         '--------------------------------------------------------
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
-        botonConfigTexto.Text = recursos.GetString("Boton Config")
-        botonVotarTexto.Text = recursos.GetString("Boton Votar")
-        botonMasCosasTexto.Text = recursos.GetString("Boton Cosas")
+        GridVisibilidad(gridBridge, recursos.GetString("Bridge"))
+        nvPrincipal.IsPaneOpen = False
 
-        botonMasAppsTexto.Text = recursos.GetString("Boton Web")
-        botonContactoTexto.Text = recursos.GetString("Boton Contacto")
-        botonReportarTexto.Text = recursos.GetString("Boton Reportar")
-        botonCodigoFuenteTexto.Text = recursos.GetString("Boton Codigo Fuente")
+        'botonConfigTexto.Text = recursos.GetString("Boton Config")
+        'botonVotarTexto.Text = recursos.GetString("Boton Votar")
+        'botonMasCosasTexto.Text = recursos.GetString("Boton Cosas")
 
-        tbBlizzardNoJuegos.Text = recursos.GetString("No Juegos")
-        tbGOGGalaxyNoJuegos.Text = recursos.GetString("No Juegos")
-        tbOriginNoJuegos.Text = recursos.GetString("No Juegos")
-        tbTwitchNoJuegos.Text = recursos.GetString("No Juegos")
-        tbUplayNoJuegos.Text = recursos.GetString("No Juegos")
-        tbWindowsStoreNoJuegos.Text = recursos.GetString("No Juegos")
+        'botonMasAppsTexto.Text = recursos.GetString("Boton Web")
+        'botonContactoTexto.Text = recursos.GetString("Boton Contacto")
+        'botonReportarTexto.Text = recursos.GetString("Boton Reportar")
+        'botonCodigoFuenteTexto.Text = recursos.GetString("Boton Codigo Fuente")
 
-        buttonAñadirJuegosTexto.Text = recursos.GetString("Boton Añadir Juegos")
-        tbAvisoAñadirJuegos.Text = recursos.GetString("Aviso Añadir Juegos")
+        'tbBlizzardNoJuegos.Text = recursos.GetString("No Juegos")
+        'tbGOGGalaxyNoJuegos.Text = recursos.GetString("No Juegos")
+        'tbOriginNoJuegos.Text = recursos.GetString("No Juegos")
+        'tbTwitchNoJuegos.Text = recursos.GetString("No Juegos")
+        'tbUplayNoJuegos.Text = recursos.GetString("No Juegos")
+        'tbWindowsStoreNoJuegos.Text = recursos.GetString("No Juegos")
 
-        tbSteamConfigInstrucciones.Text = recursos.GetString("Texto Steam Config")
-        buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
-        tbSteamOverlayConfigInstrucciones.Text = recursos.GetString("Texto Steam Overlay Config")
-        botonBorrarConfigTexto.Text = recursos.GetString("Borrar Config")
+        'buttonAñadirJuegosTexto.Text = recursos.GetString("Boton Añadir Juegos")
+        'tbAvisoAñadirJuegos.Text = recursos.GetString("Aviso Añadir Juegos")
 
-        tbBattlenetConfigInstrucciones.Text = recursos.GetString("Texto Battlenet Config")
-        buttonBattlenetConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbBattlenetConfigPath.Text = recursos.GetString("Texto Carpeta")
+        'tbSteamConfigInstrucciones.Text = recursos.GetString("Texto Steam Config")
+        'buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        'tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
+        'tbSteamOverlayConfigInstrucciones.Text = recursos.GetString("Texto Steam Overlay Config")
+        'botonBorrarConfigTexto.Text = recursos.GetString("Borrar Config")
 
-        tbGOGGalaxyConfigInstrucciones.Text = recursos.GetString("Texto GOG Galaxy Config")
-        buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
+        'tbBattlenetConfigInstrucciones.Text = recursos.GetString("Texto Battlenet Config")
+        'buttonBattlenetConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        'tbBattlenetConfigPath.Text = recursos.GetString("Texto Carpeta")
 
-        tbOriginConfigInstrucciones.Text = recursos.GetString("Texto Origin Config")
-        buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbOriginConfigPath.Text = recursos.GetString("Texto Carpeta")
+        'tbGOGGalaxyConfigInstrucciones.Text = recursos.GetString("Texto GOG Galaxy Config")
+        'buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        'tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
 
-        tbTwitchConfigInstrucciones.Text = recursos.GetString("Texto Twitch Config")
-        buttonTwitchConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbTwitchConfigPath.Text = recursos.GetString("Texto Carpeta")
+        'tbOriginConfigInstrucciones.Text = recursos.GetString("Texto Origin Config")
+        'buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        'tbOriginConfigPath.Text = recursos.GetString("Texto Carpeta")
 
-        tbUplayConfigInstruccionesCliente.Text = recursos.GetString("Texto Uplay Config Cliente")
-        buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Añadir")
-        tbUplayConfigPathCliente.Text = recursos.GetString("Texto Carpeta")
-        tbUplayConfigInstruccionesJuegos.Text = recursos.GetString("Texto Uplay Config Juegos")
-        buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Añadir")
-        tbUplayConfigPathJuegos.Text = recursos.GetString("Texto Carpeta")
-        tbUplayConfigInstruccionesAviso.Text = recursos.GetString("Texto Uplay Config Aviso")
-        buttonUplayConfigAviso.Content = recursos.GetString("Boton Uplay Config Aviso")
+        'tbTwitchConfigInstrucciones.Text = recursos.GetString("Texto Twitch Config")
+        'buttonTwitchConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        'tbTwitchConfigPath.Text = recursos.GetString("Texto Carpeta")
 
-        tbWindowsStoreConfigInstrucciones.Text = recursos.GetString("Texto Windows Store Config")
-        buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
-        buttonWindowsStoreConfigTutorial.Content = recursos.GetString("Boton Windows Store Tutorial")
+        'tbUplayConfigInstruccionesCliente.Text = recursos.GetString("Texto Uplay Config Cliente")
+        'buttonUplayConfigPathTextoCliente.Text = recursos.GetString("Boton Añadir")
+        'tbUplayConfigPathCliente.Text = recursos.GetString("Texto Carpeta")
+        'tbUplayConfigInstruccionesJuegos.Text = recursos.GetString("Texto Uplay Config Juegos")
+        'buttonUplayConfigPathTextoJuegos.Text = recursos.GetString("Boton Añadir")
+        'tbUplayConfigPathJuegos.Text = recursos.GetString("Texto Carpeta")
+        'tbUplayConfigInstruccionesAviso.Text = recursos.GetString("Texto Uplay Config Aviso")
+        'buttonUplayConfigAviso.Content = recursos.GetString("Boton Uplay Config Aviso")
+
+        'tbWindowsStoreConfigInstrucciones.Text = recursos.GetString("Texto Windows Store Config")
+        'buttonWindowsStoreConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+        'tbWindowsStoreConfigPath.Text = recursos.GetString("Texto Carpeta")
+        'buttonWindowsStoreConfigTutorial.Content = recursos.GetString("Boton Windows Store Tutorial")
 
         '--------------------------------------------------------
 
-        GridVisibilidad(gridWindowsStore, botonWindowsStore, "Windows Store")
+        'GridVisibilidad(gridWindowsStore, botonWindowsStore, "Windows Store")
         EjecutarWindowsStore()
 
         Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
@@ -106,159 +133,98 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub GridVisibilidad(grid As Grid, boton As Button, seccion As String)
+    Private Sub GridVisibilidad(grid As Grid, tag As String)
 
-        tbTitulo.Text = "Steam Bridge (" + SystemInformation.ApplicationVersion.Major.ToString + "." + SystemInformation.ApplicationVersion.Minor.ToString + "." + SystemInformation.ApplicationVersion.Build.ToString + "." + SystemInformation.ApplicationVersion.Revision.ToString + ") - " + seccion
+        tbTitulo.Text = "Steam Bridge (" + SystemInformation.ApplicationVersion.Major.ToString + "." + SystemInformation.ApplicationVersion.Minor.ToString + "." + SystemInformation.ApplicationVersion.Build.ToString + "." + SystemInformation.ApplicationVersion.Revision.ToString + ") - " + tag
 
-        gridBridge.Visibility = Visibility.Visible
-        gridBlizzard.Visibility = Visibility.Collapsed
-        gridGOGGalaxy.Visibility = Visibility.Collapsed
-        gridOrigin.Visibility = Visibility.Collapsed
-        gridTwitch.Visibility = Visibility.Collapsed
-        gridUplay.Visibility = Visibility.Collapsed
-        gridWindowsStore.Visibility = Visibility.Collapsed
+        gridBridge.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
+        gridMasCosas.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
 
-        If grid.Name = "gridConfig" Then
-            gridBridge.Visibility = Visibility.Collapsed
+    End Sub
+
+    Private Sub LvBridgeItemClick(sender As Object, args As ItemClickEventArgs)
+
+        If panelMensajeBridge.Visibility = Visibility.Visible Then
+            panelMensajeBridge.Visibility = Visibility.Collapsed
         End If
 
-        botonBlizzard.Background = New SolidColorBrush(Colors.Transparent)
-        botonGOGGalaxy.Background = New SolidColorBrush(Colors.Transparent)
-        botonOrigin.Background = New SolidColorBrush(Colors.Transparent)
-        botonTwitch.Background = New SolidColorBrush(Colors.Transparent)
-        botonUplay.Background = New SolidColorBrush(Colors.Transparent)
-        botonWindowsStore.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfig.Background = New SolidColorBrush(Colors.Transparent)
 
-        If Not boton Is Nothing Then
-            boton.Background = New SolidColorBrush(Colors.DarkOrchid)
-        End If
 
     End Sub
 
-    Private Sub BotonBlizzard_Click(sender As Object, e As RoutedEventArgs) Handles botonBlizzard.Click
+    'Private Sub BotonBlizzard_Click(sender As Object, e As RoutedEventArgs) Handles botonBlizzard.Click
 
-        GridVisibilidad(gridBlizzard, botonBlizzard, "Blizzard App")
+    '    'GridVisibilidad(gridBlizzard, botonBlizzard, "Blizzard App")
 
-        If lvBlizzard.Items.Count = 0 Then
-            EjecutarBlizzard()
-        End If
+    '    If lvBlizzard.Items.Count = 0 Then
+    '        EjecutarBlizzard()
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Sub BotonGOGGalaxy_Click(sender As Object, e As RoutedEventArgs) Handles botonGOGGalaxy.Click
+    'Private Sub BotonGOGGalaxy_Click(sender As Object, e As RoutedEventArgs) Handles botonGOGGalaxy.Click
 
-        GridVisibilidad(gridGOGGalaxy, botonGOGGalaxy, "GOG Galaxy")
+    '    'GridVisibilidad(gridGOGGalaxy, botonGOGGalaxy, "GOG Galaxy")
 
-        If lvGOGGalaxy.Items.Count = 0 Then
-            EjecutarGOGGalaxy()
-        End If
+    '    If lvGOGGalaxy.Items.Count = 0 Then
+    '        EjecutarGOGGalaxy()
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Sub BotonOrigin_Click(sender As Object, e As RoutedEventArgs) Handles botonOrigin.Click
+    'Private Sub BotonOrigin_Click(sender As Object, e As RoutedEventArgs) Handles botonOrigin.Click
 
-        GridVisibilidad(gridOrigin, botonOrigin, "Origin")
+    '    'GridVisibilidad(gridOrigin, botonOrigin, "Origin")
 
-        If lvOrigin.Items.Count = 0 Then
-            EjecutarOrigin()
-        End If
+    '    If lvOrigin.Items.Count = 0 Then
+    '        EjecutarOrigin()
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Sub BotonTwitch_Click(sender As Object, e As RoutedEventArgs) Handles botonTwitch.Click
+    'Private Sub BotonTwitch_Click(sender As Object, e As RoutedEventArgs) Handles botonTwitch.Click
 
-        GridVisibilidad(gridTwitch, botonTwitch, "Twitch")
+    '    'GridVisibilidad(gridTwitch, botonTwitch, "Twitch")
 
-        If lvTwitch.Items.Count = 0 Then
-            EjecutarTwitch()
-        End If
+    '    If lvTwitch.Items.Count = 0 Then
+    '        EjecutarTwitch()
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Sub BotonUplay_Click(sender As Object, e As RoutedEventArgs) Handles botonUplay.Click
+    'Private Sub BotonUplay_Click(sender As Object, e As RoutedEventArgs) Handles botonUplay.Click
 
-        GridVisibilidad(gridUplay, botonUplay, "Uplay")
+    '    'GridVisibilidad(gridUplay, botonUplay, "Uplay")
 
-        If lvUplay.Items.Count = 0 Then
-            EjecutarUplay()
-        End If
+    '    If lvUplay.Items.Count = 0 Then
+    '        EjecutarUplay()
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Sub BotonWindowsStore_Click(sender As Object, e As RoutedEventArgs) Handles botonWindowsStore.Click
+    'Private Sub BotonWindowsStore_Click(sender As Object, e As RoutedEventArgs) Handles botonWindowsStore.Click
 
-        GridVisibilidad(gridWindowsStore, botonWindowsStore, "Windows Store")
+    '    'GridVisibilidad(gridWindowsStore, botonWindowsStore, "Windows Store")
 
-        If lvWindowsStore.Items.Count = 0 Then
-            EjecutarWindowsStore()
-        End If
+    '    If lvWindowsStore.Items.Count = 0 Then
+    '        EjecutarWindowsStore()
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Sub BotonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
+    'Private Sub BotonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
 
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-        GridVisibilidad(gridConfig, botonConfig, recursos.GetString("Boton Config"))
-        GridConfigVisibilidad(gridConfigApp, botonConfigApp)
+    '    Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+    '    'GridVisibilidad(gridConfig, botonConfig, recursos.GetString("Boton Config"))
+    '    GridConfigVisibilidad(gridConfigApp, botonConfigApp)
 
-    End Sub
+    'End Sub
 
-    Private Async Sub BotonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
 
-        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
 
-    End Sub
-
-    Private Sub BotonMasCosas_Click(sender As Object, e As RoutedEventArgs) Handles botonMasCosas.Click
-
-        If popupMasCosas.IsOpen = True Then
-            botonMasCosas.Background = New SolidColorBrush(Colors.Transparent)
-            popupMasCosas.IsOpen = False
-        Else
-            botonMasCosas.Background = New SolidColorBrush(Colors.DarkOrchid)
-            popupMasCosas.IsOpen = True
-        End If
-
-    End Sub
-
-    Private Sub PopupMasCosas_LayoutUpdated(sender As Object, e As Object) Handles popupMasCosas.LayoutUpdated
-
-        popupMasCosas.Height = spMasCosas.ActualHeight
-
-    End Sub
-
-    Private Async Sub BotonMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonMasApps.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqapps.com/"))
-
-    End Sub
-
-    Private Async Sub BotonContacto_Click(sender As Object, e As RoutedEventArgs) Handles botonContacto.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqapps.com/contact/"))
-
-    End Sub
-
-    Private Async Sub BotonReportar_Click(sender As Object, e As RoutedEventArgs) Handles botonReportar.Click
-
-        If StoreServicesFeedbackLauncher.IsSupported = True Then
-            Dim ejecutador As StoreServicesFeedbackLauncher = StoreServicesFeedbackLauncher.GetDefault()
-            Await ejecutador.LaunchAsync()
-        Else
-            Await Launcher.LaunchUriAsync(New Uri("https://pepeizqapps.com/contact/"))
-        End If
-
-    End Sub
-
-    Private Async Sub BotonCodigoFuente_Click(sender As Object, e As RoutedEventArgs) Handles botonCodigoFuente.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("https://github.com/pepeizq/Steam-Bridge"))
-
-    End Sub
 
     'BRIDGE-----------------------------------------------------------------------------
 
@@ -870,6 +836,49 @@ Public NotInheritable Class MainPage
     Private Sub ButtonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
 
         Steam.Arranque(tbSteamConfigPath, buttonSteamConfigPathTexto, True)
+
+    End Sub
+
+    'MASCOSAS-----------------------------------------
+
+    Private Async Sub LvMasCosasItemClick(sender As Object, args As ItemClickEventArgs)
+
+        Dim sp As StackPanel = args.ClickedItem
+
+        If sp.Tag.ToString = 0 Then
+
+            Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
+
+        ElseIf sp.Tag.ToString = 1 Then
+
+            wvMasCosas.Navigate(New Uri("https://pepeizqapps.com/"))
+
+        ElseIf sp.Tag.ToString = 2 Then
+
+            wvMasCosas.Navigate(New Uri("https://pepeizqapps.com/contact/"))
+
+        ElseIf sp.Tag.ToString = 3 Then
+
+            If StoreServicesFeedbackLauncher.IsSupported = True Then
+                Dim ejecutador As StoreServicesFeedbackLauncher = StoreServicesFeedbackLauncher.GetDefault()
+                Await ejecutador.LaunchAsync()
+            Else
+                wvMasCosas.Navigate(New Uri("https://pepeizqapps.com/contact/"))
+            End If
+
+        ElseIf sp.Tag.ToString = 4 Then
+
+            wvMasCosas.Navigate(New Uri("https://poeditor.com/join/project/YaZAR0uIW4"))
+
+        ElseIf sp.Tag.ToString = 5 Then
+
+            wvMasCosas.Navigate(New Uri("https://github.com/pepeizq/Steam-Bridge"))
+
+        ElseIf sp.Tag.ToString = 6 Then
+
+            wvMasCosas.Navigate(New Uri("https://pepeizqapps.com/thanks/"))
+
+        End If
 
     End Sub
 

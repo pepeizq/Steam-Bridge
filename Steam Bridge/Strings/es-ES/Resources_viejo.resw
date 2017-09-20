@@ -117,34 +117,130 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="App" xml:space="preserve">
+    <value>Aplicación</value>
+  </data>
+  <data name="Aviso Añadir Juegos" xml:space="preserve">
+    <value>Steam debe estar cerrado</value>
+  </data>
+  <data name="Boton Añadir" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="Boton Añadir Juegos" xml:space="preserve">
+    <value>Añadir Juegos</value>
+  </data>
+  <data name="Boton Cambiar" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
+  <data name="Boton Compartir" xml:space="preserve">
+    <value>Compartir</value>
+  </data>
+  <data name="Boton Config" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="Boton Reportar" xml:space="preserve">
+    <value>Informa de un Fallo</value>
+  </data>
+  <data name="Boton Inicio" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="Boton Uplay Config Aviso" xml:space="preserve">
+    <value>Ejemplo Foto Registro</value>
+  </data>
+  <data name="Boton Volver" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="Boton Votar" xml:space="preserve">
+    <value>Vota la App</value>
+  </data>
+  <data name="Boton Web" xml:space="preserve">
+    <value>Más Apps</value>
+  </data>
+  <data name="Boton Windows Store Tutorial" xml:space="preserve">
+    <value>Tutorial para obtener permisos</value>
+  </data>
   <data name="Bridge" xml:space="preserve">
     <value>Bridge</value>
   </data>
-  <data name="Config" xml:space="preserve">
-    <value>Configuration</value>
+  <data name="Clientes" xml:space="preserve">
+    <value>Clientes</value>
   </data>
-  <data name="Contact.Text" xml:space="preserve">
-    <value>Contact</value>
+  <data name="Error 1" xml:space="preserve">
+    <value>Error al añadir los accesos directos, cierra Steam</value>
   </data>
-  <data name="HelpTranslate.Text" xml:space="preserve">
-    <value>Help to Translate</value>
+  <data name="Exito" xml:space="preserve">
+    <value>Juego añadido en Steam</value>
   </data>
-  <data name="MoreThings" xml:space="preserve">
-    <value>More Things</value>
+  <data name="Exitos" xml:space="preserve">
+    <value>Juegos añadidos en Steam</value>
   </data>
-  <data name="OtherApps.Text" xml:space="preserve">
-    <value>Other Apps</value>
+  <data name="Registro" xml:space="preserve">
+    <value>Registro</value>
   </data>
-  <data name="ReportBug.Text" xml:space="preserve">
-    <value>Report a Bug</value>
+  <data name="Registro Aviso" xml:space="preserve">
+    <value>En caso de error envíanos una captura de pantalla o copia el texto, nos ayudara.</value>
   </data>
-  <data name="SourceCode.Text" xml:space="preserve">
-    <value>Source Code</value>
+  <data name="RSS" xml:space="preserve">
+    <value>Últimas Noticias</value>
   </data>
-  <data name="ThanksTo.Text" xml:space="preserve">
-    <value>Thanks to</value>
+  <data name="Steam No Config" xml:space="preserve">
+    <value>Steam no se ha detectado</value>
   </data>
-  <data name="VoteApp.Text" xml:space="preserve">
-    <value>Vote the App</value>
+  <data name="Texto Battlenet Config" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Blizzard App\Games</value>
+  </data>
+  <data name="Texto Carpeta" xml:space="preserve">
+    <value>No has añadido una carpeta</value>
+  </data>
+  <data name="Texto GOG Galaxy Config" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\GalaxyClient\Games</value>
+  </data>
+  <data name="Texto No Juegos" xml:space="preserve">
+    <value>No se han detectado juegos</value>
+  </data>
+  <data name="Texto Origin Config" xml:space="preserve">
+    <value>Añade la carpeta C:\ProgramData\Origin\LocalContent (puede estar oculta)</value>
+  </data>
+  <data name="Texto Steam Config" xml:space="preserve">
+    <value>Añade la carpeta donde Steam está instalado, ejemplo: C:\Steam</value>
+  </data>
+  <data name="Texto Steam Overlay Config" xml:space="preserve">
+    <value>Steam Overlay: Esta opción sirve para conservar el Steam Overlay en otros clientes, pero no es perfecta y puede dar fallos. Selecciona un modo y prueba:</value>
+  </data>
+  <data name="Texto Uplay Config Aviso" xml:space="preserve">
+    <value>Algunos juegos pueden que solo arranquen Uplay, por favor si contactas con nosotros envíanos una foto del registro de Windows como en el ejemplo.</value>
+  </data>
+  <data name="Texto Uplay Config Cliente" xml:space="preserve">
+    <value>Añade la carpeta donde Uplay está instalado, ejemplo C:\Archivos de Programa\Ubisoft Game Launcher\</value>
+  </data>
+  <data name="Texto Uplay Config Juegos" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Ubisoft Game Launcher\Games</value>
+  </data>
+  <data name="Texto Windows Store Config" xml:space="preserve">
+    <value>Añade la carpeta C:\Archivos de Programa\WindowsApps (debes de tener permisos de lectura)</value>
+  </data>
+  <data name="Grid Arranque" xml:space="preserve">
+    <value>Elige ventana donde arrancar</value>
+  </data>
+  <data name="No Juegos" xml:space="preserve">
+    <value>No se han detectado juegos o no está configurado</value>
+  </data>
+  <data name="Borrar Config" xml:space="preserve">
+    <value>Resetear Configuración</value>
+  </data>
+  <data name="Boton Bridge" xml:space="preserve">
+    <value>Bridge</value>
+  </data>
+  <data name="Boton Codigo Fuente" xml:space="preserve">
+    <value>Código Fuente</value>
+  </data>
+  <data name="Boton Cosas" xml:space="preserve">
+    <value>Más Cosas</value>
+  </data>
+  <data name="Boton Contacto" xml:space="preserve">
+    <value>Contactar</value>
+  </data>
+  <data name="Texto Twitch Config" xml:space="preserve">
+    <value>Añade la carpeta C:\Users\[Tu Usuario]\AppData\Roaming\Twitch</value>
   </data>
 </root>
