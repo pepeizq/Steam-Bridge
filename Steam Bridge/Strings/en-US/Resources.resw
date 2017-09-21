@@ -138,14 +138,20 @@
   <data name="ConfigBlizzardMessage.Text" xml:space="preserve">
     <value>Add the folder where are installed the games (example C:\Blizzard App\Games)</value>
   </data>
-  <data name="ConfigGOGGalaxyMessage.TexConfigGOGGalaxyMessage.Text" xml:space="preserve">
+  <data name="ConfigGOGGalaxyMessage.Text" xml:space="preserve">
     <value>Add the folder where are installed the games (example C:\GalaxyClient\Games)</value>
+  </data>
+  <data name="ConfigOriginMessage.Text" xml:space="preserve">
+    <value>Add the folder C:\ProgramData\Origin\LocalContent (may be hidden)</value>
   </data>
   <data name="ConfigSteamMessage.Text" xml:space="preserve">
     <value>Before you can add in Steam the shortcuts you must indicate where it is installed (example: C: \ Steam)</value>
   </data>
   <data name="ConfigSteamMessage2.Text" xml:space="preserve">
     <value>Now configure the clients you have installed</value>
+  </data>
+  <data name="ConfigTwitchMessage.Text" xml:space="preserve">
+    <value>Add the folder C:\Users\[Your User]\AppData\Roaming\Twitch</value>
   </data>
   <data name="Contact.Text" xml:space="preserve">
     <value>Contact</value>

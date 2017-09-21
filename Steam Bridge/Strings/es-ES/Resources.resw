@@ -141,11 +141,17 @@
   <data name="ConfigGOGGalaxyMessage.Text" xml:space="preserve">
     <value>Añade la carpeta donde están instalados los juegos (ejemplo C:\GalaxyClient\Games)</value>
   </data>
+  <data name="ConfigOriginMessage.Text" xml:space="preserve">
+    <value>Añade la carpeta C:\ProgramData\Origin\LocalContent (puede estar oculta)</value>
+  </data>
   <data name="ConfigSteamMessage.Text" xml:space="preserve">
     <value>Antes de poder añadir en Steam los accesos directos debes indicar donde está instalado (ejemplo: C:\Steam)</value>
   </data>
   <data name="ConfigSteamMessage2.Text" xml:space="preserve">
     <value>Ahora configura los clientes que tengas instalados</value>
+  </data>
+  <data name="ConfigTwitchMessage.Text" xml:space="preserve">
+    <value>Añade la carpeta C:\Users\[Tu Usuario]\AppData\Roaming\Twitch</value>
   </data>
   <data name="Contact.Text" xml:space="preserve">
     <value>Contactar</value>

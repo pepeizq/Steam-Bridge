@@ -12,9 +12,8 @@ Module GOGGalaxy
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbConfigPath As TextBlock = pagina.FindName("tbGOGGalaxyConfigPath")
-        Dim buttonConfigPath As TextBlock = pagina.FindName("buttonGOGGalaxyConfigPathTexto")
-        Dim reg As TextBox = pagina.FindName("tbConfigRegistro")
+        Dim tbGOGGalaxyRuta As TextBlock = pagina.FindName("tbGOGGalaxyRuta")
+        Dim botonGOGGalaxyRutaTexto As TextBlock = pagina.FindName("botonGOGGalaxyRutaTexto")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -47,8 +46,8 @@ Module GOGGalaxy
 
                 If detectadoBool = True Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("GOGGalaxyPath", carpeta)
-                    tbConfigPath.Text = carpeta.Path
-                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    tbGOGGalaxyRuta.Text = carpeta.Path
+                    botonGOGGalaxyRutaTexto.Text = recursos.GetString("Change")
                     Return True
                 Else
                     Return False

@@ -72,8 +72,6 @@ Public NotInheritable Class MainPage
         'tbUplayNoJuegos.Text = recursos.GetString("No Juegos")
         'tbWindowsStoreNoJuegos.Text = recursos.GetString("No Juegos")
 
-        'buttonAñadirJuegosTexto.Text = recursos.GetString("Boton Añadir Juegos")
-        'tbAvisoAñadirJuegos.Text = recursos.GetString("Aviso Añadir Juegos")
 
         'tbSteamConfigInstrucciones.Text = recursos.GetString("Texto Steam Config")
         'buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
@@ -81,14 +79,6 @@ Public NotInheritable Class MainPage
         'tbSteamOverlayConfigInstrucciones.Text = recursos.GetString("Texto Steam Overlay Config")
         'botonBorrarConfigTexto.Text = recursos.GetString("Borrar Config")
 
-
-        'tbGOGGalaxyConfigInstrucciones.Text = recursos.GetString("Texto GOG Galaxy Config")
-        'buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        'tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
-
-        'tbOriginConfigInstrucciones.Text = recursos.GetString("Texto Origin Config")
-        'buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        'tbOriginConfigPath.Text = recursos.GetString("Texto Carpeta")
 
         'tbTwitchConfigInstrucciones.Text = recursos.GetString("Texto Twitch Config")
         'buttonTwitchConfigPathTexto.Text = recursos.GetString("Boton Añadir")
@@ -123,17 +113,16 @@ Public NotInheritable Class MainPage
 
         '------------------------------------------
 
-        Dim battleBool As Boolean = Await Blizzard.Config(False)
-        Dim carpeta As StorageFolder = Nothing
-
-        Try
-            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("BattlenetPath")
-        Catch ex As Exception
-
-        End Try
-
-        If battleBool = True Then
+        If Await Blizzard.Config(False) = True Then
             botonBridgeBlizzard.isEnabled = True
+        End If
+
+        If Await GOGGalaxy.Config(False) = True Then
+            botonbridgeGoggalaxy.isenabled = True
+        End If
+
+        If Await Origin.Config(False) = True Then
+            botonbridgeorigin.isenabled = True
         End If
 
     End Sub
@@ -176,31 +165,42 @@ Public NotInheritable Class MainPage
 
             botonBridgeBlizzard.Background = New SolidColorBrush(Colors.DarkMagenta)
             gridBridgeBlizzard.Visibility = Visibility.Visible
-            EjecutarBlizzard()
+
+            If lvBlizzard.Items.Count = 0 Then
+                EjecutarBlizzard()
+            End If
+
+        ElseIf sp.Tag.ToString = 1 Then
+
+            botonBridgeGOGGalaxy.Background = New SolidColorBrush(Colors.DarkMagenta)
+            gridBridgeGOGGalaxy.Visibility = Visibility.Visible
+
+            If lvGOGGalaxy.Items.Count = 0 Then
+                EjecutarGOGGalaxy()
+            End If
+
+        ElseIf sp.Tag.ToString = 2 Then
+
+            botonBridgeOrigin.Background = New SolidColorBrush(Colors.DarkMagenta)
+            gridBridgeOrigin.Visibility = Visibility.Visible
+
+            If lvOrigin.Items.Count = 0 Then
+                EjecutarOrigin()
+            End If
+
+        ElseIf sp.Tag.ToString = 3 Then
+
+            botonBridgeTwitch.Background = New SolidColorBrush(Colors.DarkMagenta)
+            gridBridgeTwitch.Visibility = Visibility.Visible
+
+            If lvTwitch.Items.Count = 0 Then
+                EjecutarTwitch()
+            End If
 
         End If
 
     End Sub
 
-    'Private Sub BotonGOGGalaxy_Click(sender As Object, e As RoutedEventArgs) Handles botonGOGGalaxy.Click
-
-    '    'GridVisibilidad(gridGOGGalaxy, botonGOGGalaxy, "GOG Galaxy")
-
-    '    If lvGOGGalaxy.Items.Count = 0 Then
-    '        EjecutarGOGGalaxy()
-    '    End If
-
-    'End Sub
-
-    'Private Sub BotonOrigin_Click(sender As Object, e As RoutedEventArgs) Handles botonOrigin.Click
-
-    '    'GridVisibilidad(gridOrigin, botonOrigin, "Origin")
-
-    '    If lvOrigin.Items.Count = 0 Then
-    '        EjecutarOrigin()
-    '    End If
-
-    'End Sub
 
     'Private Sub BotonTwitch_Click(sender As Object, e As RoutedEventArgs) Handles botonTwitch.Click
 
@@ -545,59 +545,11 @@ Public NotInheritable Class MainPage
 
 
 
-    Private Async Sub ButtonGOGGalaxyConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonGOGGalaxyConfigPath.Click
 
-        Dim galaxyBool As Boolean = Await GOGGalaxy.Config(True)
-        Dim carpeta As StorageFolder = Nothing
 
-        Try
-            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("GOGGalaxyPath")
-        Catch ex As Exception
 
-        End Try
 
-        If galaxyBool = True Then
-            listaGOGGalaxy = New List(Of Juego)
-            GOGGalaxy.Generar(listaGOGGalaxy, carpeta)
-        End If
 
-    End Sub
-
-    Private Async Sub ButtonOriginConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonOriginConfigPath.Click
-
-        Dim originBool As Boolean = Await Origin.Config(True)
-        Dim carpeta As StorageFolder = Nothing
-
-        Try
-            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginPath")
-        Catch ex As Exception
-
-        End Try
-
-        If originBool = True Then
-            listaOrigin = New List(Of Juego)
-            Origin.Generar(listaOrigin, carpeta)
-        End If
-
-    End Sub
-
-    Private Async Sub ButtonTwitchConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonTwitchConfigPath.Click
-
-        Dim twitchBool As Boolean = Await Twitch.Config(True)
-        Dim carpeta As StorageFolder = Nothing
-
-        Try
-            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("TwitchPath")
-        Catch ex As Exception
-
-        End Try
-
-        If twitchBool = True Then
-            listaTwitch = New List(Of Juego)
-            Twitch.Generar(listaTwitch, carpeta)
-        End If
-
-    End Sub
 
     Private Async Sub ButtonUplayConfigPathCliente_Click(sender As Object, e As RoutedEventArgs) Handles buttonUplayConfigPathCliente.Click
 
@@ -717,8 +669,8 @@ Public NotInheritable Class MainPage
         Try
             StorageApplicationPermissions.FutureAccessList.Remove("GOGGalaxyPath")
             lvGOGGalaxy.Items.Clear()
-            buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-            tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
+            'buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            'tbGOGGalaxyConfigPath.Text = recursos.GetString("Texto Carpeta")
         Catch ex As Exception
 
         End Try
@@ -726,8 +678,8 @@ Public NotInheritable Class MainPage
         Try
             StorageApplicationPermissions.FutureAccessList.Remove("OriginPath")
             lvOrigin.Items.Clear()
-            buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-            tbOriginConfigPath.Text = recursos.GetString("Texto Carpeta")
+            'buttonOriginConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            'tbOriginConfigPath.Text = recursos.GetString("Texto Carpeta")
         Catch ex As Exception
 
         End Try
@@ -735,8 +687,8 @@ Public NotInheritable Class MainPage
         Try
             StorageApplicationPermissions.FutureAccessList.Remove("TwitchPath")
             lvTwitch.Items.Clear()
-            buttonTwitchConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-            tbTwitchConfigPath.Text = recursos.GetString("Texto Carpeta")
+            'buttonTwitchConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            'tbTwitchConfigPath.Text = recursos.GetString("Texto Carpeta")
         Catch ex As Exception
 
         End Try
@@ -776,17 +728,32 @@ Public NotInheritable Class MainPage
 
     Private Async Sub BotonBlizzardRuta_Click(sender As Object, e As RoutedEventArgs) Handles botonBlizzardRuta.Click
 
-        Dim battleBool As Boolean = Await Blizzard.Config(True)
-        Dim carpeta As StorageFolder = Nothing
+        If Await Blizzard.Config(True) = True Then
+            botonBridgeBlizzard.IsEnabled = True
+        End If
 
-        Try
-            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("BattlenetPath")
-        Catch ex As Exception
+    End Sub
 
-        End Try
+    Private Async Sub BotonGOGGalaxyRuta_Click(sender As Object, e As RoutedEventArgs) Handles botonGOGGalaxyRuta.Click
 
-        If battleBool = True Then
-            botonBridgeBlizzard.isEnabled = True
+        If Await GOGGalaxy.Config(True) = True Then
+            botonBridgeGOGGalaxy.IsEnabled = True
+        End If
+
+    End Sub
+
+    Private Async Sub BotonOriginRuta_Click(sender As Object, e As RoutedEventArgs) Handles botonOriginRuta.Click
+
+        If Await Origin.Config(True) = True Then
+            botonBridgeOrigin.isEnabled = True
+        End If
+
+    End Sub
+
+    Private Async Sub BotonTwitchRuta_Click(sender As Object, e As RoutedEventArgs) Handles botonTwitchRuta.Click
+
+        If Await Twitch.Config(True) = True Then
+            botonBridgeTwitch.isEnabled = True
         End If
 
     End Sub

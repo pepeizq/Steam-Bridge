@@ -1,10 +1,8 @@
-﻿Imports Microsoft.Toolkit.Uwp
-Imports Microsoft.Toolkit.Uwp.UI.Controls
+﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
-Imports Windows.UI
 
 Module Twitch
 
@@ -13,8 +11,8 @@ Module Twitch
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbConfigPath As TextBlock = pagina.FindName("tbTwitchConfigPath")
-        Dim buttonConfigPath As TextBlock = pagina.FindName("buttonTwitchConfigPathTexto")
+        Dim tbTwitchRuta As TextBlock = pagina.FindName("tbTwitchRuta")
+        Dim botonTwitchRutaTexto As TextBlock = pagina.FindName("botonTwitchRutaTexto")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -34,8 +32,8 @@ Module Twitch
             If Not carpeta Is Nothing Then
                 If carpeta.Path.Contains("AppData\Roaming\Twitch") Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("TwitchPath", carpeta)
-                    tbConfigPath.Text = carpeta.Path
-                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    tbTwitchRuta.Text = carpeta.Path
+                    botonTwitchRutaTexto.Text = recursos.GetString("Change")
                     Return True
                 Else
                     Return False

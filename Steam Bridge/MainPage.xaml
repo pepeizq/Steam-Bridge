@@ -323,7 +323,76 @@
                             <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
 
                             <TextBlock x:Uid="ConfigGOGGalaxyMessage" Margin="10,5" TextWrapping="Wrap"/>
+                            <Grid Margin="10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
+                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
+                                    <Button x:Name="botonGOGGalaxyRuta" Padding="15,10" Background="DarkOrchid">
+                                        <StackPanel Orientation="Horizontal">
+                                            <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                            <TextBlock x:Name="botonGOGGalaxyRutaTexto" x:Uid="Add" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button>
+                                </controls:DropShadowPanel>
+
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbGOGGalaxyRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <TextBlock Text="Origin" Margin="10,25,10,5" FontSize="16"/>
+                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+
+                            <TextBlock x:Uid="ConfigOriginMessage" Margin="10,5" TextWrapping="Wrap"/>
+                            <Grid Margin="10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
+                                    <Button x:Name="botonOriginRuta" Padding="15,10" Background="DarkOrchid">
+                                        <StackPanel Orientation="Horizontal">
+                                            <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                            <TextBlock x:Name="botonOriginRutaTexto" x:Uid="Add" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button>
+                                </controls:DropShadowPanel>
+
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbOriginRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <TextBlock Text="Twitch" Margin="10,25,10,5" FontSize="16"/>
+                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+
+                            <TextBlock x:Uid="ConfigTwitchMessage" Margin="10,5" TextWrapping="Wrap"/>
+                            <Grid Margin="10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
+                                    <Button x:Name="botonTwitchRuta" Padding="15,10" Background="DarkOrchid">
+                                        <StackPanel Orientation="Horizontal">
+                                            <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                            <TextBlock x:Name="botonTwitchRutaTexto" x:Uid="Add" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button>
+                                </controls:DropShadowPanel>
+
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbTwitchRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <TextBlock Text="Uplay" Margin="10,25,10,5" FontSize="16"/>
+                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
                         </StackPanel> 
                     </ScrollViewer> 
                 </Grid>
@@ -448,82 +517,6 @@
                         </controls:DropShadowPanel>
                     </Grid>
 
-              
-
-                    <Grid x:Name="gridConfigGOGGalaxy" Visibility="Collapsed">
-                        <StackPanel>
-                            <TextBlock x:Name="tbGOGGalaxyConfigInstrucciones" Margin="5" TextWrapping="Wrap" />
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                    <Button x:Name="buttonGOGGalaxyConfigPath" Padding="15,10" Background="DarkOrchid">
-                                        <StackPanel Orientation="Horizontal">
-                                            <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Add" Foreground="White"/>
-                                            <TextBlock x:Name="buttonGOGGalaxyConfigPathTexto" Foreground="White"/>
-                                        </StackPanel>
-                                    </Button>
-                                </controls:DropShadowPanel>
-
-                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbGOGGalaxyConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid x:Name="gridConfigOrigin" Visibility="Collapsed">
-                        <StackPanel>
-                            <TextBlock x:Name="tbOriginConfigInstrucciones" Margin="5" TextWrapping="Wrap" />
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                    <Button x:Name="buttonOriginConfigPath" Padding="15,10" Background="DarkOrchid">
-                                        <StackPanel Orientation="Horizontal">
-                                            <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Add" Foreground="White"/>
-                                            <TextBlock x:Name="buttonOriginConfigPathTexto" Foreground="White"/>
-                                        </StackPanel>
-                                    </Button>
-                                </controls:DropShadowPanel>
-
-                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbOriginConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid x:Name="gridConfigTwitch" Visibility="Collapsed">
-                        <StackPanel>
-                            <TextBlock x:Name="tbTwitchConfigInstrucciones" Margin="5" TextWrapping="Wrap" />
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                    <Button x:Name="buttonTwitchConfigPath" Padding="15,10" Background="DarkOrchid">
-                                        <StackPanel Orientation="Horizontal">
-                                            <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Add" Foreground="White"/>
-                                            <TextBlock x:Name="buttonTwitchConfigPathTexto" Foreground="White"/>
-                                        </StackPanel>
-                                    </Button>
-                                </controls:DropShadowPanel>
-
-                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbTwitchConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                            </Grid>
-                        </StackPanel>
-                    </Grid> 
 
                     <Grid x:Name="gridConfigUplay" Visibility="Collapsed">
                         <StackPanel>

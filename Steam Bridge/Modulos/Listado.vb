@@ -159,7 +159,7 @@ Module Listado
             Dim pagina As Page = frame.Content
 
             Dim botonDisponible As Boolean = False
-            Dim boton As Button = pagina.FindName("buttonAñadirJuegos")
+            Dim boton As Button = pagina.FindName("botonAñadirJuegos")
 
             Dim listViewBlizzard As ListView = pagina.FindName("lvBlizzard")
 

@@ -10,8 +10,8 @@ Module Origin
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbConfigPath As TextBlock = pagina.FindName("tbOriginConfigPath")
-        Dim buttonConfigPath As TextBlock = pagina.FindName("buttonOriginConfigPathTexto")
+        Dim tbOriginRuta As TextBlock = pagina.FindName("tbOriginRuta")
+        Dim botonOriginRutaTexto As TextBlock = pagina.FindName("botonOriginRutaTexto")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -31,8 +31,8 @@ Module Origin
             If Not carpeta Is Nothing Then
                 If carpeta.Path.Contains("Origin\LocalContent") Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("OriginPath", carpeta)
-                    tbConfigPath.Text = carpeta.Path
-                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    tbOriginRuta.Text = carpeta.Path
+                    botonOriginRutaTexto.Text = recursos.GetString("Change")
                     Return True
                 Else
                     Return False
