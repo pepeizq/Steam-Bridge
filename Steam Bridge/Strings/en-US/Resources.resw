@@ -117,17 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddGames.Text" xml:space="preserve">
+    <value>Add Games</value>
+  </data>
+  <data name="AddGamesWarning.Text" xml:space="preserve">
+    <value>Steam must be closed</value>
+  </data>
   <data name="Bridge" xml:space="preserve">
     <value>Bridge</value>
   </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
   <data name="Config" xml:space="preserve">
     <value>Configuration</value>
+  </data>
+  <data name="ConfigBlizzardMessage.Text" xml:space="preserve">
+    <value>Add the folder where are installed the games (example C:\Blizzard App\Games)</value>
+  </data>
+  <data name="ConfigGOGGalaxyMessage.TexConfigGOGGalaxyMessage.Text" xml:space="preserve">
+    <value>Add the folder where are installed the games (example C:\GalaxyClient\Games)</value>
+  </data>
+  <data name="ConfigSteamMessage.Text" xml:space="preserve">
+    <value>Before you can add in Steam the shortcuts you must indicate where it is installed (example: C: \ Steam)</value>
+  </data>
+  <data name="ConfigSteamMessage2.Text" xml:space="preserve">
+    <value>Now configure the clients you have installed</value>
   </data>
   <data name="Contact.Text" xml:space="preserve">
     <value>Contact</value>
   </data>
   <data name="HelpTranslate.Text" xml:space="preserve">
     <value>Help to Translate</value>
+  </data>
+  <data name="MessageBridge.Text" xml:space="preserve">
+    <value>Select a client from the left bar if you have it configured</value>
   </data>
   <data name="MoreThings" xml:space="preserve">
     <value>More Things</value>

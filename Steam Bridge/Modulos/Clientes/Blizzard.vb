@@ -13,9 +13,8 @@ Module Blizzard
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbConfigPath As TextBlock = pagina.FindName("tbBattlenetConfigPath")
-        Dim buttonConfigPath As TextBlock = pagina.FindName("buttonBattlenetConfigPathTexto")
-        Dim reg As TextBox = pagina.FindName("tbConfigRegistro")
+        Dim tbBlizzardRuta As TextBlock = pagina.FindName("tbBlizzardRuta")
+        Dim botonBlizzardRutaTexto As TextBlock = pagina.FindName("botonBlizzardRutaTexto")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -88,8 +87,8 @@ Module Blizzard
 
                 If detectadoBool = True Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("BattlenetPath", carpeta)
-                    tbConfigPath.Text = carpeta.Path
-                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    tbBlizzardRuta.Text = carpeta.Path
+                    botonBlizzardRutaTexto.Text = recursos.GetString("Change")
                     Return True
                 Else
                     Return False
@@ -183,7 +182,7 @@ Module Blizzard
                                     Await bitmap.SetSourceAsync(stream)
                                 End Using
                             Catch ex As Exception
-
+                                bitmap = Nothing
                             End Try
                         End If
 
@@ -207,7 +206,7 @@ Module Blizzard
                             Await bitmap.SetSourceAsync(stream)
                         End Using
                     Catch ex As Exception
-
+                        bitmap = Nothing
                     End Try
                 End If
 
@@ -236,7 +235,7 @@ Module Blizzard
         Dim ficheroIcono As StorageFile = Nothing
 
         Try
-            ficheroIcono = carpeta.GetFileAsync(juego.DisplayName + ".png")
+            ficheroIcono = Await carpeta.GetFileAsync(juego.DisplayName + ".png")
         Catch ex As Exception
 
         End Try
@@ -251,6 +250,7 @@ Module Blizzard
             Dim iconoFichero As StorageFile = Nothing
 
             Try
+                Await carpeta.CreateFileAsync(juego.DisplayName + ".png")
                 iconoFichero = Await StorageFile.GetFileFromPathAsync(carpeta.Path + "\" + juego.DisplayName + ".png")
             Catch ex As Exception
 

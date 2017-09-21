@@ -1,5 +1,4 @@
-﻿Imports Microsoft.Toolkit.Uwp
-Imports Microsoft.Toolkit.Uwp.Helpers
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Windows.Graphics.Imaging
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
@@ -8,7 +7,7 @@ Imports Windows.Storage.Streams
 
 Module Steam
 
-    Public Async Sub Arranque(tbConfigPath As TextBlock, buttonConfigPath As TextBlock, picker As Boolean)
+    Public Async Sub Arranque(tbSteamRuta As TextBlock, botonSteamRutaTexto As TextBlock, picker As Boolean)
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -36,8 +35,8 @@ Module Steam
 
                 If Not ejecutable Is Nothing Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("SteamPath", carpeta)
-                    tbConfigPath.Text = carpeta.Path
-                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    tbSteamRuta.Text = carpeta.Path
+                    botonSteamRutaTexto.Text = recursos.GetString("Change")
                 End If
             End If
         Catch ex As Exception

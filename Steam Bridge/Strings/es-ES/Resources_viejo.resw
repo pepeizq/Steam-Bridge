@@ -187,13 +187,13 @@
     <value>Steam no se ha detectado</value>
   </data>
   <data name="Texto Battlenet Config" xml:space="preserve">
-    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\Blizzard App\Games</value>
+    <value>Añade la carpeta donde están instalados los juegos (ejemplo C:\Blizzard App\Games)</value>
   </data>
   <data name="Texto Carpeta" xml:space="preserve">
     <value>No has añadido una carpeta</value>
   </data>
   <data name="Texto GOG Galaxy Config" xml:space="preserve">
-    <value>Añade la carpeta donde están instalados los juegos, ejemplo C:\GalaxyClient\Games</value>
+    <value>Añade la carpeta donde están instalados los juegos (ejemplo C:\GalaxyClient\Games)</value>
   </data>
   <data name="Texto No Juegos" xml:space="preserve">
     <value>No se han detectado juegos</value>

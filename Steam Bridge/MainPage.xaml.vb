@@ -43,7 +43,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub Page_Loaded(sender As FrameworkElement, args As Object)
+    Private Async Sub Page_Loaded(sender As FrameworkElement, args As Object)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
@@ -63,14 +63,7 @@ Public NotInheritable Class MainPage
         GridVisibilidad(gridBridge, recursos.GetString("Bridge"))
         nvPrincipal.IsPaneOpen = False
 
-        'botonConfigTexto.Text = recursos.GetString("Boton Config")
-        'botonVotarTexto.Text = recursos.GetString("Boton Votar")
-        'botonMasCosasTexto.Text = recursos.GetString("Boton Cosas")
-
-        'botonMasAppsTexto.Text = recursos.GetString("Boton Web")
-        'botonContactoTexto.Text = recursos.GetString("Boton Contacto")
-        'botonReportarTexto.Text = recursos.GetString("Boton Reportar")
-        'botonCodigoFuenteTexto.Text = recursos.GetString("Boton Codigo Fuente")
+        Steam.Arranque(tbSteamRuta, botonSteamRutaTexto, False)
 
         'tbBlizzardNoJuegos.Text = recursos.GetString("No Juegos")
         'tbGOGGalaxyNoJuegos.Text = recursos.GetString("No Juegos")
@@ -88,9 +81,6 @@ Public NotInheritable Class MainPage
         'tbSteamOverlayConfigInstrucciones.Text = recursos.GetString("Texto Steam Overlay Config")
         'botonBorrarConfigTexto.Text = recursos.GetString("Borrar Config")
 
-        'tbBattlenetConfigInstrucciones.Text = recursos.GetString("Texto Battlenet Config")
-        'buttonBattlenetConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        'tbBattlenetConfigPath.Text = recursos.GetString("Texto Carpeta")
 
         'tbGOGGalaxyConfigInstrucciones.Text = recursos.GetString("Texto GOG Galaxy Config")
         'buttonGOGGalaxyConfigPathTexto.Text = recursos.GetString("Boton Añadir")
@@ -121,7 +111,7 @@ Public NotInheritable Class MainPage
         '--------------------------------------------------------
 
         'GridVisibilidad(gridWindowsStore, botonWindowsStore, "Windows Store")
-        EjecutarWindowsStore()
+        'EjecutarWindowsStore()
 
         Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
@@ -130,6 +120,21 @@ Public NotInheritable Class MainPage
         End If
 
         cbSteamOverlay.SelectedIndex = opciones.Values("SteamOverlay")
+
+        '------------------------------------------
+
+        Dim battleBool As Boolean = Await Blizzard.Config(False)
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("BattlenetPath")
+        Catch ex As Exception
+
+        End Try
+
+        If battleBool = True Then
+            botonBridgeBlizzard.isEnabled = True
+        End If
 
     End Sub
 
@@ -151,19 +156,31 @@ Public NotInheritable Class MainPage
             panelMensajeBridge.Visibility = Visibility.Collapsed
         End If
 
+        botonBridgeBlizzard.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeGOGGalaxy.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeOrigin.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeTwitch.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeUplay.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeWindowsStore.Background = New SolidColorBrush(Colors.DarkOrchid)
 
+        gridBridgeBlizzard.Visibility = Visibility.Collapsed
+        gridBridgeGOGGalaxy.Visibility = Visibility.Collapsed
+        gridBridgeOrigin.Visibility = Visibility.Collapsed
+        gridBridgeTwitch.Visibility = Visibility.Collapsed
+        gridBridgeUplay.Visibility = Visibility.Collapsed
+        gridBridgeWindowsStore.Visibility = Visibility.Collapsed
+
+        Dim sp As StackPanel = args.ClickedItem
+
+        If sp.Tag.ToString = 0 Then
+
+            botonBridgeBlizzard.Background = New SolidColorBrush(Colors.DarkMagenta)
+            gridBridgeBlizzard.Visibility = Visibility.Visible
+            EjecutarBlizzard()
+
+        End If
 
     End Sub
-
-    'Private Sub BotonBlizzard_Click(sender As Object, e As RoutedEventArgs) Handles botonBlizzard.Click
-
-    '    'GridVisibilidad(gridBlizzard, botonBlizzard, "Blizzard App")
-
-    '    If lvBlizzard.Items.Count = 0 Then
-    '        EjecutarBlizzard()
-    '    End If
-
-    'End Sub
 
     'Private Sub BotonGOGGalaxy_Click(sender As Object, e As RoutedEventArgs) Handles botonGOGGalaxy.Click
 
@@ -212,14 +229,6 @@ Public NotInheritable Class MainPage
     '    If lvWindowsStore.Items.Count = 0 Then
     '        EjecutarWindowsStore()
     '    End If
-
-    'End Sub
-
-    'Private Sub BotonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
-
-    '    Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-    '    'GridVisibilidad(gridConfig, botonConfig, recursos.GetString("Boton Config"))
-    '    GridConfigVisibilidad(gridConfigApp, botonConfigApp)
 
     'End Sub
 
@@ -438,7 +447,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub ButtonAñadirJuegos_Click(sender As Object, e As RoutedEventArgs) Handles buttonAñadirJuegos.Click
+    Private Async Sub BotonAñadirJuegos_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirJuegos.Click
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpetaSteam As StorageFolder = Nothing
@@ -503,19 +512,19 @@ Public NotInheritable Class MainPage
             End If
 
             If listaFinal.Count > 0 Then
-                Steam.CrearAccesos(listaFinal, carpetaSteam, buttonAñadirJuegos)
+                Steam.CrearAccesos(listaFinal, carpetaSteam, botonAñadirJuegos)
             End If
         End If
 
     End Sub
 
-    Private Sub ButtonAñadirJuegos_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles buttonAñadirJuegos.PointerEntered
+    Private Sub BotonAñadirJuegos_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles botonAñadirJuegos.PointerEntered
 
         panelAvisoAñadirJuegos.Visibility = Visibility.Visible
 
     End Sub
 
-    Private Sub ButtonAñadirJuegos_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles buttonAñadirJuegos.PointerExited
+    Private Sub BotonAñadirJuegos_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles botonAñadirJuegos.PointerExited
 
         panelAvisoAñadirJuegos.Visibility = Visibility.Collapsed
 
@@ -523,71 +532,8 @@ Public NotInheritable Class MainPage
 
     'CONFIG------------------------------------------------
 
-    Private Sub GridConfigVisibilidad(grid As Grid, boton As Button)
 
-        gridConfigApp.Visibility = Visibility.Collapsed
-        gridConfigBlizzard.Visibility = Visibility.Collapsed
-        gridConfigGOGGalaxy.Visibility = Visibility.Collapsed
-        gridConfigOrigin.Visibility = Visibility.Collapsed
-        gridConfigTwitch.Visibility = Visibility.Collapsed
-        gridConfigUplay.Visibility = Visibility.Collapsed
-        gridConfigWindowsStore.Visibility = Visibility.Collapsed
 
-        grid.Visibility = Visibility.Visible
-
-        botonConfigApp.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfigBlizzard.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfigGOGGalaxy.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfigOrigin.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfigTwitch.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfigUplay.Background = New SolidColorBrush(Colors.Transparent)
-        botonConfigWindowsStore.Background = New SolidColorBrush(Colors.Transparent)
-
-        boton.Background = New SolidColorBrush(Colors.DarkMagenta)
-
-    End Sub
-
-    Private Sub BotonConfigApp_Click(sender As Object, e As RoutedEventArgs) Handles botonConfigApp.Click
-
-        GridConfigVisibilidad(gridConfigApp, botonConfigApp)
-
-    End Sub
-
-    Private Sub BotonConfigBlizzard_Click(sender As Object, e As RoutedEventArgs) Handles botonConfigBlizzard.Click
-
-        GridConfigVisibilidad(gridConfigBlizzard, botonConfigBlizzard)
-
-    End Sub
-
-    Private Sub BotonConfigGOGGalaxy_Click(sender As Object, e As RoutedEventArgs) Handles botonConfigGOGGalaxy.Click
-
-        GridConfigVisibilidad(gridConfigGOGGalaxy, botonConfigGOGGalaxy)
-
-    End Sub
-
-    Private Sub BotonConfigOrigin_Click(sender As Object, e As RoutedEventArgs) Handles botonConfigOrigin.Click
-
-        GridConfigVisibilidad(gridConfigOrigin, botonConfigOrigin)
-
-    End Sub
-
-    Private Sub BotonConfigTwitch_Click(sender As Object, e As RoutedEventArgs) Handles botonConfigTwitch.Click
-
-        GridConfigVisibilidad(gridConfigTwitch, botonConfigTwitch)
-
-    End Sub
-
-    Private Sub BotonConfigUplay_Click(sender As Object, e As RoutedEventArgs) Handles botonConfigUplay.Click
-
-        GridConfigVisibilidad(gridConfigUplay, botonConfigUplay)
-
-    End Sub
-
-    Private Sub BotonConfigWindowsStore_Click(sender As Object, e As RoutedEventArgs) Handles botonConfigWindowsStore.Click
-
-        GridConfigVisibilidad(gridConfigWindowsStore, botonConfigWindowsStore)
-
-    End Sub
 
     Private Sub CbSteamOverlay_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cbSteamOverlay.SelectionChanged
 
@@ -596,23 +542,8 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub ButtonBattlenetConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonBattlenetConfigPath.Click
 
-        Dim battleBool As Boolean = Await Blizzard.Config(True)
-        Dim carpeta As StorageFolder = Nothing
 
-        Try
-            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("BattlenetPath")
-        Catch ex As Exception
-
-        End Try
-
-        If battleBool = True Then
-            listaBattlenet = New List(Of Juego)
-            Blizzard.Generar(listaBattlenet, carpeta)
-        End If
-
-    End Sub
 
     Private Async Sub ButtonGOGGalaxyConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonGOGGalaxyConfigPath.Click
 
@@ -768,8 +699,8 @@ Public NotInheritable Class MainPage
 
         Try
             StorageApplicationPermissions.FutureAccessList.Remove("SteamPath")
-            buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-            tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
+            'buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            'tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
         Catch ex As Exception
 
         End Try
@@ -777,8 +708,8 @@ Public NotInheritable Class MainPage
         Try
             StorageApplicationPermissions.FutureAccessList.Remove("BattlenetPath")
             lvBlizzard.Items.Clear()
-            buttonBattlenetConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-            tbBattlenetConfigPath.Text = recursos.GetString("Texto Carpeta")
+            'buttonBattlenetConfigPathTexto.Text = recursos.GetString("Boton Añadir")
+            'tbBattlenetConfigPath.Text = recursos.GetString("Texto Carpeta")
         Catch ex As Exception
 
         End Try
@@ -833,9 +764,30 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub ButtonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
 
-        Steam.Arranque(tbSteamConfigPath, buttonSteamConfigPathTexto, True)
+
+    'CONFIG-----------------------------------------
+
+    Private Sub BotonSteamRuta_Click(sender As Object, e As RoutedEventArgs) Handles botonSteamRuta.Click
+
+        Steam.Arranque(tbSteamRuta, botonSteamRutaTexto, True)
+
+    End Sub
+
+    Private Async Sub BotonBlizzardRuta_Click(sender As Object, e As RoutedEventArgs) Handles botonBlizzardRuta.Click
+
+        Dim battleBool As Boolean = Await Blizzard.Config(True)
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("BattlenetPath")
+        Catch ex As Exception
+
+        End Try
+
+        If battleBool = True Then
+            botonBridgeBlizzard.isEnabled = True
+        End If
 
     End Sub
 

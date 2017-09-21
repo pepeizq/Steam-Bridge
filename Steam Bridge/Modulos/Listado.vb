@@ -36,12 +36,6 @@ Module Listado
             .IsHitTestVisible = False
         }
 
-        If estado = True Then
-            checkBox.Foreground = New SolidColorBrush(Colors.Black)
-        Else
-            checkBox.Foreground = New SolidColorBrush(Colors.Gray)
-        End If
-
         Grid.SetColumn(checkBox, 0)
         grid.Children.Add(checkBox)
 
@@ -115,12 +109,6 @@ Module Listado
             .FontSize = 15
         }
 
-        If estado = True Then
-            tituloTexto.Foreground = New SolidColorBrush(Colors.Black)
-        Else
-            tituloTexto.Foreground = New SolidColorBrush(Colors.Gray)
-        End If
-
         If imagen Is Nothing Then
             Grid.SetColumn(tituloTexto, 1)
         Else
@@ -138,12 +126,6 @@ Module Listado
             .Margin = New Thickness(10, 0, 10, 0),
             .FontSize = 15
         }
-
-        If estado = True Then
-            enlaceTexto.Foreground = New SolidColorBrush(Colors.Black)
-        Else
-            enlaceTexto.Foreground = New SolidColorBrush(Colors.Gray)
-        End If
 
         Grid.SetColumn(enlaceTexto, 3)
         grid.Children.Add(enlaceTexto)

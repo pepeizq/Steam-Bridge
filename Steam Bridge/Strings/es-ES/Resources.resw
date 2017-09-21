@@ -117,17 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add.Text" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="AddGames.Text" xml:space="preserve">
+    <value>Añadir Juegos</value>
+  </data>
+  <data name="AddGamesWarning.Text" xml:space="preserve">
+    <value>Steam debe estar cerrado</value>
+  </data>
   <data name="Bridge" xml:space="preserve">
     <value>Bridge</value>
   </data>
+  <data name="Change" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
   <data name="Config" xml:space="preserve">
     <value>Configuración</value>
+  </data>
+  <data name="ConfigBlizzardMessage.Text" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos (ejemplo C:\Blizzard App\Games)</value>
+  </data>
+  <data name="ConfigGOGGalaxyMessage.Text" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos (ejemplo C:\GalaxyClient\Games)</value>
+  </data>
+  <data name="ConfigSteamMessage.Text" xml:space="preserve">
+    <value>Antes de poder añadir en Steam los accesos directos debes indicar donde está instalado (ejemplo: C:\Steam)</value>
+  </data>
+  <data name="ConfigSteamMessage2.Text" xml:space="preserve">
+    <value>Ahora configura los clientes que tengas instalados</value>
   </data>
   <data name="Contact.Text" xml:space="preserve">
     <value>Contactar</value>
   </data>
   <data name="HelpTranslate.Text" xml:space="preserve">
     <value>Ayuda a Traducir</value>
+  </data>
+  <data name="MessageBridge.Text" xml:space="preserve">
+    <value>Selecciona un cliente de la barra izquierda si lo tienes configurado</value>
   </data>
   <data name="MoreThings" xml:space="preserve">
     <value>Más Cosas</value>

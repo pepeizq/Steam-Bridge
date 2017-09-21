@@ -193,7 +193,7 @@
     <value>You have not added a folder</value>
   </data>
   <data name="Texto GOG Galaxy Config" xml:space="preserve">
-    <value>Add the folder where are installed the games, example C:\GalaxyClient\Games</value>
+    <value>Add the folder where are installed the games (example C:\GalaxyClient\Games)</value>
   </data>
   <data name="Texto No Juegos" xml:space="preserve">
     <value>No games detected</value>

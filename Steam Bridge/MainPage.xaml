@@ -41,37 +41,37 @@
                     </Grid.ColumnDefinitions>
 
                     <ListView x:Name="lvBridge" Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvBridgeItemClick">
-                        <ListViewItem x:Name="botonBridgeBlizzard" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                        <ListViewItem x:Name="botonBridgeBlizzard" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="0">
                                 <controls:ImageEx Source="Assets/blizzard_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
-                                <TextBlock Text="Blizzard App" Foreground="White"/>
+                                <TextBlock Text="Blizzard" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeGOGGalaxy" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                        <ListViewItem x:Name="botonBridgeGOGGalaxy" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="1">
                                 <controls:ImageEx Source="Assets/gog_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="GOG Galaxy" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeOrigin" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                        <ListViewItem x:Name="botonBridgeOrigin" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="2">
                                 <controls:ImageEx Source="Assets/origin_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Origin" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeTwitch" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                        <ListViewItem x:Name="botonBridgeTwitch" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="3">
                                 <controls:ImageEx Source="Assets/twitch_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Twitch" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeUplay" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                        <ListViewItem x:Name="botonBridgeUplay" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="4">
                                 <controls:ImageEx Source="Assets/uplay_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Uplay" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeWindowsStore" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                        <ListViewItem x:Name="botonBridgeWindowsStore" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="5">
                                 <controls:ImageEx Source="Assets/windowsstore_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Windows Store" Foreground="White"/>
@@ -79,21 +79,253 @@
                         </ListViewItem>
                     </ListView>
 
-                    <Grid Grid.Column="1">
-                        <controls:DropShadowPanel x:Name="panelMensajeBridge" Color="IndianRed" 
+                    <Grid Grid.Column="1" Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <controls:DropShadowPanel x:Name="panelMensajeBridge" Grid.Row="0" Color="IndianRed" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
                                                   BlurRadius="4" ShadowOpacity="1" OffsetZ="5">
                             <Grid Padding="10" Background="IndianRed">
                                 <TextBlock x:Uid="MessageBridge" TextWrapping="Wrap" Foreground="White"/>
                             </Grid>
                         </controls:DropShadowPanel>
-                        
-                        
+
+                        <Grid x:Name="gridBridgeBlizzard" Grid.Row="0" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ProgressBar x:Name="progressBarBattlenet" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                            <ListView x:Name="lvBlizzard" Grid.Row="1" IsItemClickEnabled="True">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+
+                            <controls:DropShadowPanel x:Name="panelAvisoNoJuegosBlizzard" Grid.Row="1" Margin="10" Color="Black"
+                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid Padding="10,15" Background="IndianRed">
+                                    <TextBlock x:Name="tbBlizzardNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
+                                </Grid>
+                            </controls:DropShadowPanel>
+
+                        </Grid>
+
+                        <Grid x:Name="gridBridgeGOGGalaxy" Grid.Row="0" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ProgressBar x:Name="progressBarGOGGalaxy" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                            <ListView x:Name="lvGOGGalaxy" Grid.Row="1" IsItemClickEnabled="True">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+
+                            <controls:DropShadowPanel x:Name="panelAvisoNoJuegosGOGGalaxy" Grid.Row="1" Margin="10" Color="Black"
+                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid Padding="10,15" Background="IndianRed">
+                                    <TextBlock x:Name="tbGOGGalaxyNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
+                                </Grid>
+                            </controls:DropShadowPanel>
+
+                        </Grid>
+
+                        <Grid x:Name="gridBridgeOrigin" Grid.Row="0" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ProgressBar x:Name="progressBarOrigin" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                            <ListView x:Name="lvOrigin" Grid.Row="1" IsItemClickEnabled="True">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+
+                            <controls:DropShadowPanel x:Name="panelAvisoNoJuegosOrigin" Grid.Row="1" Margin="10" Color="Black"
+                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid Padding="10,15" Background="IndianRed">
+                                    <TextBlock x:Name="tbOriginNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
+                                </Grid>
+                            </controls:DropShadowPanel>
+
+                        </Grid>
+
+                        <Grid x:Name="gridBridgeTwitch" Grid.Row="0" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ProgressBar x:Name="progressBarTwitch" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                            <ListView x:Name="lvTwitch" Grid.Row="1" IsItemClickEnabled="True">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+
+                            <controls:DropShadowPanel x:Name="panelAvisoNoJuegosTwitch" Grid.Row="1" Margin="10" Color="Black"
+                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid Padding="10,15" Background="IndianRed">
+                                    <TextBlock x:Name="tbTwitchNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
+                                </Grid>
+                            </controls:DropShadowPanel>
+
+                        </Grid>
+
+                        <Grid x:Name="gridBridgeUplay" Grid.Row="0" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ProgressBar x:Name="progressBarUplay" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                            <ListView x:Name="lvUplay" Grid.Row="1" IsItemClickEnabled="True">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+
+                            <controls:DropShadowPanel x:Name="panelAvisoNoJuegosUplay" Grid.Row="1" Margin="10" Color="Black"
+                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid Padding="10,15" Background="IndianRed">
+                                    <TextBlock x:Name="tbUplayNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
+                                </Grid>
+                            </controls:DropShadowPanel>
+
+                        </Grid>
+
+                        <Grid x:Name="gridBridgeWindowsStore" Grid.Row="0" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ProgressBar x:Name="progressBarWindowsStore" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                            <ListView x:Name="lvWindowsStore" Grid.Row="1" IsItemClickEnabled="True">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+
+                            <controls:DropShadowPanel x:Name="panelAvisoNoJuegosWindowsStore" Grid.Row="1" Margin="10" Color="Black"
+                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid Padding="10,15" Background="IndianRed">
+                                    <TextBlock x:Name="tbWindowsStoreNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
+                                </Grid>
+                            </controls:DropShadowPanel>
+
+                        </Grid>
+
+                        <StackPanel x:Name="barraInferior" Grid.Row="1" Orientation="Horizontal">
+                            <Button x:Name="botonAñadirJuegos" Padding="10,15" Background="DarkOrchid" IsEnabled="False">
+                                <StackPanel Orientation="Horizontal" >
+                                    <SymbolIcon Symbol="Add" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock x:Uid="AddGames" Foreground="White"/>
+                                </StackPanel>
+                            </Button>
+
+                            <controls:DropShadowPanel x:Name="panelAvisoAñadirJuegos" Grid.Column="1" Margin="10,0" Color="Black"
+                                                  BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed">
+                                <Grid Padding="10" Background="IndianRed">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <SymbolIcon Grid.Column="0" Foreground="White" Symbol="Important" Margin="5,0"/>
+                                    <TextBlock x:Uid="AddGamesWarning" Grid.Column="1" Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                </Grid>
+                            </controls:DropShadowPanel>
+                        </StackPanel>
                     </Grid>
                 </Grid>
 
                 <Grid x:Name="gridConfig" Visibility="Collapsed">
-                    
+                    <ScrollViewer>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Steam" Margin="10,5" FontSize="16"/>
+                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+
+                            <TextBlock x:Uid="ConfigSteamMessage" Margin="10,5" TextWrapping="Wrap"/>
+                            <Grid Margin="10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
+                                    <Button x:Name="botonSteamRuta" Padding="15,10" Background="DarkOrchid">
+                                        <StackPanel Orientation="Horizontal">
+                                            <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                            <TextBlock x:Name="botonSteamRutaTexto" x:Uid="Add" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button>
+                                </controls:DropShadowPanel>
+
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="tbSteamRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            </Grid>
+                            <TextBlock x:Uid="ConfigSteamMessage2" Margin="10,5" TextWrapping="Wrap"/>
+
+                            <TextBlock Text="Blizzard" Margin="10,25,10,5" FontSize="16"/>
+                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+
+                            <TextBlock x:Uid="ConfigBlizzardMessage" Margin="10,5" TextWrapping="Wrap"/>
+                            <Grid Margin="10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
+                                    <Button x:Name="botonBlizzardRuta" Padding="15,10" Background="DarkOrchid">
+                                        <StackPanel Orientation="Horizontal">
+                                            <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                            <TextBlock x:Name="botonBlizzardRutaTexto" x:Uid="Add" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button>
+                                </controls:DropShadowPanel>
+
+                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                <TextBlock x:Name="tbBlizzardRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <TextBlock Text="GOG Galaxy" Margin="10,25,10,5" FontSize="16"/>
+                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+
+                            <TextBlock x:Uid="ConfigGOGGalaxyMessage" Margin="10,5" TextWrapping="Wrap"/>
+
+                        </StackPanel> 
+                    </ScrollViewer> 
                 </Grid>
 
                 <Grid x:Name="gridMasCosas" Visibility="Collapsed">
@@ -163,318 +395,21 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid x:Name="gridMenu" Grid.Column="0">
-                <Grid.Background>
-                    <SolidColorBrush Color="DarkMagenta" Opacity="0.6"/>
-                </Grid.Background>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <StackPanel Grid.Row="0" Orientation="Vertical">
-
- 
-                    <Button x:Name="botonConfig" Foreground="White" Background="Transparent" Padding="15">
-                        <ToolTipService.ToolTip>
-                            <TextBlock x:Name="botonConfigTexto" FontSize="16"/>
-                        </ToolTipService.ToolTip>
-
-                        <Button.Content>
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE713;" FontSize="26" HorizontalAlignment="Center"/>
-                        </Button.Content>
-                    </Button>
-                </StackPanel>
-           
-            </Grid>
 
             <Grid Grid.Column="1">
 
 
-                <Grid x:Name="gridBlizzard" Grid.Row="0" Visibility="Collapsed" Padding="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                
 
-                    <ProgressBar x:Name="progressBarBattlenet" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
-                    <ListView x:Name="lvBlizzard" Grid.Row="1" IsItemClickEnabled="True">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-
-                    <controls:DropShadowPanel x:Name="panelAvisoNoJuegosBlizzard" Grid.Row="1" Margin="10" Color="Black"
-                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
-                                              HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Padding="10,15" Background="IndianRed">
-                            <TextBlock x:Name="tbBlizzardNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
-                    
-                </Grid>
-
-                <Grid x:Name="gridGOGGalaxy" Grid.Row="0" Visibility="Collapsed" Padding="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <ProgressBar x:Name="progressBarGOGGalaxy" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
-                    <ListView x:Name="lvGOGGalaxy" Grid.Row="1" IsItemClickEnabled="True">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-
-                    <controls:DropShadowPanel x:Name="panelAvisoNoJuegosGOGGalaxy" Grid.Row="1" Margin="10" Color="Black"
-                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
-                                              HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Padding="10,15" Background="IndianRed">
-                            <TextBlock x:Name="tbGOGGalaxyNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
-
-                </Grid>
-
-                <Grid x:Name="gridOrigin" Grid.Row="0" Visibility="Collapsed" Padding="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <ProgressBar x:Name="progressBarOrigin" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
-                    <ListView x:Name="lvOrigin" Grid.Row="1" IsItemClickEnabled="True">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-
-                    <controls:DropShadowPanel x:Name="panelAvisoNoJuegosOrigin" Grid.Row="1" Margin="10" Color="Black"
-                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
-                                              HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Padding="10,15" Background="IndianRed">
-                            <TextBlock x:Name="tbOriginNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
-                    
-                </Grid>
-
-                <Grid x:Name="gridTwitch" Grid.Row="0" Visibility="Collapsed" Padding="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <ProgressBar x:Name="progressBarTwitch" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
-                    <ListView x:Name="lvTwitch" Grid.Row="1" IsItemClickEnabled="True">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-
-                    <controls:DropShadowPanel x:Name="panelAvisoNoJuegosTwitch" Grid.Row="1" Margin="10" Color="Black"
-                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
-                                              HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Padding="10,15" Background="IndianRed">
-                             <TextBlock x:Name="tbTwitchNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
-
-                </Grid>
-
-                <Grid x:Name="gridUplay" Grid.Row="0" Visibility="Collapsed" Padding="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <ProgressBar x:Name="progressBarUplay" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
-                    <ListView x:Name="lvUplay" Grid.Row="1" IsItemClickEnabled="True">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-
-                    <controls:DropShadowPanel x:Name="panelAvisoNoJuegosUplay" Grid.Row="1" Margin="10" Color="Black"
-                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
-                                              HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Padding="10,15" Background="IndianRed">
-                            <TextBlock x:Name="tbUplayNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
-                    
-                </Grid>
-
-                <Grid x:Name="gridWindowsStore" Grid.Row="0" Visibility="Collapsed" Padding="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <ProgressBar x:Name="progressBarWindowsStore" Grid.Row="0" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
-                    <ListView x:Name="lvWindowsStore" Grid.Row="1" IsItemClickEnabled="True">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-
-                    <controls:DropShadowPanel x:Name="panelAvisoNoJuegosWindowsStore" Grid.Row="1" Margin="10" Color="Black"
-                                              BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed"
-                                              HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Padding="10,15" Background="IndianRed">
-                            <TextBlock x:Name="tbWindowsStoreNoJuegos" VerticalAlignment="Center" Foreground="White" TextWrapping="Wrap"/>
-                        </Grid> 
-                    </controls:DropShadowPanel> 
-                        
-                </Grid>
-
-                <StackPanel x:Name="barraInferior" Grid.Row="1" Orientation="Horizontal">
-                    <controls:DropShadowPanel Margin="10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
-                                                  OffsetZ="5">
-                        <Button x:Name="buttonAñadirJuegos" Padding="10,15" Background="DarkOrchid" IsEnabled="False">
-                            <StackPanel Orientation="Horizontal" >
-                                <SymbolIcon Symbol="Add" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                <TextBlock x:Name="buttonAñadirJuegosTexto" Foreground="White"/>
-                            </StackPanel>
-                        </Button>
-                    </controls:DropShadowPanel>
-
-                    <controls:DropShadowPanel x:Name="panelAvisoAñadirJuegos" Grid.Column="1" Margin="10" Color="Black"
-                                                  BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed">
-                        <Grid Padding="10,15" Background="IndianRed">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <SymbolIcon Grid.Column="0" Foreground="White" Symbol="Important" Margin="5,0"/>
-                            <TextBlock x:Name="tbAvisoAñadirJuegos" Grid.Column="1" Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
-                </StackPanel>
+               
             </Grid>
 
             <Grid Grid.Column="1" Visibility="Collapsed">
-                <Grid.Background>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Color="#FFE4E4E4" Offset="0.5" />
-                        <GradientStop Color="#FFBFBFBF" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Grid.Background>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <controls:DropShadowPanel Grid.Column="0" Margin="10" VerticalAlignment="Top" Color="Black"
-                                                  BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                    <StackPanel Background="DarkOrchid">
-                        <Button x:Name="botonConfigApp" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200" Foreground="White">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <controls:ImageEx Margin="10,0" Source="Assets\steam_logo.png" Width="20" Height="20"/>
-                                    <TextBlock Text="Bridge"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                        <Line Stroke="White" X2="200" HorizontalAlignment="Center"/>
-                        <Button x:Name="botonConfigBlizzard" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200" Foreground="White">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <controls:ImageEx Margin="10,0" Source="Assets\blizzard_logo2.png" Width="20" Height="20"/>
-                                    <TextBlock Text="Blizzard App"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                        <Button x:Name="botonConfigGOGGalaxy" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200" Foreground="White">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <controls:ImageEx Margin="10,0" Source="Assets\gog_logo2.png" Width="20" Height="20"/>
-                                    <TextBlock Text="GOG Galaxy"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                        <Button x:Name="botonConfigOrigin" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200" Foreground="White">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <controls:ImageEx Margin="10,0" Source="Assets\origin_logo2.png" Width="20" Height="20"/>
-                                    <TextBlock Text="Origin"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                        <Button x:Name="botonConfigTwitch" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200" Foreground="White">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <controls:ImageEx Margin="10,0" Source="Assets\twitch_logo2.png" Width="20" Height="20"/>
-                                    <TextBlock Text="Twitch"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                        <Button x:Name="botonConfigUplay" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200" Foreground="White">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <controls:ImageEx Margin="10,0" Source="Assets\uplay_logo2.png" Width="20" Height="20"/>
-                                    <TextBlock Text="Uplay"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                        <Button x:Name="botonConfigWindowsStore" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200" Foreground="White">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <controls:ImageEx Margin="10,0" Source="Assets\windowsstore_logo2.png" Width="20" Height="20"/>
-                                    <TextBlock Text="Windows Store"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                    </StackPanel>
-                </controls:DropShadowPanel> 
                  
                 <Grid Grid.Column="1" Padding="10">
 
                     <Grid x:Name="gridConfigApp" Visibility="Collapsed">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock x:Name="tbSteamConfigInstrucciones" Grid.Row="0" Margin="5" TextWrapping="Wrap"/>
-                        <Grid Margin="5" Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                <Button x:Name="buttonSteamConfigPath" Padding="15,10" Background="DarkOrchid">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Add" Foreground="White"/>
-                                        <TextBlock x:Name="buttonSteamConfigPathTexto" Foreground="White"/>
-                                    </StackPanel>
-                                </Button>
-                            </controls:DropShadowPanel> 
-                                
-                            <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                            <TextBlock x:Name="tbSteamConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                        </Grid>
+                        
                         <TextBlock x:Name="tbSteamOverlayConfigInstrucciones" Grid.Row="2" Margin="5,25,5,5" TextWrapping="Wrap" />
 
                         <ComboBox x:Name="cbSteamOverlay" Grid.Row="3" Margin="5">
@@ -513,30 +448,7 @@
                         </controls:DropShadowPanel>
                     </Grid>
 
-                    <Grid x:Name="gridConfigBlizzard" Visibility="Collapsed">
-                        <StackPanel>
-                            <TextBlock x:Name="tbBattlenetConfigInstrucciones" Margin="5" TextWrapping="Wrap"/>
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                    <Button x:Name="buttonBattlenetConfigPath" Padding="15,10" Background="DarkOrchid">
-                                        <StackPanel Orientation="Horizontal">
-                                            <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Add" Foreground="White"/>
-                                            <TextBlock x:Name="buttonBattlenetConfigPathTexto" Foreground="White"/>
-                                        </StackPanel>
-                                    </Button>
-                                </controls:DropShadowPanel>
-
-                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbBattlenetConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
+              
 
                     <Grid x:Name="gridConfigGOGGalaxy" Visibility="Collapsed">
                         <StackPanel>
