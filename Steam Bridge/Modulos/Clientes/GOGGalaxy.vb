@@ -155,9 +155,6 @@ Module GOGGalaxy
         Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosGOGGalaxy")
 
         If listaJuegos.Count = 0 Then
-            Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            Toast("Steam Bridge - GOG Galaxy", recursos.GetString("Texto No Juegos"))
-
             panelNoJuegos.Visibility = Visibility.Visible
         Else
             panelNoJuegos.Visibility = Visibility.Collapsed

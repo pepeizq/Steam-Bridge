@@ -12,11 +12,11 @@ Module Uplay
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbConfigPathCliente As TextBlock = pagina.FindName("tbUplayConfigPathCliente")
-        Dim buttonConfigPathCliente As TextBlock = pagina.FindName("buttonUplayConfigPathTextoCliente")
-        Dim tbConfigPathJuegos As TextBlock = pagina.FindName("tbUplayConfigPathJuegos")
-        Dim buttonConfigPathJuegos As TextBlock = pagina.FindName("buttonUplayConfigPathTextoJuegos")
-        Dim reg As TextBox = pagina.FindName("tbConfigRegistro")
+        Dim tbUplayRutaCliente As TextBlock = pagina.FindName("tbUplayRutaCliente")
+        Dim botonUplayRutaTextoCliente As TextBlock = pagina.FindName("botonUplayRutaTextoCliente")
+
+        Dim tbUplayRutaJuegos As TextBlock = pagina.FindName("tbUplayRutaJuegos")
+        Dim botonUplayRutaTextoJuegos As TextBlock = pagina.FindName("botonUplayRutaTextoJuegos")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpetaCliente As StorageFolder = Nothing
@@ -57,8 +57,8 @@ Module Uplay
 
                 If Not ejecutable Is Nothing Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathCliente", carpetaCliente)
-                    tbConfigPathCliente.Text = carpetaCliente.Path
-                    buttonConfigPathCliente.Text = recursos.GetString("Boton Cambiar")
+                    tbUplayRutaCliente.Text = carpetaCliente.Path
+                    botonUplayRutaTextoCliente.Text = recursos.GetString("Change")
                     boolCliente = True
                 End If
             End If
@@ -84,8 +84,8 @@ Module Uplay
 
                 If boolManifiesto = True Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathJuegos", carpetaJuegos)
-                    tbConfigPathJuegos.Text = carpetaJuegos.Path
-                    buttonConfigPathJuegos.Text = recursos.GetString("Boton Cambiar")
+                    tbUplayRutaJuegos.Text = carpetaJuegos.Path
+                    botonUplayRutaTextoJuegos.Text = recursos.GetString("Change")
                     boolJuegos = True
                 End If
             End If
@@ -204,9 +204,6 @@ Module Uplay
         Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosUplay")
 
         If listaJuegos.Count = 0 Then
-            Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            Toast("Steam Bridge - Uplay", recursos.GetString("Texto No Juegos"))
-
             panelNoJuegos.Visibility = Visibility.Visible
         Else
             panelNoJuegos.Visibility = Visibility.Collapsed

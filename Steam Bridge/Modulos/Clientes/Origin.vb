@@ -183,9 +183,6 @@ Module Origin
         Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosOrigin")
 
         If listaJuegos.Count = 0 Then
-            Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            Toast("Steam Bridge - Origin", recursos.GetString("Texto No Juegos"))
-
             panelNoJuegos.Visibility = Visibility.Visible
         Else
             panelNoJuegos.Visibility = Visibility.Collapsed

@@ -217,9 +217,6 @@ Module Blizzard
         Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosBlizzard")
 
         If listaJuegos.Count = 0 Then
-            Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            Toast("Steam Bridge - Blizzard App", recursos.GetString("Texto No Juegos"))
-
             panelNoJuegos.Visibility = Visibility.Visible
         Else
             panelNoJuegos.Visibility = Visibility.Collapsed

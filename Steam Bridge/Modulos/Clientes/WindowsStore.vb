@@ -11,9 +11,8 @@ Module WindowsStore
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbConfigPath As TextBlock = pagina.FindName("tbWindowsStoreConfigPath")
-        Dim buttonConfigPath As TextBlock = pagina.FindName("buttonWindowsStoreConfigPathTexto")
-        Dim reg As TextBox = pagina.FindName("tbConfigRegistro")
+        Dim tbWindowsStoreRuta As TextBlock = pagina.FindName("tbWindowsStoreRuta")
+        Dim botonWindowsStoreRutaTexto As TextBlock = pagina.FindName("botonWindowsStoreRutaTexto")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -33,8 +32,8 @@ Module WindowsStore
             If Not carpeta Is Nothing Then
                 If carpeta.Path.Contains("WindowsApps") Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("WindowsStorePath", carpeta)
-                    tbConfigPath.Text = carpeta.Path
-                    buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+                    tbWindowsStoreRuta.Text = carpeta.Path
+                    botonWindowsStoreRutaTexto.Text = recursos.GetString("Change")
                     Return True
                 Else
                     Return False
@@ -235,9 +234,6 @@ Module WindowsStore
         Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosWindowsStore")
 
         If listaJuegos.Count = 0 Then
-            Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-            Toast("Steam Bridge - Windows Store", recursos.GetString("Texto No Juegos"))
-
             panelNoJuegos.Visibility = Visibility.Visible
         Else
             panelNoJuegos.Visibility = Visibility.Collapsed

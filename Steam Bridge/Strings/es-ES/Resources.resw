@@ -120,6 +120,9 @@
   <data name="Add.Text" xml:space="preserve">
     <value>Añadir</value>
   </data>
+  <data name="Add2" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
   <data name="AddGames.Text" xml:space="preserve">
     <value>Añadir Juegos</value>
   </data>
@@ -144,14 +147,32 @@
   <data name="ConfigOriginMessage.Text" xml:space="preserve">
     <value>Añade la carpeta C:\ProgramData\Origin\LocalContent (puede estar oculta)</value>
   </data>
+  <data name="ConfigReset.Text" xml:space="preserve">
+    <value>Resetear Configuración</value>
+  </data>
   <data name="ConfigSteamMessage.Text" xml:space="preserve">
     <value>Antes de poder añadir en Steam los accesos directos debes indicar donde está instalado (ejemplo: C:\Steam)</value>
   </data>
   <data name="ConfigSteamMessage2.Text" xml:space="preserve">
     <value>Ahora configura los clientes que tengas instalados</value>
   </data>
+  <data name="ConfigSteamOverlayMessage.Text" xml:space="preserve">
+    <value>Steam Overlay: Esta opción sirve para conservar el Steam Overlay en otros clientes, pero no es perfecta y puede dar fallos. Selecciona un modo y prueba:</value>
+  </data>
   <data name="ConfigTwitchMessage.Text" xml:space="preserve">
     <value>Añade la carpeta C:\Users\[Tu Usuario]\AppData\Roaming\Twitch</value>
+  </data>
+  <data name="ConfigUplayMessage1.Text" xml:space="preserve">
+    <value>Añade la carpeta donde Uplay está instalado (ejemplo C:\Archivos de Programa\Ubisoft Game Launcher\)</value>
+  </data>
+  <data name="ConfigUplayMessage2.Text" xml:space="preserve">
+    <value>Añade la carpeta donde están instalados los juegos (ejemplo C:\Ubisoft Game Launcher\Games)</value>
+  </data>
+  <data name="ConfigWindowsStoreMessage.Text" xml:space="preserve">
+    <value>Añade la carpeta C:\Archivos de Programa\WindowsApps (debes de tener permisos de lectura)</value>
+  </data>
+  <data name="ConfigWindowsStoreTutorial.Content" xml:space="preserve">
+    <value>Tutorial para obtener permisos</value>
   </data>
   <data name="Contact.Text" xml:space="preserve">
     <value>Contactar</value>
@@ -165,8 +186,17 @@
   <data name="MoreThings" xml:space="preserve">
     <value>Más Cosas</value>
   </data>
+  <data name="NoGames.Text" xml:space="preserve">
+    <value>No se han detectado juegos</value>
+  </data>
+  <data name="NoSteam" xml:space="preserve">
+    <value>Steam no detectado</value>
+  </data>
   <data name="OtherApps.Text" xml:space="preserve">
     <value>Otras Apps</value>
+  </data>
+  <data name="OtherOptions.Text" xml:space="preserve">
+    <value>Otras Opciones</value>
   </data>
   <data name="ReportBug.Text" xml:space="preserve">
     <value>Informa de un Fallo</value>
