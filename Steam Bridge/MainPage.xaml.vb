@@ -494,6 +494,60 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Async Sub LvConfigItemClick(sender As Object, args As ItemClickEventArgs)
+
+        Dim sp As StackPanel = args.ClickedItem
+
+        If sp.Tag.ToString = 0 Then
+
+            GridConfigVisibilidad(spConfigBlizzard, botonBridgeConfigBlizzard)
+
+        ElseIf sp.Tag.ToString = 1 Then
+
+            GridConfigVisibilidad(spConfigGOGGalaxy, botonBridgeConfigGOGGalaxy)
+
+        ElseIf sp.Tag.ToString = 2 Then
+
+            GridConfigVisibilidad(spConfigOrigin, botonBridgeConfigOrigin)
+
+        ElseIf sp.Tag.ToString = 3 Then
+
+            GridConfigVisibilidad(spConfigTwitch, botonBridgeConfigTwitch)
+
+        ElseIf sp.Tag.ToString = 4 Then
+
+            GridConfigVisibilidad(spConfigUplay, botonBridgeConfigUplay)
+
+        ElseIf sp.Tag.ToString = 5 Then
+
+            GridConfigVisibilidad(spConfigWindowsStore, botonBridgeConfigWindowsStore)
+
+        End If
+
+    End Sub
+
+    Private Sub GridConfigVisibilidad(sp As StackPanel, boton As ListViewItem)
+
+        botonBridgeConfigBlizzard.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeConfigGOGGalaxy.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeConfigOrigin.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeConfigTwitch.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeConfigUplay.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeConfigWindowsStore.Background = New SolidColorBrush(Colors.DarkOrchid)
+
+        boton.Background = New SolidColorBrush(Colors.DarkMagenta)
+
+        spConfigBlizzard.Visibility = Visibility.Collapsed
+        spConfigGOGGalaxy.Visibility = Visibility.Collapsed
+        spConfigOrigin.Visibility = Visibility.Collapsed
+        spConfigTwitch.Visibility = Visibility.Collapsed
+        spConfigUplay.Visibility = Visibility.Collapsed
+        spConfigWindowsStore.Visibility = Visibility.Collapsed
+
+        sp.Visibility = Visibility.Visible
+
+    End Sub
+
     Private Async Sub BotonBlizzardRuta_Click(sender As Object, e As RoutedEventArgs) Handles botonBlizzardRuta.Click
 
         If Await Blizzard.Config(True) = True Then
