@@ -494,7 +494,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub LvConfigItemClick(sender As Object, args As ItemClickEventArgs)
+    Private Sub LvConfigItemClick(sender As Object, args As ItemClickEventArgs)
 
         Dim sp As StackPanel = args.ClickedItem
 
