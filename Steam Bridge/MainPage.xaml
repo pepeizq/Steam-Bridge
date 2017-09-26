@@ -41,37 +41,37 @@
                     </Grid.ColumnDefinitions>
 
                     <ListView x:Name="lvBridge" Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvBridgeItemClick">
-                        <ListViewItem x:Name="botonBridgeBlizzard" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
+                        <ListViewItem x:Name="botonBridgeBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="0">
                                 <controls:ImageEx Source="Assets/blizzard_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Blizzard" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeGOGGalaxy" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
+                        <ListViewItem x:Name="botonBridgeGOGGalaxy" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="1">
                                 <controls:ImageEx Source="Assets/gog_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="GOG Galaxy" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeOrigin" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
+                        <ListViewItem x:Name="botonBridgeOrigin" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="2">
                                 <controls:ImageEx Source="Assets/origin_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Origin" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeTwitch" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
+                        <ListViewItem x:Name="botonBridgeTwitch" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="3">
                                 <controls:ImageEx Source="Assets/twitch_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Twitch" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeUplay" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
+                        <ListViewItem x:Name="botonBridgeUplay" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="4">
                                 <controls:ImageEx Source="Assets/uplay_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Uplay" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="botonBridgeWindowsStore" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
+                        <ListViewItem x:Name="botonBridgeWindowsStore" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="5">
                                 <controls:ImageEx Source="Assets/windowsstore_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
                                 <TextBlock Text="Windows Store" Foreground="White"/>
@@ -281,14 +281,12 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                    <Button x:Name="botonSteamRuta" Padding="15,10" Background="DarkOrchid">
-                                        <StackPanel Orientation="Horizontal">
-                                            <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                            <TextBlock x:Name="botonSteamRutaTexto" x:Uid="Add" Foreground="White"/>
-                                        </StackPanel>
-                                    </Button>
-                                </controls:DropShadowPanel>
+                                <Button x:Name="botonSteamRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                        <TextBlock x:Name="botonSteamRutaTexto" x:Uid="Add" Foreground="White"/>
+                                    </StackPanel>
+                                </Button>
 
                                 <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="tbSteamRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
@@ -302,32 +300,32 @@
                                 </Grid.ColumnDefinitions>
 
                                 <ListView Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvConfigItemClick" Margin="10,5">
-                                    <ListViewItem x:Name="botonBridgeConfigBlizzard" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
                                         <StackPanel Orientation="Horizontal" Tag="0">
                                             <TextBlock Text="Blizzard" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigGOGGalaxy" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigGOGGalaxy" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
                                         <StackPanel Orientation="Horizontal" Tag="1">
                                             <TextBlock Text="GOG Galaxy" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigOrigin" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigOrigin" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
                                         <StackPanel Orientation="Horizontal" Tag="2">
                                             <TextBlock Text="Origin" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigTwitch" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigTwitch" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
                                         <StackPanel Orientation="Horizontal" Tag="3">
                                             <TextBlock Text="Twitch" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigUplay" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigUplay" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
                                         <StackPanel Orientation="Horizontal" Tag="4">
                                             <TextBlock Text="Uplay" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigWindowsStore" Background="{StaticResource ColorSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigWindowsStore" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
                                         <StackPanel Orientation="Horizontal" Tag="5">
                                             <TextBlock Text="Windows Store" Foreground="White"/>
                                         </StackPanel>
@@ -343,16 +341,14 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                            <Button x:Name="botonBlizzardRuta" Padding="15,10" Background="DarkOrchid">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                    <TextBlock x:Name="botonBlizzardRutaTexto" x:Uid="Add" Foreground="White"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </controls:DropShadowPanel>
+                                        <Button x:Name="botonBlizzardRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBlock x:Name="botonBlizzardRutaTexto" x:Uid="Add" Foreground="White"/>
+                                            </StackPanel>
+                                        </Button>
 
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
                                         <TextBlock x:Name="tbBlizzardRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     </Grid>
 
@@ -367,16 +363,14 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                            <Button x:Name="botonGOGGalaxyRuta" Padding="15,10" Background="DarkOrchid">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                    <TextBlock x:Name="botonGOGGalaxyRutaTexto" x:Uid="Add" Foreground="White"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </controls:DropShadowPanel>
+                                        <Button x:Name="botonGOGGalaxyRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBlock x:Name="botonGOGGalaxyRutaTexto" x:Uid="Add" Foreground="White"/>
+                                            </StackPanel>
+                                        </Button>
 
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
                                         <TextBlock x:Name="tbGOGGalaxyRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     </Grid>
                                 </StackPanel>
@@ -390,16 +384,14 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                            <Button x:Name="botonOriginRuta" Padding="15,10" Background="DarkOrchid">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                    <TextBlock x:Name="botonOriginRutaTexto" x:Uid="Add" Foreground="White"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </controls:DropShadowPanel>
+                                        <Button x:Name="botonOriginRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBlock x:Name="botonOriginRutaTexto" x:Uid="Add" Foreground="White"/>
+                                            </StackPanel>
+                                        </Button>
 
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
                                         <TextBlock x:Name="tbOriginRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     </Grid>
                                 </StackPanel>
@@ -413,16 +405,14 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                            <Button x:Name="botonTwitchRuta" Padding="15,10" Background="DarkOrchid">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                    <TextBlock x:Name="botonTwitchRutaTexto" x:Uid="Add" Foreground="White"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </controls:DropShadowPanel>
+                                        <Button x:Name="botonTwitchRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBlock x:Name="botonTwitchRutaTexto" x:Uid="Add" Foreground="White"/>
+                                            </StackPanel>
+                                        </Button>
 
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
                                         <TextBlock x:Name="tbTwitchRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     </Grid>
                                 </StackPanel>
@@ -436,14 +426,12 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                            <Button x:Name="botonUplayRutaCliente" Padding="15,10" Background="DarkOrchid">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                    <TextBlock x:Name="botonUplayRutaTextoCliente" x:Uid="Add" Foreground="White"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </controls:DropShadowPanel>
+                                        <Button x:Name="botonUplayRutaCliente" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBlock x:Name="botonUplayRutaTextoCliente" x:Uid="Add" Foreground="White"/>
+                                            </StackPanel>
+                                        </Button>
 
                                         <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
                                         <TextBlock x:Name="tbUplayRutaCliente" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
@@ -457,14 +445,12 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                            <Button x:Name="botonUplayRutaJuegos" Padding="15,10" Background="DarkOrchid">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                    <TextBlock x:Name="botonUplayRutaTextoJuegos" x:Uid="Add" Foreground="White"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </controls:DropShadowPanel>
+                                        <Button x:Name="botonUplayRutaJuegos" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBlock x:Name="botonUplayRutaTextoJuegos" x:Uid="Add" Foreground="White"/>
+                                            </StackPanel>
+                                        </Button>
 
                                         <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
                                         <TextBlock x:Name="tbUplayRutaJuegos" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
@@ -481,21 +467,16 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <controls:DropShadowPanel Grid.Column="0" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                            <Button x:Name="botonWindowsStoreRuta" Padding="15,10" Background="DarkOrchid">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                    <TextBlock x:Name="botonWindowsStoreRutaTexto" x:Uid="Add" Foreground="White"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </controls:DropShadowPanel>
+                                        <Button x:Name="botonWindowsStoreRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBlock x:Name="botonWindowsStoreRutaTexto" x:Uid="Add" Foreground="White"/>
+                                            </StackPanel>
+                                        </Button>
 
                                         <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
                                         <TextBlock x:Name="tbWindowsStoreRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
-
-                                        <controls:DropShadowPanel Grid.Column="3" Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                                            <Button x:Name="botonWindowsStoreTutorial" x:Uid="ConfigWindowsStoreTutorial" Padding="15,10" Background="DarkOrchid" Foreground="White" Margin="0,0,10,0"/>
-                                        </controls:DropShadowPanel>
+                                        <Button x:Name="botonWindowsStoreTutorial" x:Uid="ConfigWindowsStoreTutorial" Grid.Column="3" Padding="15,10" Background="{StaticResource BrushSecundario}" Foreground="White" Margin="0,0,10,0"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -530,14 +511,12 @@
                                 </ComboBoxItem>
                             </ComboBox>
 
-                            <controls:DropShadowPanel Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Margin="10,25,10,5">
-                                <Button x:Name="botonBorrarConfig" Padding="15,10" Background="DarkOrchid">
-                                    <StackPanel Orientation="Horizontal">
-                                        <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Delete" Foreground="White"/>
-                                        <TextBlock x:Uid="ConfigReset" Foreground="White"/>
-                                    </StackPanel>
-                                </Button>
-                            </controls:DropShadowPanel>
+                            <Button x:Name="botonBorrarConfig" Margin="10,25,10,5" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Delete" Foreground="White"/>
+                                    <TextBlock x:Uid="ConfigReset" Foreground="White"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel> 
                     </ScrollViewer> 
                 </Grid>
@@ -551,43 +530,43 @@
                             </Grid.ColumnDefinitions>
 
                             <ListView Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvMasCosasItemClick">
-                                <ListViewItem Background="{StaticResource ColorSecundario}">
+                                <ListViewItem Background="{StaticResource BrushSecundario}">
                                     <StackPanel Orientation="Horizontal" Tag="0">
                                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8E1;" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                         <TextBlock x:Uid="VoteApp" Foreground="White" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </ListViewItem>
-                                <ListViewItem Background="{StaticResource ColorSecundario}" Margin="0,0,0,20">
+                                <ListViewItem Background="{StaticResource BrushSecundario}" Margin="0,0,0,20">
                                     <StackPanel Orientation="Horizontal" Tag="1">
                                         <controls:ImageEx Source="Assets\MasCosas\pepeizq.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
                                         <TextBlock x:Uid="OtherApps" Foreground="White" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </ListViewItem>
-                                <ListViewItem Background="{StaticResource ColorSecundario}">
+                                <ListViewItem Background="{StaticResource BrushSecundario}">
                                     <StackPanel Orientation="Horizontal" Tag="2">
                                         <controls:ImageEx Source="Assets\MasCosas\contacto.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
                                         <TextBlock x:Uid="Contact" Foreground="White" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </ListViewItem>
-                                <ListViewItem Background="{StaticResource ColorSecundario}" Margin="0,0,0,20">
+                                <ListViewItem Background="{StaticResource BrushSecundario}" Margin="0,0,0,20">
                                     <StackPanel Orientation="Horizontal" Tag="3">
                                         <controls:ImageEx Source="Assets\MasCosas\feedback.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
                                         <TextBlock x:Uid="ReportBug" Foreground="White" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </ListViewItem>
-                                <ListViewItem Background="{StaticResource ColorSecundario}">
+                                <ListViewItem Background="{StaticResource BrushSecundario}">
                                     <StackPanel Orientation="Horizontal" Tag="4">
                                         <controls:ImageEx Source="Assets\MasCosas\poeditor.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
                                         <TextBlock x:Uid="HelpTranslate" Foreground="White" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </ListViewItem>
-                                <ListViewItem Background="{StaticResource ColorSecundario}">
+                                <ListViewItem Background="{StaticResource BrushSecundario}">
                                     <StackPanel Orientation="Horizontal" Tag="5">
                                         <controls:ImageEx Source="Assets\MasCosas\github.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
                                         <TextBlock x:Uid="SourceCode" Foreground="White" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </ListViewItem>
-                                <ListViewItem Background="{StaticResource ColorSecundario}">
+                                <ListViewItem Background="{StaticResource BrushSecundario}">
                                     <StackPanel Orientation="Horizontal" Tag="6">
                                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE76E;" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                         <TextBlock x:Uid="ThanksTo" Foreground="White" VerticalAlignment="Center"/>
