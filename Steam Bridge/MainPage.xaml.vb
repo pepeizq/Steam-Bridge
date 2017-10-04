@@ -101,7 +101,7 @@ Public NotInheritable Class MainPage
 
     Private Sub GridVisibilidad(grid As Grid, tag As String)
 
-        tbTitulo.Text = "Steam Bridge (" + SystemInformation.ApplicationVersion.Major.ToString + "." + SystemInformation.ApplicationVersion.Minor.ToString + "." + SystemInformation.ApplicationVersion.Build.ToString + "." + SystemInformation.ApplicationVersion.Revision.ToString + ") - " + tag
+        tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + tag
 
         gridBridge.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
@@ -117,12 +117,12 @@ Public NotInheritable Class MainPage
             panelMensajeBridge.Visibility = Visibility.Collapsed
         End If
 
-        botonBridgeBlizzard.Background = New SolidColorBrush(Colors.DarkOrchid)
-        botonBridgeGOGGalaxy.Background = New SolidColorBrush(Colors.DarkOrchid)
-        botonBridgeOrigin.Background = New SolidColorBrush(Colors.DarkOrchid)
-        botonBridgeTwitch.Background = New SolidColorBrush(Colors.DarkOrchid)
-        botonBridgeUplay.Background = New SolidColorBrush(Colors.DarkOrchid)
-        botonBridgeWindowsStore.Background = New SolidColorBrush(Colors.DarkOrchid)
+        botonBridgeBlizzard.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonBridgeGOGGalaxy.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonBridgeOrigin.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonBridgeTwitch.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonBridgeUplay.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonBridgeWindowsStore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
 
         gridBridgeBlizzard.Visibility = Visibility.Collapsed
         gridBridgeGOGGalaxy.Visibility = Visibility.Collapsed
@@ -135,7 +135,8 @@ Public NotInheritable Class MainPage
 
         If sp.Tag.ToString = 0 Then
 
-            botonBridgeBlizzard.Background = New SolidColorBrush(Colors.DarkMagenta)
+            tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - Blizzard"
+            botonBridgeBlizzard.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridBridgeBlizzard.Visibility = Visibility.Visible
 
             If lvBlizzard.Items.Count = 0 Then
@@ -144,7 +145,8 @@ Public NotInheritable Class MainPage
 
         ElseIf sp.Tag.ToString = 1 Then
 
-            botonBridgeGOGGalaxy.Background = New SolidColorBrush(Colors.DarkMagenta)
+            tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - GOG Galaxy"
+            botonBridgeGOGGalaxy.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridBridgeGOGGalaxy.Visibility = Visibility.Visible
 
             If lvGOGGalaxy.Items.Count = 0 Then
@@ -153,7 +155,8 @@ Public NotInheritable Class MainPage
 
         ElseIf sp.Tag.ToString = 2 Then
 
-            botonBridgeOrigin.Background = New SolidColorBrush(Colors.DarkMagenta)
+            tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - Origin"
+            botonBridgeOrigin.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridBridgeOrigin.Visibility = Visibility.Visible
 
             If lvOrigin.Items.Count = 0 Then
@@ -162,7 +165,8 @@ Public NotInheritable Class MainPage
 
         ElseIf sp.Tag.ToString = 3 Then
 
-            botonBridgeTwitch.Background = New SolidColorBrush(Colors.DarkMagenta)
+            tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - Twitch"
+            botonBridgeTwitch.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridBridgeTwitch.Visibility = Visibility.Visible
 
             If lvTwitch.Items.Count = 0 Then
@@ -171,7 +175,8 @@ Public NotInheritable Class MainPage
 
         ElseIf sp.Tag.ToString = 4 Then
 
-            botonBridgeUplay.Background = New SolidColorBrush(Colors.DarkMagenta)
+            tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - Uplay"
+            botonBridgeUplay.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridBridgeUplay.Visibility = Visibility.Visible
 
             If lvUplay.Items.Count = 0 Then
@@ -180,7 +185,8 @@ Public NotInheritable Class MainPage
 
         ElseIf sp.Tag.ToString = 5 Then
 
-            botonBridgeWindowsStore.Background = New SolidColorBrush(Colors.DarkMagenta)
+            tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - Windows Store"
+            botonBridgeWindowsStore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridBridgeWindowsStore.Visibility = Visibility.Visible
 
             If lvWindowsStore.Items.Count = 0 Then
