@@ -151,7 +151,7 @@
     <value>Reset Configuration</value>
   </data>
   <data name="ConfigSteamMessage.Text" xml:space="preserve">
-    <value>Before you can add in Steam the shortcuts you must indicate where it is installed (example: C: \ Steam)</value>
+    <value>Before you can add in Steam the shortcuts you must indicate where it is installed (example: C:\Steam)</value>
   </data>
   <data name="ConfigSteamMessage2.Text" xml:space="preserve">
     <value>Now configure the clients you have installed</value>
