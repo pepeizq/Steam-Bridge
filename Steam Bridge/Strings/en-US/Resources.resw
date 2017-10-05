@@ -204,6 +204,12 @@
   <data name="SourceCode.Text" xml:space="preserve">
     <value>Source Code</value>
   </data>
+  <data name="Success" xml:space="preserve">
+    <value>The game has been added to Steam</value>
+  </data>
+  <data name="Success2" xml:space="preserve">
+    <value>The games have been added in Steam</value>
+  </data>
   <data name="ThanksTo.Text" xml:space="preserve">
     <value>Thanks to</value>
   </data>

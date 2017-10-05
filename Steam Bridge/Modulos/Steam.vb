@@ -365,12 +365,10 @@ Module Steam
 
         If exito = True Then
             If lista.Count = 1 Then
-                Notificaciones.Toast("Steam Bridge", recursos.GetString("Exito"))
+                Notificaciones.Toast(recursos.GetString("Success"), Nothing)
             Else
-                Notificaciones.Toast("Steam Bridge", recursos.GetString("Exitos"))
+                Notificaciones.Toast(recursos.GetString("Success2"), Nothing)
             End If
-        Else
-            Notificaciones.Toast("Steam Bridge", recursos.GetString("Error 1"))
         End If
 
     End Sub
