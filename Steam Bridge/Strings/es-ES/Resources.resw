@@ -183,6 +183,9 @@
   <data name="MessageBridge.Text" xml:space="preserve">
     <value>Selecciona un cliente de la barra izquierda si lo tienes configurado</value>
   </data>
+  <data name="MoreApps.Text" xml:space="preserve">
+    <value>Más Apps</value>
+  </data>
   <data name="MoreThings" xml:space="preserve">
     <value>Más Cosas</value>
   </data>
@@ -191,9 +194,6 @@
   </data>
   <data name="NoSteam" xml:space="preserve">
     <value>Steam no detectado</value>
-  </data>
-  <data name="OtherApps.Text" xml:space="preserve">
-    <value>Otras Apps</value>
   </data>
   <data name="OtherOptions.Text" xml:space="preserve">
     <value>Otras Opciones</value>
@@ -212,6 +212,9 @@
   </data>
   <data name="ThanksTo.Text" xml:space="preserve">
     <value>Agradecimientos</value>
+  </data>
+  <data name="Updates.Text" xml:space="preserve">
+    <value>Actualizaciones</value>
   </data>
   <data name="VoteApp.Text" xml:space="preserve">
     <value>Vota la App</value>
