@@ -1,1 +1,1 @@
-E:\Proyectos\Steam Bridge\Steam Bridge\bin\x64\Release\Upload\Steam Bridge_1.1.0.0\Steam Bridge_1.1.0.0_x86_x64.appxbundle
+E:\Proyectos\Steam Bridge\Steam Bridge\bin\x64\Release\Upload\Steam Bridge_1.1.1.0\Steam Bridge_1.1.1.0_x86_x64.appxbundle
