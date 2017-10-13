@@ -98,6 +98,16 @@ Public NotInheritable Class MainPage
             botonBridgeWindowsStore.IsEnabled = True
         End If
 
+        '--------------------------------------------------------
+
+        Dim transpariencia As New UISettings
+        Dim boolTranspariencia As Boolean = transpariencia.AdvancedEffectsEnabled
+
+        If boolTranspariencia = False Then
+            gridConfigBridge.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+            gridConfigOtherOptions.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        End If
+
     End Sub
 
     Private Sub GridVisibilidad(grid As Grid, tag As String)

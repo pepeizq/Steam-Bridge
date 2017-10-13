@@ -270,8 +270,9 @@
                 <Grid x:Name="gridConfig" Visibility="Collapsed">
                     <ScrollViewer>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Bridge" Margin="10,5" FontSize="16"/>
-                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+                            <Grid x:Name="gridConfigBridge" Width="500" HorizontalAlignment="Left" Margin="5,5,10,10" Padding="10" Background="{StaticResource GridTituloBackground}">
+                                <TextBlock Text="Bridge" FontSize="16" Foreground="White"/>
+                            </Grid>
 
                             <TextBlock x:Uid="ConfigSteamMessage" Margin="10,5" TextWrapping="Wrap"/>
                             <Grid Margin="10,5">
@@ -300,27 +301,27 @@
                                 </Grid.ColumnDefinitions>
 
                                 <ListView Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvConfigItemClick" Margin="10,5">
-                                    <ListViewItem x:Name="botonBridgeConfigBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
                                         <StackPanel Orientation="Horizontal" Tag="0">
                                             <TextBlock Text="Blizzard" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigGOGGalaxy" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigGOGGalaxy" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
                                         <StackPanel Orientation="Horizontal" Tag="1">
                                             <TextBlock Text="GOG Galaxy" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigOrigin" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigOrigin" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
                                         <StackPanel Orientation="Horizontal" Tag="2">
                                             <TextBlock Text="Origin" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigTwitch" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigTwitch" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
                                         <StackPanel Orientation="Horizontal" Tag="3">
                                             <TextBlock Text="Twitch" Foreground="White"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigUplay" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
+                                    <ListViewItem x:Name="botonBridgeConfigUplay" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
                                         <StackPanel Orientation="Horizontal" Tag="4">
                                             <TextBlock Text="Uplay" Foreground="White"/>
                                         </StackPanel>
@@ -481,8 +482,9 @@
                                 </StackPanel>
                             </Grid>
 
-                            <TextBlock x:Uid="OtherOptions" Margin="10,35,10,5" FontSize="16"/>
-                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+                            <Grid x:Name="gridConfigOtherOptions" Width="500" HorizontalAlignment="Left" Margin="5,40,10,10" Padding="10" Background="{StaticResource GridTituloBackground}">
+                                <TextBlock x:Uid="OtherOptions" FontSize="16" Foreground="White"/>
+                            </Grid>
 
                             <TextBlock x:Uid="ConfigSteamOverlayMessage" Margin="10,5" TextWrapping="Wrap"/>
                             <ComboBox x:Name="cbSteamOverlay" Margin="10,5">
