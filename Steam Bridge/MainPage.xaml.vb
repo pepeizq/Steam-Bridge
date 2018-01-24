@@ -104,8 +104,10 @@ Public NotInheritable Class MainPage
         Dim boolTranspariencia As Boolean = transpariencia.AdvancedEffectsEnabled
 
         If boolTranspariencia = False Then
+            gridConfig.Background = New SolidColorBrush(Colors.LightGray)
             gridConfigBridge.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridConfigOtherOptions.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+            gridMasCosas.Background = New SolidColorBrush(Colors.LightGray)
         End If
 
     End Sub
@@ -114,7 +116,6 @@ Public NotInheritable Class MainPage
 
         tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + tag
 
-        gridBridge.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
         gridMasCosas.Visibility = Visibility.Collapsed
 

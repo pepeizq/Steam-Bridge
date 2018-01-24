@@ -20,7 +20,7 @@
         <NavigationView x:Name="nvPrincipal" Grid.Row="1" Loaded="Nv_Loaded" ItemInvoked="Nv_ItemInvoked"
                         OpenPaneLength="200" AlwaysShowHeader="False" IsSettingsVisible="False">
 
-            <Grid Padding="10">
+            <Grid>
                 <Grid.Transitions>
                     <TransitionCollection>
                         <EdgeUIThemeTransition Edge="Bottom"/>
@@ -34,7 +34,7 @@
                     </LinearGradientBrush>
                 </Grid.Background>
 
-                <Grid x:Name="gridBridge" Visibility="Collapsed">
+                <Grid x:Name="gridBridge" Visibility="Collapsed" Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -267,263 +267,233 @@
                     </Grid>
                 </Grid>
 
-                <Grid x:Name="gridConfig" Visibility="Collapsed">
+                <Grid x:Name="gridConfig" Visibility="Collapsed" Background="{StaticResource GridAcrilico}">
                     <ScrollViewer>
-                        <StackPanel Orientation="Vertical">
-                            <Grid x:Name="gridConfigBridge" Width="500" HorizontalAlignment="Left" Margin="5,5,10,10" Padding="10" Background="{StaticResource GridTituloBackground}">
-                                <TextBlock Text="Bridge" FontSize="16" Foreground="White"/>
-                            </Grid>
+                        <StackPanel Orientation="Vertical" Width="700" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel Orientation="Vertical" Margin="40,20" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1">
+                                <StackPanel.Background>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="#FFE4E4E4" Offset="0.5" />
+                                        <GradientStop Color="#FFBFBFBF" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </StackPanel.Background>
 
-                            <TextBlock x:Uid="ConfigSteamMessage" Margin="10,5" TextWrapping="Wrap"/>
-                            <Grid Margin="10,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                <Grid x:Name="gridConfigBridge" HorizontalAlignment="Stretch" Padding="10" Background="{StaticResource GridTituloBackground}">
+                                    <TextBlock Text="Bridge" FontSize="16" Foreground="White" Margin="5,0,0,0"/>
+                                </Grid>
 
-                                <Button x:Name="botonSteamRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                        <TextBlock x:Name="botonSteamRutaTexto" x:Uid="Add" Foreground="White"/>
-                                    </StackPanel>
-                                </Button>
+                                <StackPanel Orientation="Vertical" Padding="15">
+                                    <TextBlock x:Uid="ConfigSteamMessage" TextWrapping="Wrap"/>
 
-                                <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="tbSteamRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            </Grid>
-                            
-                            <TextBlock x:Uid="ConfigSteamMessage2" Margin="10,25,10,5" TextWrapping="Wrap"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <ListView Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvConfigItemClick" Margin="10,5">
-                                    <ListViewItem x:Name="botonBridgeConfigBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="0">
-                                            <TextBlock Text="Blizzard" Foreground="White"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigGOGGalaxy" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="1">
-                                            <TextBlock Text="GOG Galaxy" Foreground="White"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigOrigin" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="2">
-                                            <TextBlock Text="Origin" Foreground="White"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigTwitch" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="3">
-                                            <TextBlock Text="Twitch" Foreground="White"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigUplay" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="4">
-                                            <TextBlock Text="Uplay" Foreground="White"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="botonBridgeConfigWindowsStore" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
-                                        <StackPanel Orientation="Horizontal" Tag="5">
-                                            <TextBlock Text="Windows Store" Foreground="White"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                </ListView>
-
-                                <StackPanel x:Name="spConfigBlizzard" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed">
-                                    <TextBlock x:Uid="ConfigBlizzardMessage" Margin="10,15,10,5" TextWrapping="Wrap"/>
-                                    <Grid Margin="10,5">
+                                    <Grid Margin="0,15,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Button x:Name="botonBlizzardRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                        <Button x:Name="botonSteamRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
                                             <StackPanel Orientation="Horizontal">
                                                 <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Name="botonBlizzardRutaTexto" x:Uid="Add" Foreground="White"/>
+                                                <TextBlock x:Name="botonSteamRutaTexto" x:Uid="Add" Foreground="White"/>
                                             </StackPanel>
                                         </Button>
 
                                         <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="tbBlizzardRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="tbSteamRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     </Grid>
 
-                                </StackPanel>
+                                    <Grid BorderBrush="{StaticResource BrushSecundario}" BorderThickness="0,1,0,0" HorizontalAlignment="Stretch" Margin="0,25"/>
 
-                                <StackPanel x:Name="spConfigGOGGalaxy" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed">
-                                    <TextBlock x:Uid="ConfigGOGGalaxyMessage" Margin="10,15,10,5" TextWrapping="Wrap"/>
-                                    <Grid Margin="10,5">
+                                    <TextBlock x:Uid="ConfigSteamMessage2" TextWrapping="Wrap"/>
+
+                                    <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Button x:Name="botonGOGGalaxyRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Name="botonGOGGalaxyRutaTexto" x:Uid="Add" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button>
+                                        <ListView Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvConfigItemClick" Margin="0,15,10,5">
+                                            <ListViewItem x:Name="botonBridgeConfigBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                                <StackPanel Orientation="Horizontal" Tag="0">
+                                                    <TextBlock Text="Blizzard" Foreground="White"/>
+                                                </StackPanel>
+                                            </ListViewItem>
+                                            <ListViewItem x:Name="botonBridgeConfigGOGGalaxy" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                                <StackPanel Orientation="Horizontal" Tag="1">
+                                                    <TextBlock Text="GOG Galaxy" Foreground="White"/>
+                                                </StackPanel>
+                                            </ListViewItem>
+                                            <ListViewItem x:Name="botonBridgeConfigOrigin" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                                <StackPanel Orientation="Horizontal" Tag="2">
+                                                    <TextBlock Text="Origin" Foreground="White"/>
+                                                </StackPanel>
+                                            </ListViewItem>
+                                            <ListViewItem x:Name="botonBridgeConfigTwitch" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                                <StackPanel Orientation="Horizontal" Tag="3">
+                                                    <TextBlock Text="Twitch" Foreground="White"/>
+                                                </StackPanel>
+                                            </ListViewItem>
+                                            <ListViewItem x:Name="botonBridgeConfigUplay" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                                <StackPanel Orientation="Horizontal" Tag="4">
+                                                    <TextBlock Text="Uplay" Foreground="White"/>
+                                                </StackPanel>
+                                            </ListViewItem>
+                                            <ListViewItem x:Name="botonBridgeConfigWindowsStore" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0">
+                                                <StackPanel Orientation="Horizontal" Tag="5">
+                                                    <TextBlock Text="Windows Store" Foreground="White"/>
+                                                </StackPanel>
+                                            </ListViewItem>
+                                        </ListView>
 
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="tbGOGGalaxyRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                        <StackPanel x:Name="spConfigBlizzard" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
+                                            <TextBlock x:Uid="ConfigBlizzardMessage" TextWrapping="Wrap"/>
+
+                                            <Button x:Name="botonBlizzardRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                    <TextBlock x:Name="botonBlizzardRutaTexto" x:Uid="Add" Foreground="White"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <TextBlock x:Name="tbBlizzardRuta" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="spConfigGOGGalaxy" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
+                                            <TextBlock x:Uid="ConfigGOGGalaxyMessage" TextWrapping="Wrap"/>
+
+                                            <Button x:Name="botonGOGGalaxyRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                    <TextBlock x:Name="botonGOGGalaxyRutaTexto" x:Uid="Add" Foreground="White"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <TextBlock x:Name="tbGOGGalaxyRuta" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="spConfigOrigin" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
+                                            <TextBlock x:Uid="ConfigOriginMessage" TextWrapping="Wrap"/>
+
+                                            <Button x:Name="botonOriginRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                    <TextBlock x:Name="botonOriginRutaTexto" x:Uid="Add" Foreground="White"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <TextBlock x:Name="tbOriginRuta" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="spConfigTwitch" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
+                                            <TextBlock x:Uid="ConfigTwitchMessage" TextWrapping="Wrap"/>
+
+                                            <Button x:Name="botonTwitchRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                    <TextBlock x:Name="botonTwitchRutaTexto" x:Uid="Add" Foreground="White"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <TextBlock x:Name="tbTwitchRuta" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="spConfigUplay" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
+                                            <TextBlock x:Uid="ConfigUplayMessage1" TextWrapping="Wrap"/>
+
+                                            <Button x:Name="botonUplayRutaCliente" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                    <TextBlock x:Name="botonUplayRutaTextoCliente" x:Uid="Add" Foreground="White"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <TextBlock x:Name="tbUplayRutaCliente" VerticalAlignment="Center" TextWrapping="Wrap"/>
+
+                                            <TextBlock x:Uid="ConfigUplayMessage2" TextWrapping="Wrap" Margin="0,15,0,0"/>
+
+                                            <Button x:Name="botonUplayRutaJuegos" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                    <TextBlock x:Name="botonUplayRutaTextoJuegos" x:Uid="Add" Foreground="White"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <TextBlock x:Name="tbUplayRutaJuegos" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="spConfigWindowsStore" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
+                                            <TextBlock x:Uid="ConfigWindowsStoreMessage" TextWrapping="Wrap"/>
+
+                                            <Button x:Name="botonWindowsStoreRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                    <TextBlock x:Name="botonWindowsStoreRutaTexto" x:Uid="Add" Foreground="White"/>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <TextBlock x:Name="tbWindowsStoreRuta" Margin="0,0,0,15" VerticalAlignment="Center" TextWrapping="Wrap"/>
+
+                                            <Button x:Name="botonWindowsStoreTutorial" x:Uid="ConfigWindowsStoreTutorial" Padding="15,10" Background="{StaticResource BrushSecundario}" Foreground="White"/>
+                                        </StackPanel>
                                     </Grid>
-                                </StackPanel>
+                                </StackPanel>           
+                            </StackPanel>
 
-                                <StackPanel x:Name="spConfigOrigin" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed">
-                                    <TextBlock x:Uid="ConfigOriginMessage" Margin="10,15,10,5" TextWrapping="Wrap"/>
-                                    <Grid Margin="10,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Vertical" Margin="40,20" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1">
+                                <StackPanel.Background>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="#FFE4E4E4" Offset="0.5" />
+                                        <GradientStop Color="#FFBFBFBF" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </StackPanel.Background>
 
-                                        <Button x:Name="botonOriginRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Name="botonOriginRutaTexto" x:Uid="Add" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button>
+                                <Grid x:Name="gridConfigOtherOptions" HorizontalAlignment="Stretch" Padding="10" Background="{StaticResource GridTituloBackground}">
+                                    <TextBlock x:Uid="OtherOptions" FontSize="16" Foreground="White" Margin="5,0,0,0"/>
+                                </Grid>
 
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="tbOriginRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Padding="15">
+                                    <TextBlock x:Uid="ConfigSteamOverlayMessage" TextWrapping="Wrap"/>
 
-                                <StackPanel x:Name="spConfigTwitch" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed">
-                                    <TextBlock x:Uid="ConfigTwitchMessage" Margin="10,15,10,5" TextWrapping="Wrap"/>
-                                    <Grid Margin="10,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                    <ComboBox x:Name="cbSteamOverlay" Margin="0,15">
+                                        <ComboBoxItem>
+                                            <ComboBoxItem.Content>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="None"/>
+                                                </StackPanel>
+                                            </ComboBoxItem.Content>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <ComboBoxItem.Content>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <controls:ImageEx Source="Assets\vbsicon.png" Margin="0,0,10,0" Width="20" Height="20"/>
+                                                    <TextBlock Text="VBScript"/>
+                                                </StackPanel>
+                                            </ComboBoxItem.Content>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <ComboBoxItem.Content>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <controls:ImageEx Source="Assets\psicon.png" Margin="0,0,10,0" Width="20" Height="20"/>
+                                                    <TextBlock Text="PowerShell"/>
+                                                </StackPanel>
+                                            </ComboBoxItem.Content>
+                                        </ComboBoxItem>
+                                    </ComboBox>
 
-                                        <Button x:Name="botonTwitchRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Name="botonTwitchRutaTexto" x:Uid="Add" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button>
-
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="tbTwitchRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </StackPanel>
-
-                                <StackPanel x:Name="spConfigUplay" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed">
-                                    <TextBlock x:Uid="ConfigUplayMessage1" Margin="10,15,10,5" TextWrapping="Wrap"/>
-                                    <Grid Margin="10,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Button x:Name="botonUplayRutaCliente" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Name="botonUplayRutaTextoCliente" x:Uid="Add" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button>
-
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="tbUplayRutaCliente" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    </Grid>
-
-                                    <TextBlock x:Uid="ConfigUplayMessage2" Margin="10,5" TextWrapping="Wrap"/>
-                                    <Grid Margin="10,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Button x:Name="botonUplayRutaJuegos" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Name="botonUplayRutaTextoJuegos" x:Uid="Add" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button>
-
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                        <TextBlock x:Name="tbUplayRutaJuegos" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </StackPanel>
-
-                                <StackPanel x:Name="spConfigWindowsStore" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed">
-                                    <TextBlock x:Uid="ConfigWindowsStoreMessage" Margin="10,15,10,5" TextWrapping="Wrap"/>
-                                    <Grid Margin="10,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Button x:Name="botonWindowsStoreRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Name="botonWindowsStoreRutaTexto" x:Uid="Add" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button>
-
-                                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                                        <TextBlock x:Name="tbWindowsStoreRuta" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                        <Button x:Name="botonWindowsStoreTutorial" x:Uid="ConfigWindowsStoreTutorial" Grid.Column="3" Padding="15,10" Background="{StaticResource BrushSecundario}" Foreground="White" Margin="0,0,10,0"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Grid>
-
-                            <Grid x:Name="gridConfigOtherOptions" Width="500" HorizontalAlignment="Left" Margin="5,40,10,10" Padding="10" Background="{StaticResource GridTituloBackground}">
-                                <TextBlock x:Uid="OtherOptions" FontSize="16" Foreground="White"/>
-                            </Grid>
-
-                            <TextBlock x:Uid="ConfigSteamOverlayMessage" Margin="10,5" TextWrapping="Wrap"/>
-                            <ComboBox x:Name="cbSteamOverlay" Margin="10,5">
-                                <ComboBoxItem>
-                                    <ComboBoxItem.Content>
+                                    <Button x:Name="botonBorrarConfig" Margin="0,20,0,5" Padding="15,10" Background="{StaticResource BrushSecundario}">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="None"/>
+                                            <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Delete" Foreground="White"/>
+                                            <TextBlock x:Uid="ConfigReset" Foreground="White"/>
                                         </StackPanel>
-                                    </ComboBoxItem.Content>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <ComboBoxItem.Content>
-                                        <StackPanel Orientation="Horizontal">
-                                            <controls:ImageEx Source="Assets\vbsicon.png" Margin="0,0,10,0" Width="20" Height="20"/>
-                                            <TextBlock Text="VBScript"/>
-                                        </StackPanel>
-                                    </ComboBoxItem.Content>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <ComboBoxItem.Content>
-                                        <StackPanel Orientation="Horizontal">
-                                            <controls:ImageEx Source="Assets\psicon.png" Margin="0,0,10,0" Width="20" Height="20"/>
-                                            <TextBlock Text="PowerShell"/>
-                                        </StackPanel>
-                                    </ComboBoxItem.Content>
-                                </ComboBoxItem>
-                            </ComboBox>
-
-                            <Button x:Name="botonBorrarConfig" Margin="10,25,10,5" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Delete" Foreground="White"/>
-                                    <TextBlock x:Uid="ConfigReset" Foreground="White"/>
+                                    </Button>
                                 </StackPanel>
-                            </Button>
+                            </StackPanel>
                         </StackPanel> 
                     </ScrollViewer> 
                 </Grid>
 
-                <Grid x:Name="gridMasCosas" Visibility="Collapsed">
+                <Grid x:Name="gridMasCosas" Visibility="Collapsed" Background="{StaticResource GridAcrilico}">
                     <ScrollViewer>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -531,46 +501,55 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <ListView Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvMasCosasItemClick">
-                                <ListViewItem Background="{StaticResource BrushSecundario}" Margin="0,0,0,30">
-                                    <StackPanel Orientation="Horizontal" Tag="0">
-                                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8E1;" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                        <TextBlock x:Uid="VoteApp" Foreground="White" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lvMasCosasMasApps" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                    <StackPanel Orientation="Horizontal" Tag="1">
-                                        <controls:ImageEx Source="Assets\MasCosas\pepeizq.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                        <TextBlock x:Uid="MoreApps" Foreground="White" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lvMasCosasContacto" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                    <StackPanel Orientation="Horizontal" Tag="3">
-                                        <controls:ImageEx Source="Assets\MasCosas\contacto.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                        <TextBlock x:Uid="Contact" Foreground="White" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lvMasCosasReportarFallo" Background="{StaticResource BrushSecundario}" Margin="0,0,0,30">
-                                    <StackPanel Orientation="Horizontal" Tag="4">
-                                        <controls:ImageEx Source="Assets\MasCosas\feedback.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                        <TextBlock x:Uid="ReportBug" Foreground="White" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lvMasCosasTraduccion" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                    <StackPanel Orientation="Horizontal" Tag="5">
-                                        <controls:ImageEx Source="Assets\MasCosas\poeditor.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                        <TextBlock x:Uid="HelpTranslate" Foreground="White" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lvMasCosasCodigoFuente" Background="{StaticResource BrushSecundario}">
-                                    <StackPanel Orientation="Horizontal" Tag="6">
-                                        <controls:ImageEx Source="Assets\MasCosas\github.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                        <TextBlock x:Uid="SourceCode" Foreground="White" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                            </ListView>
+                            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1" Padding="15" VerticalAlignment="Top">
+                                <StackPanel.Background>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="#FFE4E4E4" Offset="0.5" />
+                                        <GradientStop Color="#FFBFBFBF" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </StackPanel.Background>
 
-                            <Grid Grid.Column="1" Margin="10,0,0,0">
+                                <ListView IsItemClickEnabled="True" ItemClick="LvMasCosasItemClick">
+                                    <ListViewItem Background="{StaticResource BrushSecundario}" Margin="0,0,0,30">
+                                        <StackPanel Orientation="Horizontal" Tag="0">
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8E1;" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                            <TextBlock x:Uid="VoteApp" Foreground="White" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lvMasCosasMasApps" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
+                                        <StackPanel Orientation="Horizontal" Tag="1">
+                                            <controls:ImageEx Source="Assets\MasCosas\pepeizq.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
+                                            <TextBlock x:Uid="MoreApps" Foreground="White" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lvMasCosasContacto" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
+                                        <StackPanel Orientation="Horizontal" Tag="3">
+                                            <controls:ImageEx Source="Assets\MasCosas\contacto.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
+                                            <TextBlock x:Uid="Contact" Foreground="White" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lvMasCosasReportarFallo" Background="{StaticResource BrushSecundario}" Margin="0,0,0,30">
+                                        <StackPanel Orientation="Horizontal" Tag="4">
+                                            <controls:ImageEx Source="Assets\MasCosas\feedback.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
+                                            <TextBlock x:Uid="ReportBug" Foreground="White" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lvMasCosasTraduccion" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
+                                        <StackPanel Orientation="Horizontal" Tag="5">
+                                            <controls:ImageEx Source="Assets\MasCosas\poeditor.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
+                                            <TextBlock x:Uid="HelpTranslate" Foreground="White" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lvMasCosasCodigoFuente" Background="{StaticResource BrushSecundario}">
+                                        <StackPanel Orientation="Horizontal" Tag="6">
+                                            <controls:ImageEx Source="Assets\MasCosas\github.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
+                                            <TextBlock x:Uid="SourceCode" Foreground="White" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                </ListView>
+                            </StackPanel>
+
+                            <Grid Grid.Column="1" Margin="20">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
