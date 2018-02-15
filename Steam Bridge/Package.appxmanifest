@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="ea326fbb-e42f-4bb6-a8f6-f43ad575c62b" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Steam Bridge</DisplayName>
-    <PublisherDisplayName>pepeizq</PublisherDisplayName>
+    <PublisherDisplayName>pepeizq's apps</PublisherDisplayName>
     <Logo>assets\Logos\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
