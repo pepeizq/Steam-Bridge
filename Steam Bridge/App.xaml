@@ -16,6 +16,7 @@
         <Color x:Key="ColorPrimario">DarkMagenta</Color>
         <Color x:Key="ColorSecundario">DarkOrchid</Color>
         <Color x:Key="ColorTerciario">#e600e6</Color>
+        <Color x:Key="ColorCuarto">#d8afeb</Color>
 
         <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent"/>
         <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="{StaticResource ColorPrimario}"/>
@@ -32,5 +33,6 @@
         <AcrylicBrush x:Key="GridAcrilico" BackgroundSource="Backdrop" TintColor="{StaticResource ColorPrimario}" TintOpacity=".1"/>
 
         <SolidColorBrush x:Key="BrushSecundario" Color="{StaticResource ColorSecundario}"/>
+        <SolidColorBrush x:Key="BrushCuarto" Color="{StaticResource ColorCuarto}"/>
     </Application.Resources>
 </Application>

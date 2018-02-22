@@ -1,5 +1,7 @@
 ﻿Imports System.Globalization
 Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.Storage
+Imports Windows.Storage.AccessCache
 Imports Windows.UI
 
 Module Listado
@@ -27,7 +29,7 @@ Module Listado
 
         '----------------------------------------------------
 
-        Dim checkBox As New CheckBox With {
+        Dim cb As New CheckBox With {
             .VerticalAlignment = VerticalAlignment.Center,
             .Tag = juego,
             .Margin = New Thickness(5, 0, 5, 0),
@@ -36,8 +38,8 @@ Module Listado
             .IsHitTestVisible = False
         }
 
-        Grid.SetColumn(checkBox, 0)
-        grid.Children.Add(checkBox)
+        Grid.SetColumn(cb, 0)
+        grid.Children.Add(cb)
 
         '----------------------------------------------------
 
@@ -63,21 +65,21 @@ Module Listado
 
                         borde.Background = New SolidColorBrush(Color.FromArgb(byteA, byteR, byteG, byteB))
                     Catch ex As Exception
-                        If juego.Categoria = "Windows Store" Then
+                        If juego.Categoria = "Microsoft Store" Then
                             borde.Background = New SolidColorBrush(Colors.RoyalBlue)
                         Else
                             borde.Background = New SolidColorBrush(Colors.Transparent)
                         End If
                     End Try
                 Else
-                    If juego.Categoria = "Windows Store" Then
+                    If juego.Categoria = "Microsoft Store" Then
                         borde.Background = New SolidColorBrush(Colors.RoyalBlue)
                     Else
                         borde.Background = New SolidColorBrush(Colors.Transparent)
                     End If
                 End If
             Else
-                If juego.Categoria = "Windows Store" Then
+                If juego.Categoria = "Microsoft Store" Then
                     borde.Background = New SolidColorBrush(Colors.RoyalBlue)
                 Else
                     borde.Background = New SolidColorBrush(Colors.Transparent)
@@ -97,6 +99,7 @@ Module Listado
             borde.Child = imagen
             borde.Margin = New Thickness(10, 0, 10, 0)
             Grid.SetColumn(borde, 1)
+
             grid.Children.Add(borde)
         End If
 
@@ -119,21 +122,22 @@ Module Listado
 
         '----------------------------------------------------
 
-        Dim enlaceTexto As New TextBlock With {
-            .Text = juego.Ejecutable + juego.Argumentos,
-            .VerticalAlignment = VerticalAlignment.Center,
-            .FontStyle = Text.FontStyle.Italic,
-            .Margin = New Thickness(10, 0, 10, 0),
-            .FontSize = 15
-        }
+        'Dim enlaceTexto As New TextBlock With {
+        '    .Text = juego.Ejecutable + juego.Argumentos,
+        '    .VerticalAlignment = VerticalAlignment.Center,
+        '    .FontStyle = Text.FontStyle.Italic,
+        '    .Margin = New Thickness(10, 0, 10, 0),
+        '    .FontSize = 15
+        '}
 
-        Grid.SetColumn(enlaceTexto, 3)
-        grid.Children.Add(enlaceTexto)
+        'Grid.SetColumn(enlaceTexto, 3)
+        'grid.Children.Add(enlaceTexto)
 
         Return grid
+
     End Function
 
-    Public Sub Clickeo(ByVal sender As Object, ByVal e As ItemClickEventArgs)
+    Public Async Sub Clickeo(ByVal sender As Object, ByVal e As ItemClickEventArgs)
 
         Dim grid As Grid = e.ClickedItem
         Dim cb As CheckBox = grid.Children(0)
@@ -147,12 +151,6 @@ Module Listado
             juegoCb.Añadir = False
         End If
 
-        BotonCrearDisponible()
-
-    End Sub
-
-    Private Sub BotonCrearDisponible()
-
         Dim frame As Frame = Window.Current.Content
 
         If Not frame Is Nothing Then
@@ -161,25 +159,12 @@ Module Listado
             Dim botonDisponible As Boolean = False
             Dim boton As Button = pagina.FindName("botonAñadirJuegos")
 
-            Dim listViewBlizzard As ListView = pagina.FindName("lvBlizzard")
+            Dim lvJuegos As ListView = pagina.FindName("lvPlataformaJuegos")
 
-            If Not listViewBlizzard Is Nothing Then
-                For Each grid As Grid In listViewBlizzard.Items
-                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
-                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
-
-                    If juego.Añadir = True Then
-                        botonDisponible = True
-                    End If
-                Next
-            End If
-
-            Dim listViewGOGGalaxy As ListView = pagina.FindName("lvGOGGalaxy")
-
-            If Not listViewGOGGalaxy Is Nothing Then
-                For Each grid As Grid In listViewGOGGalaxy.Items
-                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
-                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
+            If Not lvJuegos Is Nothing Then
+                For Each subgrid As Grid In lvJuegos.Items
+                    Dim subcb As IEnumerable(Of CheckBox) = subgrid.Children.OfType(Of CheckBox)
+                    Dim juego As Juego = TryCast(subcb(0).Tag, Juego)
 
                     If juego.Añadir = True Then
                         botonDisponible = True
@@ -187,56 +172,16 @@ Module Listado
                 Next
             End If
 
-            Dim listViewOrigin As ListView = pagina.FindName("lvOrigin")
+            Dim carpetaSteam As StorageFolder = Nothing
 
-            If Not listViewOrigin Is Nothing Then
-                For Each grid As Grid In listViewOrigin.Items
-                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
-                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
+            Try
+                carpetaSteam = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
+            Catch ex As Exception
 
-                    If juego.Añadir = True Then
-                        botonDisponible = True
-                    End If
-                Next
-            End If
+            End Try
 
-            Dim listViewTwitch As ListView = pagina.FindName("lvTwitch")
-
-            If Not listViewTwitch Is Nothing Then
-                For Each grid As Grid In listViewTwitch.Items
-                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
-                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
-
-                    If juego.Añadir = True Then
-                        botonDisponible = True
-                    End If
-                Next
-            End If
-
-            Dim listViewUplay As ListView = pagina.FindName("lvUplay")
-
-            If Not listViewUplay Is Nothing Then
-                For Each grid As Grid In listViewUplay.Items
-                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
-                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
-
-                    If juego.Añadir = True Then
-                        botonDisponible = True
-                    End If
-                Next
-            End If
-
-            Dim listViewWindowsStore As ListView = pagina.FindName("lvWindowsStore")
-
-            If Not listViewWindowsStore Is Nothing Then
-                For Each grid As Grid In listViewWindowsStore.Items
-                    Dim cb As IEnumerable(Of CheckBox) = grid.Children.OfType(Of CheckBox)
-                    Dim juego As Juego = TryCast(cb(0).Tag, Juego)
-
-                    If juego.Añadir = True Then
-                        botonDisponible = True
-                    End If
-                Next
+            If carpetaSteam Is Nothing Then
+                botonDisponible = False
             End If
 
             If botonDisponible = True Then
@@ -245,6 +190,7 @@ Module Listado
                 boton.IsEnabled = False
             End If
         End If
+
     End Sub
 
 End Module

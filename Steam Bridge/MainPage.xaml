@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded">
@@ -35,12 +36,25 @@
                 </Grid.Background>
 
                 <Grid x:Name="gridBridge" Visibility="Collapsed" Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <ListView x:Name="lvBridge" Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvBridgeItemClick">
+                    <controls:DropShadowPanel x:Name="panelMensajeBridge" Grid.Row="0" Color="IndianRed" 
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                  BlurRadius="4" ShadowOpacity="1" OffsetZ="5" Margin="10">
+                        <Grid Padding="10" Background="IndianRed">
+                            <TextBlock x:Uid="MessageBridge" TextWrapping="Wrap" Foreground="White"/>
+                        </Grid>
+                    </controls:DropShadowPanel>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <GridView x:Name="gvBridge" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  IsItemClickEnabled="True" animations:ReorderGridAnimation.Duration="250"/>
+                    </ScrollViewer>
+
+                    <!--<ListView x:Name="lvBridge" Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvBridgeItemClick">
                         <ListViewItem x:Name="botonBridgeBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Tag="0">
                                 <controls:ImageEx Source="Assets/blizzard_logo2.png" Width="16" Height="16" Margin="0,0,10,0" IsCacheEnabled="True"/>
@@ -244,12 +258,7 @@
                         </Grid>
 
                         <StackPanel x:Name="barraInferior" Grid.Row="1" Margin="0,10,0,0" Orientation="Horizontal">
-                            <Button x:Name="botonAñadirJuegos" Padding="10,15" Background="DarkOrchid" IsEnabled="False">
-                                <StackPanel Orientation="Horizontal" >
-                                    <SymbolIcon Symbol="Add" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock x:Uid="AddGames" Foreground="White"/>
-                                </StackPanel>
-                            </Button>
+                            
 
                             <controls:DropShadowPanel x:Name="panelAvisoAñadirJuegos" Grid.Column="1" Margin="10,0" Color="Black"
                                                   BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed">
@@ -264,10 +273,65 @@
                                 </Grid>
                             </controls:DropShadowPanel>
                         </StackPanel>
-                    </Grid>
+                    </Grid>-->
                 </Grid>
 
-                <Grid x:Name="gridConfig" Visibility="Collapsed" Background="{StaticResource GridAcrilico}">
+                <Grid x:Name="gridPlataformaElegida" Visibility="Collapsed">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1">
+                            <StackPanel.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#FFE4E4E4" Offset="0.5" />
+                                    <GradientStop Color="#FFBFBFBF" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </StackPanel.Background>
+
+                            <TextBlock x:Name="tbPlataformaSeleccionada" VerticalAlignment="Center" FontSize="18" TextWrapping="Wrap" Padding="20,15"/>
+
+                            <Grid Padding="20,10" Background="{StaticResource BrushCuarto}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Button x:Name="botonAñadirJuegos" Grid.Column="0" Padding="10,15" Background="{StaticResource BrushSecundario}" IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Add" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                        <TextBlock x:Uid="AddGames" Foreground="White"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <Grid x:Name="gridAvisoSteam" Grid.Column="1" Padding="10" Background="IndianRed" Visibility="Collapsed">
+                                    <ToolTipService.ToolTip>
+                                        <TextBlock x:Uid="NoSteam" FontSize="15"/>
+                                    </ToolTipService.ToolTip>
+
+                                    <SymbolIcon Foreground="White" Symbol="Important" Margin="5,0"/>
+                                </Grid>
+
+                                <Grid x:Name="gridAvisoJuegos" Grid.Column="2" Padding="10" Background="IndianRed" Visibility="Collapsed" Margin="10,0,0,0">
+                                    <ToolTipService.ToolTip>
+                                        <TextBlock x:Uid="NoGames" FontSize="15"/>
+                                    </ToolTipService.ToolTip>
+
+                                    <SymbolIcon Foreground="White" Symbol="Important" Margin="5,0"/>
+                                </Grid>
+                            </Grid> 
+
+                            <ProgressBar x:Name="pbPlataformaJuegos" Margin="10" Visibility="Collapsed" IsIndeterminate="True"/>
+                            <ListView x:Name="lvPlataformaJuegos" IsItemClickEnabled="True" Height="450" Width="650" Margin="10">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </StackPanel> 
+                    </ScrollViewer> 
+                </Grid>
+
+                <Grid x:Name="gridConfig" Visibility="Collapsed">
                     <ScrollViewer>
                         <StackPanel Orientation="Vertical" Width="700" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <StackPanel Orientation="Vertical" Margin="40,20" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1">
@@ -493,74 +557,7 @@
                     </ScrollViewer> 
                 </Grid>
 
-                <Grid x:Name="gridMasCosas" Visibility="Collapsed" Background="{StaticResource GridAcrilico}">
-                    <ScrollViewer>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1" Padding="15" VerticalAlignment="Top">
-                                <StackPanel.Background>
-                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                        <GradientStop Color="#FFE4E4E4" Offset="0.5" />
-                                        <GradientStop Color="#FFBFBFBF" Offset="1.0" />
-                                    </LinearGradientBrush>
-                                </StackPanel.Background>
-
-                                <ListView IsItemClickEnabled="True" ItemClick="LvMasCosasItemClick">
-                                    <ListViewItem Background="{StaticResource BrushSecundario}" Margin="0,0,0,30">
-                                        <StackPanel Orientation="Horizontal" Tag="0">
-                                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8E1;" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="VoteApp" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasMasApps" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="1">
-                                            <controls:ImageEx Source="Assets\MasCosas\pepeizq.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="MoreApps" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasContacto" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="3">
-                                            <controls:ImageEx Source="Assets\MasCosas\contacto.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="Contact" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasReportarFallo" Background="{StaticResource BrushSecundario}" Margin="0,0,0,30">
-                                        <StackPanel Orientation="Horizontal" Tag="4">
-                                            <controls:ImageEx Source="Assets\MasCosas\feedback.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="ReportBug" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasTraduccion" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="5">
-                                            <controls:ImageEx Source="Assets\MasCosas\poeditor.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="HelpTranslate" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasCodigoFuente" Background="{StaticResource BrushSecundario}">
-                                        <StackPanel Orientation="Horizontal" Tag="6">
-                                            <controls:ImageEx Source="Assets\MasCosas\github.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="SourceCode" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                </ListView>
-                            </StackPanel>
-
-                            <Grid Grid.Column="1" Margin="20">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <ProgressBar x:Name="pbMasCosas" Grid.Row="0" Foreground="{StaticResource BrushSecundario}" Visibility="Collapsed" Height="20" IsIndeterminate="True"/>
-                                <WebView x:Name="wvMasCosas" Grid.Row="1"/>
-                            </Grid>
-                        </Grid>
-                    </ScrollViewer>
-                </Grid>
+                <Grid x:Name="gridMasCosas" Visibility="Collapsed"/>
             </Grid> 
         </NavigationView> 
     </Grid>

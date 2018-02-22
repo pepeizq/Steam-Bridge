@@ -114,6 +114,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Clases\Juego.vb" />
+    <Compile Include="Clases\Plataforma.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -123,8 +124,10 @@
     <Compile Include="Modulos\Ficheros\PowerShell.vb" />
     <Compile Include="Modulos\Ficheros\VBScript.vb" />
     <Compile Include="Modulos\Clientes\GOGGalaxy.vb" />
+    <Compile Include="Modulos\Interfaz.vb" />
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Clientes\Origin.vb" />
+    <Compile Include="Modulos\MasCosas.vb" />
     <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Steam.vb" />
@@ -138,7 +141,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\battlenet_logo.png" />
+    <Content Include="Assets\blizzard_logo.png" />
     <Content Include="Assets\blizzard_logo2.png" />
     <Content Include="Assets\gog_logo.png" />
     <Content Include="Assets\gog_logo2.png" />
@@ -269,6 +272,9 @@
       <Version>10.1705.16001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
