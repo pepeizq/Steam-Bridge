@@ -7,9 +7,12 @@ Imports Windows.Storage.Streams
 
 Module Steam
 
-    Public Async Sub Arranque(tbSteamRuta As TextBlock, botonSteamRutaTexto As TextBlock, picker As Boolean)
+    Public Async Sub Arranque(picker As Boolean)
 
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim recursos As New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
 
         Try
@@ -35,8 +38,15 @@ Module Steam
 
                 If Not ejecutable Is Nothing Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("SteamPath", carpeta)
+
+                    Dim tbSteamRuta As TextBlock = pagina.FindName("tbSteamRuta")
                     tbSteamRuta.Text = carpeta.Path
+
+                    Dim botonSteamRutaTexto As TextBlock = pagina.FindName("botonSteamRutaTexto")
                     botonSteamRutaTexto.Text = recursos.GetString("Change")
+
+                    Dim gridAviso As Grid = pagina.FindName("gridAvisoSteam")
+                    gridAviso.Visibility = Visibility.Collapsed
                 End If
             End If
         Catch ex As Exception

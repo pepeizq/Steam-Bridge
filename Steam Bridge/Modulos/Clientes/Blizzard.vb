@@ -42,6 +42,11 @@ Module Blizzard
                     For Each fichero As StorageFile In ficheros
                         Dim nombreFichero As String = fichero.DisplayName.ToLower
 
+                        If nombreFichero = "destiny2" And fichero.FileType = ".exe" Then
+                            detectadoBool = True
+                            GenerarIcono(fichero, carpetaJuego)
+                        End If
+
                         If nombreFichero = "diablo iii" And fichero.FileType = ".exe" Then
                             detectadoBool = True
                             GenerarIcono(fichero, carpetaJuego)
@@ -102,16 +107,20 @@ Module Blizzard
 
     End Function
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder)
+    Public Async Sub Generar(pb As ProgressBar, lv As ListView)
 
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
+        lv.IsEnabled = False
+        pb.Visibility = Visibility.Visible
 
-        Dim progreso As ProgressBar = pagina.FindName("progressBarBattlenet")
-        progreso.Visibility = Visibility.Visible
+        Dim listaJuegos As New List(Of Juego)
 
-        Dim lvGrids As ListView = pagina.FindName("lvBlizzard")
-        lvGrids.IsEnabled = False
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("BattlenetPath")
+        Catch ex As Exception
+
+        End Try
 
         If Not carpeta Is Nothing Then
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
@@ -186,14 +195,14 @@ Module Blizzard
                             End Try
                         End If
 
-                        lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
+                        lv.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
                     End If
                 Next
             Next
         End If
 
         If listaJuegos.Count > 0 Then
-            lvGrids.Items.Clear()
+            lv.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -210,20 +219,23 @@ Module Blizzard
                     End Try
                 End If
 
-                lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lv.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
             Next
         End If
 
-        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosBlizzard")
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim avisoNoJuegos As Grid = pagina.FindName("gridAvisoJuegos")
 
         If listaJuegos.Count = 0 Then
-            panelNoJuegos.Visibility = Visibility.Visible
+            avisoNoJuegos.Visibility = Visibility.Visible
         Else
-            panelNoJuegos.Visibility = Visibility.Collapsed
+            avisoNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        lvGrids.IsEnabled = True
-        progreso.Visibility = Visibility.Collapsed
+        lv.IsEnabled = True
+        pb.Visibility = Visibility.Collapsed
 
     End Sub
 
