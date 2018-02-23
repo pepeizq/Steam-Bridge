@@ -1,19 +1,15 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Windows.Storage
+﻿Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 
 Module Origin
 
-    Public Async Function Config(picker As Boolean) As Task(Of Boolean)
+    Public Async Sub Config(picker As Boolean)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbOriginRuta As TextBlock = pagina.FindName("tbOriginRuta")
-        Dim botonOriginRutaTexto As TextBlock = pagina.FindName("botonOriginRutaTexto")
-
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
 
         Try
@@ -31,31 +27,45 @@ Module Origin
             If Not carpeta Is Nothing Then
                 If carpeta.Path.Contains("Origin\LocalContent") Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("OriginPath", carpeta)
+
+                    Dim tbOriginRuta As TextBlock = pagina.FindName("tbOriginRuta")
                     tbOriginRuta.Text = carpeta.Path
+
+                    Dim botonOriginRutaTexto As TextBlock = pagina.FindName("botonOriginRutaTexto")
                     botonOriginRutaTexto.Text = recursos.GetString("Change")
-                    Return True
-                Else
-                    Return False
+
+                    Dim gv As GridView = pagina.FindName("gvBridge")
+
+                    For Each item As GridViewItem In gv.Items
+                        Dim grid As Grid = item.Content
+                        Dim plataforma As Plataforma = grid.Tag
+
+                        If plataforma.Nombre = "Origin" Then
+                            item.IsEnabled = True
+                        End If
+                    Next
                 End If
-            Else
-                Return False
             End If
         Catch ex As Exception
-            Return False
+
         End Try
 
-    End Function
+    End Sub
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder)
+    Public Async Sub Generar(pb As ProgressBar, lv As ListView)
 
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
+        lv.IsEnabled = False
+        pb.Visibility = Visibility.Visible
 
-        Dim progreso As ProgressBar = pagina.FindName("progressBarOrigin")
-        progreso.Visibility = Visibility.Visible
+        Dim listaJuegos As New List(Of Juego)
 
-        Dim lvGrids As ListView = pagina.FindName("lvOrigin")
-        lvGrids.IsEnabled = False
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginPath")
+        Catch ex As Exception
+
+        End Try
 
         If Not carpeta Is Nothing Then
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
@@ -155,7 +165,7 @@ Module Origin
                             '    End Using
                             'End If
 
-                            lvGrids.Items.Add(Listado.GenerarGrid(juego, Nothing, False))
+                            lv.Items.Add(InterfazListado.GenerarGrid(juego, Nothing, False))
                         End If
                     End If
                 Next
@@ -163,7 +173,7 @@ Module Origin
         End If
 
         If listaJuegos.Count > 0 Then
-            lvGrids.Items.Clear()
+            lv.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -176,20 +186,23 @@ Module Origin
                 '    End Using
                 'End If
 
-                lvGrids.Items.Add(Listado.GenerarGrid(juego, Nothing, True))
+                lv.Items.Add(InterfazListado.GenerarGrid(juego, Nothing, True))
             Next
         End If
 
-        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosOrigin")
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim avisoNoJuegos As Grid = pagina.FindName("gridAvisoJuegos")
 
         If listaJuegos.Count = 0 Then
-            panelNoJuegos.Visibility = Visibility.Visible
+            avisoNoJuegos.Visibility = Visibility.Visible
         Else
-            panelNoJuegos.Visibility = Visibility.Collapsed
+            avisoNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        lvGrids.IsEnabled = True
-        progreso.Visibility = Visibility.Collapsed
+        lv.IsEnabled = True
+        pb.Visibility = Visibility.Collapsed
 
     End Sub
 

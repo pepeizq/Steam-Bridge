@@ -4,7 +4,7 @@ Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.UI
 
-Module Listado
+Module InterfazListado
 
     Public Function GenerarGrid(juego As Juego, bitmap As BitmapImage, estado As Boolean)
 

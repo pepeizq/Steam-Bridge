@@ -7,20 +7,16 @@ Imports Windows.Storage.Streams
 
 Module Uplay
 
-    Public Async Function Config(opcion As Integer, picker As Boolean) As Task(Of Boolean)
+    Public Async Sub Config(opcion As Integer, picker As Boolean)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbUplayRutaCliente As TextBlock = pagina.FindName("tbUplayRutaCliente")
-        Dim botonUplayRutaTextoCliente As TextBlock = pagina.FindName("botonUplayRutaTextoCliente")
+        Dim recursos As New Resources.ResourceLoader()
 
-        Dim tbUplayRutaJuegos As TextBlock = pagina.FindName("tbUplayRutaJuegos")
-        Dim botonUplayRutaTextoJuegos As TextBlock = pagina.FindName("botonUplayRutaTextoJuegos")
-
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpetaCliente As StorageFolder = Nothing
         Dim carpetaJuegos As StorageFolder = Nothing
+
         Dim boolCliente As Boolean = False
         Dim boolJuegos As Boolean = False
 
@@ -57,8 +53,13 @@ Module Uplay
 
                 If Not ejecutable Is Nothing Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathCliente", carpetaCliente)
+
+                    Dim tbUplayRutaCliente As TextBlock = pagina.FindName("tbUplayRutaCliente")
                     tbUplayRutaCliente.Text = carpetaCliente.Path
+
+                    Dim botonUplayRutaTextoCliente As TextBlock = pagina.FindName("botonUplayRutaTextoCliente")
                     botonUplayRutaTextoCliente.Text = recursos.GetString("Change")
+
                     boolCliente = True
                 End If
             End If
@@ -84,8 +85,13 @@ Module Uplay
 
                 If boolManifiesto = True Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("UplayPathJuegos", carpetaJuegos)
+
+                    Dim tbUplayRutaJuegos As TextBlock = pagina.FindName("tbUplayRutaJuegos")
                     tbUplayRutaJuegos.Text = carpetaJuegos.Path
+
+                    Dim botonUplayRutaTextoJuegos As TextBlock = pagina.FindName("botonUplayRutaTextoJuegos")
                     botonUplayRutaTextoJuegos.Text = recursos.GetString("Change")
+
                     boolJuegos = True
                 End If
             End If
@@ -94,23 +100,42 @@ Module Uplay
         End Try
 
         If boolCliente = True And boolJuegos = True Then
-            Return True
-        Else
-            Return False
+            Dim gv As GridView = pagina.FindName("gvBridge")
+
+            For Each item As GridViewItem In gv.Items
+                Dim grid As Grid = item.Content
+                Dim plataforma As Plataforma = grid.Tag
+
+                If plataforma.Nombre = "Uplay" Then
+                    item.IsEnabled = True
+                End If
+            Next
         End If
 
-    End Function
+    End Sub
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpetaCliente As StorageFolder, carpetaJuegos As StorageFolder)
+    Public Async Sub Generar(pb As ProgressBar, lv As ListView)
 
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
+        lv.IsEnabled = False
+        pb.Visibility = Visibility.Visible
 
-        Dim progreso As ProgressBar = pagina.FindName("progressBarUplay")
-        progreso.Visibility = Visibility.Visible
+        Dim listaJuegos As New List(Of Juego)
 
-        Dim lvGrids As ListView = pagina.FindName("lvUplay")
-        lvGrids.IsEnabled = False
+        Dim carpetaJuegos As StorageFolder = Nothing
+
+        Try
+            carpetaJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+        Catch ex As Exception
+
+        End Try
+
+        Dim carpetaCliente As StorageFolder = Nothing
+
+        Try
+            carpetaCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
+        Catch ex As Exception
+
+        End Try
 
         If Not carpetaJuegos Is Nothing Then
             Dim carpetasJuegos_ As IReadOnlyList(Of StorageFolder) = Await carpetaJuegos.GetFoldersAsync()
@@ -172,7 +197,7 @@ Module Uplay
                                 End Try
                             End If
 
-                            lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
+                            lv.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, False))
                         End If
                     End If
                 End If
@@ -180,7 +205,7 @@ Module Uplay
         End If
 
         If listaJuegos.Count > 0 Then
-            lvGrids.Items.Clear()
+            lv.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -197,20 +222,23 @@ Module Uplay
                     End Try
                 End If
 
-                lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lv.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, True))
             Next
         End If
 
-        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosUplay")
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim avisoNoJuegos As Grid = pagina.FindName("gridAvisoJuegos")
 
         If listaJuegos.Count = 0 Then
-            panelNoJuegos.Visibility = Visibility.Visible
+            avisoNoJuegos.Visibility = Visibility.Visible
         Else
-            panelNoJuegos.Visibility = Visibility.Collapsed
+            avisoNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        lvGrids.IsEnabled = True
-        progreso.Visibility = Visibility.Collapsed
+        lv.IsEnabled = True
+        pb.Visibility = Visibility.Collapsed
 
     End Sub
 

@@ -5,7 +5,7 @@ Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
 
-Module WindowsStore
+Module MicrosoftStore
 
     Public Async Function Config(picker As Boolean) As Task(Of Boolean)
 
@@ -201,7 +201,7 @@ Module WindowsStore
                                             End Try
                                         End If
 
-                                        lv.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
+                                        lv.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, False))
                                     End If
                                 End If
                             End If
@@ -229,7 +229,7 @@ Module WindowsStore
                     End Try
                 End If
 
-                lv.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lv.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, True))
             Next
         End If
 
@@ -402,7 +402,7 @@ Module WindowsStore
                                         End Try
                                     End If
 
-                                    lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
+                                    lvGrids.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, False))
                                 End If
                             End If
                         End If
@@ -429,7 +429,7 @@ Module WindowsStore
                     End Try
                 End If
 
-                lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lvGrids.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, True))
             Next
         End If
 

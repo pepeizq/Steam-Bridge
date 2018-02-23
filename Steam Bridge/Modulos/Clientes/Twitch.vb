@@ -1,20 +1,17 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+﻿Imports SQLite.Net
+Imports SQLite.Net.Platform.WinRT
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
-Imports Windows.Storage.Streams
 
 Module Twitch
 
-    Public Async Function Config(picker As Boolean) As Task(Of Boolean)
+    Public Async Sub Config(picker As Boolean)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbTwitchRuta As TextBlock = pagina.FindName("tbTwitchRuta")
-        Dim botonTwitchRutaTexto As TextBlock = pagina.FindName("botonTwitchRutaTexto")
-
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
 
         Try
@@ -32,116 +29,75 @@ Module Twitch
             If Not carpeta Is Nothing Then
                 If carpeta.Path.Contains("AppData\Roaming\Twitch") Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("TwitchPath", carpeta)
+
+                    Dim tbTwitchRuta As TextBlock = pagina.FindName("tbTwitchRuta")
                     tbTwitchRuta.Text = carpeta.Path
+
+                    Dim botonTwitchRutaTexto As TextBlock = pagina.FindName("botonTwitchRutaTexto")
                     botonTwitchRutaTexto.Text = recursos.GetString("Change")
-                    Return True
-                Else
-                    Return False
+
+                    Dim gv As GridView = pagina.FindName("gvBridge")
+
+                    For Each item As GridViewItem In gv.Items
+                        Dim grid As Grid = item.Content
+                        Dim plataforma As Plataforma = grid.Tag
+
+                        If plataforma.Nombre = "Twitch Desktop App" Then
+                            item.IsEnabled = True
+                        End If
+                    Next
                 End If
-            Else
-                Return False
             End If
         Catch ex As Exception
-            Return False
+
         End Try
 
-    End Function
+    End Sub
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder)
+    Public Async Sub Generar(pb As ProgressBar, lv As ListView)
 
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
+        lv.IsEnabled = False
+        pb.Visibility = Visibility.Visible
 
-        Dim progreso As ProgressBar = pagina.FindName("progressBarTwitch")
-        progreso.Visibility = Visibility.Visible
+        Dim listaJuegos As New List(Of Juego)
 
-        Dim lvGrids As ListView = pagina.FindName("lvTwitch")
-        lvGrids.IsEnabled = False
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("TwitchPath")
+        Catch ex As Exception
+
+        End Try
 
         If Not carpeta Is Nothing Then
-            Dim carpetaFuel As StorageFolder = Await carpeta.GetFolderAsync("Fuel\db\GameProductInfo")
+            Dim carpetaJuegos As StorageFolder = Await carpeta.GetFolderAsync("Games\Sql")
 
-            If Not carpetaFuel Is Nothing Then
-                Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaFuel.GetFilesAsync()
+            If Not carpetaJuegos Is Nothing Then
+                Dim fichero As String = carpetaJuegos.Path + "\GameProductInfo.sqlite"
 
-                For Each fichero In ficheros
-                    If fichero.FileType.Contains(".cfs") Then
-                        Dim texto As String = Nothing
+                Dim bdOrigen As StorageFile = Await StorageFile.GetFileFromPathAsync(fichero)
+                Dim bdFinal As StorageFile = Await ApplicationData.Current.LocalFolder.CreateFileAsync("basedatos.sqlite", CreationCollisionOption.ReplaceExisting)
 
-                        Using inputStream As IRandomAccessStreamWithContentType = Await fichero.OpenReadAsync
-                            Using clasicoStream As Stream = inputStream.AsStreamForRead
-                                Using sr As StreamReader = New StreamReader(clasicoStream)
-                                    While sr.Peek <> 0
-                                        texto = texto + sr.ReadLine
-                                    End While
-                                End Using
-                            End Using
-                        End Using
+                Await bdOrigen.CopyAndReplaceAsync(bdFinal)
 
-                        If Not texto = Nothing Then
-                            Dim i As Integer = 0
+                Dim conexion As New SQLiteConnection(New SQLitePlatformWinRT, bdFinal.Path, Interop.SQLiteOpenFlags.ReadWrite)
 
-                            While i < 200
-                                If texto.Contains(ChrW(34) + "ProductTitle" + ChrW(34)) Then
-                                    Dim temp, temp2 As String
-                                    Dim int, int2 As Integer
+                Dim juegos As TableQuery(Of TwitchDB) = conexion.Table(Of TwitchDB)
 
-                                    int = texto.IndexOf(ChrW(34) + "ProductTitle" + ChrW(34))
-                                    temp = texto.Remove(0, int + 14)
+                For Each juegoTwitch As TwitchDB In juegos
+                    Dim ejecutable As String = "twitch://fuel-launch/" + juegoTwitch.Id
 
-                                    texto = temp
+                    Dim juego As New Juego(juegoTwitch.Titulo, ejecutable, Nothing, Nothing, Nothing, False, "Twitch Desktop App")
 
-                                    int = temp.IndexOf(ChrW(34))
-                                    temp = temp.Remove(0, int + 1)
+                    listaJuegos.Add(juego)
 
-                                    int2 = temp.IndexOf(ChrW(34))
-                                    temp2 = temp.Remove(int2, temp.Length - int2)
-
-                                    Dim titulo As String = temp2.Trim
-
-                                    Dim temp3, temp4 As String
-                                    Dim int3, int4 As Integer
-
-                                    int3 = texto.IndexOf(ChrW(34) + "Id" + ChrW(34))
-                                    temp3 = texto.Remove(0, int3 + 4)
-
-                                    int3 = temp3.IndexOf(ChrW(34))
-                                    temp3 = temp3.Remove(0, int3 + 1)
-
-                                    int4 = temp3.IndexOf(ChrW(34))
-                                    temp4 = temp3.Remove(int4, temp3.Length - int4)
-
-                                    Dim id As String = temp4.Trim
-
-                                    Dim tituloBool As Boolean = False
-                                    Dim g As Integer = 0
-                                    While g < listaJuegos.Count
-                                        If listaJuegos(g).Nombre = titulo Then
-                                            tituloBool = True
-                                        End If
-                                        g += 1
-                                    End While
-
-                                    If tituloBool = False Then
-                                        Dim ejecutable As String = "twitch://fuel-launch/" + id
-
-                                        Dim juego As New Juego(titulo, ejecutable, Nothing, Nothing, Nothing, False, "Twitch")
-
-                                        listaJuegos.Add(juego)
-
-                                        lvGrids.Items.Add(Listado.GenerarGrid(juego, Nothing, False))
-                                    End If
-                                End If
-                                i += 1
-                            End While
-                        End If
-                    End If
+                    lv.Items.Add(InterfazListado.GenerarGrid(juego, Nothing, False))
                 Next
             End If
         End If
 
         If listaJuegos.Count > 0 Then
-            lvGrids.Items.Clear()
+            lv.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -154,20 +110,23 @@ Module Twitch
                 '    End Using
                 'End If
 
-                lvGrids.Items.Add(Listado.GenerarGrid(juego, Nothing, True))
+                lv.Items.Add(InterfazListado.GenerarGrid(juego, Nothing, True))
             Next
         End If
 
-        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosTwitch")
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim avisoNoJuegos As Grid = pagina.FindName("gridAvisoJuegos")
 
         If listaJuegos.Count = 0 Then
-            panelNoJuegos.Visibility = Visibility.Visible
+            avisoNoJuegos.Visibility = Visibility.Visible
         Else
-            panelNoJuegos.Visibility = Visibility.Collapsed
+            avisoNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        lvGrids.IsEnabled = True
-        progreso.Visibility = Visibility.Collapsed
+        lv.IsEnabled = True
+        pb.Visibility = Visibility.Collapsed
 
     End Sub
 

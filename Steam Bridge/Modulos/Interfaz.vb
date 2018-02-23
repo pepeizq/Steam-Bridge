@@ -27,9 +27,98 @@ Module Interfaz
 
         '------------------------------------------------
 
+        Dim carpetaGOG As StorageFolder = Nothing
+        Dim activarGOG As Boolean = False
+
+        Try
+            carpetaGOG = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("GOGGalaxyPath")
+        Catch ex As Exception
+
+        End Try
+
+        If Not carpetaGOG Is Nothing Then
+            activarGOG = True
+        End If
+
+        Dim gogGalaxy As New Plataforma("GOG Galaxy", "Assets\gog_logo.png", activarGOG)
+
+        gv.Items.Add(GenerarListadoItem(gogGalaxy))
+
+        '------------------------------------------------
+
         Dim microsoftStore As New Plataforma("Microsoft Store", "Assets\windowsstore_logo.png", True)
 
         gv.Items.Add(GenerarListadoItem(microsoftStore))
+
+        '------------------------------------------------
+
+        Dim carpetaOrigin As StorageFolder = Nothing
+        Dim activarOrigin As Boolean = False
+
+        Try
+            carpetaOrigin = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("OriginPath")
+        Catch ex As Exception
+
+        End Try
+
+        If Not carpetaOrigin Is Nothing Then
+            activarOrigin = True
+        End If
+
+        Dim origin As New Plataforma("Origin", "Assets\origin_logo.png", activarOrigin)
+
+        gv.Items.Add(GenerarListadoItem(origin))
+
+        '------------------------------------------------
+
+        Dim carpetaTwitch As StorageFolder = Nothing
+        Dim activarTwitch As Boolean = False
+
+        Try
+            carpetaTwitch = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("TwitchPath")
+        Catch ex As Exception
+
+        End Try
+
+        If Not carpetaTwitch Is Nothing Then
+            activarTwitch = True
+        End If
+
+        Dim twitch As New Plataforma("Twitch Desktop App", "Assets\twitch_logo.png", activarTwitch)
+
+        gv.Items.Add(GenerarListadoItem(twitch))
+
+        '------------------------------------------------
+
+        Dim activarUplay As Boolean = False
+
+        Dim carpetaUplayCliente As StorageFolder = Nothing
+
+        Try
+            carpetaUplayCliente = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathCliente")
+        Catch ex As Exception
+
+        End Try
+
+        If Not carpetaUplayCliente Is Nothing Then
+            activarUplay = True
+        End If
+
+        Dim carpetaUplayJuegos As StorageFolder = Nothing
+
+        Try
+            carpetaUplayJuegos = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("UplayPathJuegos")
+        Catch ex As Exception
+
+        End Try
+
+        If carpetaUplayJuegos Is Nothing Then
+            activarUplay = False
+        End If
+
+        Dim uplay As New Plataforma("Uplay", "Assets\uplay_logo.png", activarUplay)
+
+        gv.Items.Add(GenerarListadoItem(uplay))
 
         '------------------------------------------------
 
@@ -134,10 +223,17 @@ Module Interfaz
 
         If plataforma.Nombre = "Blizzard App" Then
             Blizzard.Generar(pbJuegos, lvJuegos)
+        ElseIf plataforma.Nombre = "GOG Galaxy" Then
+            GOGGalaxy.Generar(pbJuegos, lvJuegos)
         ElseIf plataforma.Nombre = "Microsoft Store" Then
-            WindowsStore.Generar2(pbJuegos, lvJuegos)
+            MicrosoftStore.Generar2(pbJuegos, lvJuegos)
+        ElseIf plataforma.Nombre = "Origin" Then
+            Origin.Generar(pbJuegos, lvJuegos)
+        ElseIf plataforma.Nombre = "Twitch Desktop App" Then
+            Twitch.Generar(pbJuegos, lvJuegos)
+        ElseIf plataforma.Nombre = "Uplay" Then
+            Uplay.Generar(pbJuegos, lvJuegos)
         End If
-
 
     End Sub
 

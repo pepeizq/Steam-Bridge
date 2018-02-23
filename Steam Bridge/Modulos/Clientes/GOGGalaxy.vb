@@ -1,5 +1,4 @@
 ﻿Imports System.Text
-Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
@@ -7,15 +6,12 @@ Imports Windows.Storage.Streams
 
 Module GOGGalaxy
 
-    Public Async Function Config(picker As Boolean) As Task(Of Boolean)
+    Public Async Sub Config(picker As Boolean)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbGOGGalaxyRuta As TextBlock = pagina.FindName("tbGOGGalaxyRuta")
-        Dim botonGOGGalaxyRutaTexto As TextBlock = pagina.FindName("botonGOGGalaxyRutaTexto")
-
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
 
         Try
@@ -46,31 +42,47 @@ Module GOGGalaxy
 
                 If detectadoBool = True Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("GOGGalaxyPath", carpeta)
+
+                    Dim tbGOGGalaxyRuta As TextBlock = pagina.FindName("tbGOGGalaxyRuta")
                     tbGOGGalaxyRuta.Text = carpeta.Path
+
+                    Dim botonGOGGalaxyRutaTexto As TextBlock = pagina.FindName("botonGOGGalaxyRutaTexto")
                     botonGOGGalaxyRutaTexto.Text = recursos.GetString("Change")
-                    Return True
-                Else
-                    Return False
+
+                    Dim gv As GridView = pagina.FindName("gvBridge")
+
+                    For Each item As GridViewItem In gv.Items
+                        Dim grid As Grid = item.Content
+                        Dim plataforma As Plataforma = grid.Tag
+
+                        If plataforma.Nombre = "GOG Galaxy" Then
+                            item.IsEnabled = True
+                        End If
+                    Next
                 End If
             Else
-                Return False
+
             End If
         Catch ex As Exception
-            Return False
+
         End Try
 
-    End Function
+    End Sub
 
-    Public Async Sub Generar(listaJuegos As List(Of Juego), carpeta As StorageFolder)
+    Public Async Sub Generar(pb As ProgressBar, lv As ListView)
 
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
+        lv.IsEnabled = False
+        pb.Visibility = Visibility.Visible
 
-        Dim progreso As ProgressBar = pagina.FindName("progressBarGOGGalaxy")
-        progreso.Visibility = Visibility.Visible
+        Dim listaJuegos As New List(Of Juego)
 
-        Dim lvGrids As ListView = pagina.FindName("lvGOGGalaxy")
-        lvGrids.IsEnabled = False
+        Dim carpeta As StorageFolder = Nothing
+
+        Try
+            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("GOGGalaxyPath")
+        Catch ex As Exception
+
+        End Try
 
         If Not carpeta Is Nothing Then
             Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
@@ -123,7 +135,7 @@ Module GOGGalaxy
                                 End Try
                             End If
 
-                            lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
+                            lv.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, False))
                         End If
                     End If
                 Next
@@ -131,7 +143,7 @@ Module GOGGalaxy
         End If
 
         If listaJuegos.Count > 0 Then
-            lvGrids.Items.Clear()
+            lv.Items.Clear()
             listaJuegos.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
             For Each juego As Juego In listaJuegos
@@ -148,20 +160,23 @@ Module GOGGalaxy
                     End Try
                 End If
 
-                lvGrids.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lv.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, True))
             Next
         End If
 
-        Dim panelNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosGOGGalaxy")
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim avisoNoJuegos As Grid = pagina.FindName("gridAvisoJuegos")
 
         If listaJuegos.Count = 0 Then
-            panelNoJuegos.Visibility = Visibility.Visible
+            avisoNoJuegos.Visibility = Visibility.Visible
         Else
-            panelNoJuegos.Visibility = Visibility.Collapsed
+            avisoNoJuegos.Visibility = Visibility.Collapsed
         End If
 
-        lvGrids.IsEnabled = True
-        progreso.Visibility = Visibility.Collapsed
+        lv.IsEnabled = True
+        pb.Visibility = Visibility.Collapsed
 
     End Sub
 

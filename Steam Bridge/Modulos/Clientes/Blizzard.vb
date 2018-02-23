@@ -1,5 +1,4 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Windows.Graphics.Imaging
+﻿Imports Windows.Graphics.Imaging
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.FileProperties
@@ -8,15 +7,12 @@ Imports Windows.Storage.Streams
 
 Module Blizzard
 
-    Public Async Function Config(picker As Boolean) As Task(Of Boolean)
+    Public Async Sub Config(picker As Boolean)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim tbBlizzardRuta As TextBlock = pagina.FindName("tbBlizzardRuta")
-        Dim botonBlizzardRutaTexto As TextBlock = pagina.FindName("botonBlizzardRutaTexto")
-
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
 
         Try
@@ -86,26 +82,35 @@ Module Blizzard
                             detectadoBool = True
                             GenerarIcono(fichero, carpetaJuego)
                         End If
-
                     Next
                 Next
 
                 If detectadoBool = True Then
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("BattlenetPath", carpeta)
+
+                    Dim tbBlizzardRuta As TextBlock = pagina.FindName("tbBlizzardRuta")
                     tbBlizzardRuta.Text = carpeta.Path
+
+                    Dim botonBlizzardRutaTexto As TextBlock = pagina.FindName("botonBlizzardRutaTexto")
                     botonBlizzardRutaTexto.Text = recursos.GetString("Change")
-                    Return True
-                Else
-                    Return False
+
+                    Dim gv As GridView = pagina.FindName("gvBridge")
+
+                    For Each item As GridViewItem In gv.Items
+                        Dim grid As Grid = item.Content
+                        Dim plataforma As Plataforma = grid.Tag
+
+                        If plataforma.Nombre = "Blizzard App" Then
+                            item.IsEnabled = True
+                        End If
+                    Next
                 End If
-            Else
-                Return False
             End If
         Catch ex As Exception
-            Return False
+
         End Try
 
-    End Function
+    End Sub
 
     Public Async Sub Generar(pb As ProgressBar, lv As ListView)
 
@@ -135,6 +140,10 @@ Module Blizzard
                     Dim argumentos As String = Nothing
 
                     Dim nombreFichero As String = fichero.DisplayName.ToLower
+
+                    If nombreFichero = "destiny2" And fichero.FileType = ".exe" Then
+                        ejecutable = "battlenet://DST2"
+                    End If
 
                     If nombreFichero = "diablo iii" And fichero.FileType = ".exe" Then
                         ejecutable = "battlenet://D3"
@@ -195,7 +204,7 @@ Module Blizzard
                             End Try
                         End If
 
-                        lv.Items.Add(Listado.GenerarGrid(juego, bitmap, False))
+                        lv.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, False))
                     End If
                 Next
             Next
@@ -219,7 +228,7 @@ Module Blizzard
                     End Try
                 End If
 
-                lv.Items.Add(Listado.GenerarGrid(juego, bitmap, True))
+                lv.Items.Add(InterfazListado.GenerarGrid(juego, bitmap, True))
             Next
         End If
 

@@ -205,7 +205,7 @@
     <value>No se han detectado juegos</value>
   </data>
   <data name="NoSteam.Text" xml:space="preserve">
-    <value>Steam no detectado</value>
+    <value>Steam no detectado, ve a Configuración</value>
   </data>
   <data name="OtherOptions.Text" xml:space="preserve">
     <value>Otras Opciones</value>

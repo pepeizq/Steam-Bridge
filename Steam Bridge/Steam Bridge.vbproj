@@ -115,6 +115,7 @@
     </Compile>
     <Compile Include="Clases\Juego.vb" />
     <Compile Include="Clases\Plataforma.vb" />
+    <Compile Include="Clases\TwitchBD.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -125,14 +126,14 @@
     <Compile Include="Modulos\Ficheros\VBScript.vb" />
     <Compile Include="Modulos\Clientes\GOGGalaxy.vb" />
     <Compile Include="Modulos\Interfaz.vb" />
-    <Compile Include="Modulos\Listado.vb" />
+    <Compile Include="Modulos\InterfazListado.vb" />
     <Compile Include="Modulos\Clientes\Origin.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
     <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Steam.vb" />
     <Compile Include="Modulos\Clientes\Uplay.vb" />
-    <Compile Include="Modulos\Clientes\WindowsStore.vb" />
+    <Compile Include="Modulos\Clientes\MicrosoftStore.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +205,7 @@
     <Content Include="Assets\origin_logo2.png" />
     <Content Include="Assets\psicon.png" />
     <Content Include="Assets\steam_logo.png" />
+    <Content Include="Assets\twitch_logo.png" />
     <Content Include="Assets\twitch_logo2.png" />
     <Content Include="Assets\uplay_logo.png" />
     <Content Include="Assets\uplay_logo2.png" />
@@ -279,6 +281,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="SQLite.Net-PCL">
+      <Version>3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="SQLite.UWP.Native">
+      <Version>3.12.3</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
