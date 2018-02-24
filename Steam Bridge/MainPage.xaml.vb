@@ -63,6 +63,7 @@ Public NotInheritable Class MainPage
 
         Interfaz.GenerarListado(gvBridge)
         Steam.Arranque(False)
+        MasCosas.Generar()
 
         Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
