@@ -124,21 +124,21 @@ Public NotInheritable Class MainPage
 
     Private Async Sub TransparienciaEfectosFinal(estado As Boolean)
 
-        Await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Sub()
-                                                                     If estado = True Then
-                                                                         gridPlataformaElegida.Background = App.Current.Resources("GridAcrilico")
-                                                                         gridConfig.Background = App.Current.Resources("GridAcrilico")
-                                                                         gridConfigBridge.Background = App.Current.Resources("GridTituloBackground")
-                                                                         gridConfigOtherOptions.Background = App.Current.Resources("GridTituloBackground")
-                                                                         gridMasCosas.Background = App.Current.Resources("GridAcrilico")
-                                                                     Else
-                                                                         gridPlataformaElegida.Background = New SolidColorBrush(Colors.LightGray)
-                                                                         gridConfig.Background = New SolidColorBrush(Colors.LightGray)
-                                                                         gridConfigBridge.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-                                                                         gridConfigOtherOptions.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-                                                                         gridMasCosas.Background = New SolidColorBrush(Colors.LightGray)
-                                                                     End If
-                                                                 End Sub)
+        Await Dispatcher.RunAsync(CoreDispatcherPriority.High, Sub()
+                                                                   If estado = True Then
+                                                                       gridPlataformaElegida.Background = App.Current.Resources("GridAcrilico")
+                                                                       gridConfig.Background = App.Current.Resources("GridAcrilico")
+                                                                       gridConfigBridge.Background = App.Current.Resources("GridTituloBackground")
+                                                                       gridConfigOtherOptions.Background = App.Current.Resources("GridTituloBackground")
+                                                                       gridMasCosas.Background = App.Current.Resources("GridAcrilico")
+                                                                   Else
+                                                                       gridPlataformaElegida.Background = New SolidColorBrush(Colors.LightGray)
+                                                                       gridConfig.Background = New SolidColorBrush(Colors.LightGray)
+                                                                       gridConfigBridge.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+                                                                       gridConfigOtherOptions.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+                                                                       gridMasCosas.Background = New SolidColorBrush(Colors.LightGray)
+                                                                   End If
+                                                               End Sub)
 
     End Sub
 
