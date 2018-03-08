@@ -14,7 +14,6 @@ Public NotInheritable Class MainPage
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Bridge"), New SymbolIcon(Symbol.Home), 0))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), New SymbolIcon(Symbol.Setting), 1))
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("MoreThings"), New SymbolIcon(Symbol.More), 2))
 
     End Sub
 
@@ -28,15 +27,6 @@ Public NotInheritable Class MainPage
             GridVisibilidad(gridBridge, item.Text)
         ElseIf item.Text = recursos.GetString("Config") Then
             GridVisibilidad(gridConfig, item.Text)
-        ElseIf item.Text = recursos.GetString("MoreThings") Then
-            GridVisibilidad(gridMasCosas, item.Text)
-
-            Dim sv As ScrollViewer = gridMasCosas.Children(0)
-            Dim gridRelleno As Grid = sv.Content
-            Dim sp As StackPanel = gridRelleno.Children(0)
-            Dim lv As ListView = sp.Children(0)
-
-            MasCosas.Navegar(lv, "2", "https://pepeizqapps.com/")
         End If
 
     End Sub
@@ -46,15 +36,7 @@ Public NotInheritable Class MainPage
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
-        coreBarra.ExtendViewIntoTitleBar = True
-
-        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
-        barra.ButtonBackgroundColor = Colors.Transparent
-        barra.ButtonForegroundColor = Colors.White
-        barra.ButtonInactiveBackgroundColor = Colors.Transparent
-
-        '--------------------------------------------------------
+        MasCosas.Generar()
 
         Dim recursos As New Resources.ResourceLoader()
 
@@ -63,7 +45,6 @@ Public NotInheritable Class MainPage
 
         Interfaz.GenerarListado(gvBridge)
         Steam.Arranque(False)
-        MasCosas.Generar()
 
         Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
@@ -72,41 +53,6 @@ Public NotInheritable Class MainPage
         End If
 
         cbSteamOverlay.SelectedIndex = opciones.Values("SteamOverlay")
-
-        '--------------------------------------------------------
-
-        AddHandler botonAñadirJuegos.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonAñadirJuegos.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonSteamRuta.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonSteamRuta.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonBridgeConfigBlizzard.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBridgeConfigBlizzard.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonBridgeConfigGOGGalaxy.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBridgeConfigGOGGalaxy.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonBridgeConfigOrigin.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBridgeConfigOrigin.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonBridgeConfigTwitch.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBridgeConfigTwitch.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonBridgeConfigUplay.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBridgeConfigUplay.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonBlizzardRuta.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBlizzardRuta.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonGOGGalaxyRuta.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonGOGGalaxyRuta.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonOriginRuta.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonOriginRuta.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonTwitchRuta.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonTwitchRuta.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonUplayRutaCliente.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonUplayRutaCliente.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonUplayRutaJuegos.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonUplayRutaJuegos.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonBorrarConfig.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBorrarConfig.PointerExited, AddressOf UsuarioSaleBoton
 
         '--------------------------------------------------------
 

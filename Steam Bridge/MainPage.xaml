@@ -15,7 +15,22 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="gridTitulo" Grid.Row="0" Background="{StaticResource GridTituloBackground}">
-            <TextBlock x:Name="tbTitulo" Margin="50,0,0,0" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="tbTitulo" Grid.Column="0" Margin="50,0,0,0" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+
+            <Button x:Name="botonMasCosas" Grid.Column="1" BorderThickness="0" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
+                <Button.Content>
+                    <FontIcon Glyph="&#57361;" FontFamily="Segoe MDL2 Assets" Foreground="White" Margin="10,5" FontSize="15"/>
+                </Button.Content>
+
+                <Button.Flyout>
+                    <MenuFlyout x:Name="botonMasCosasMenu"/>
+                </Button.Flyout>
+            </Button>
         </Grid>
 
         <NavigationView x:Name="nvPrincipal" Grid.Row="1" Loaded="Nv_Loaded" ItemInvoked="Nv_ItemInvoked"
@@ -73,8 +88,8 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                
-                                <Button x:Name="botonAñadirJuegos" Grid.Column="0" Padding="10,15" Background="{StaticResource BrushSecundario}" IsEnabled="False">
+
+                                <Button x:Name="botonAñadirJuegos" Grid.Column="0" Padding="10,15" Background="{StaticResource BrushSecundario}" IsEnabled="False" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                     <StackPanel Orientation="Horizontal">
                                         <SymbolIcon Symbol="Add" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                         <TextBlock x:Uid="AddGames" Foreground="White"/>
@@ -135,7 +150,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Button x:Name="botonSteamRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                        <Button x:Name="botonSteamRuta" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                             <StackPanel Orientation="Horizontal">
                                                 <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                                 <TextBlock x:Name="botonSteamRutaTexto" x:Uid="Add" Foreground="White"/>
@@ -157,31 +172,31 @@
                                         </Grid.ColumnDefinitions>
 
                                         <ListView Grid.Column="0" IsItemClickEnabled="True" ItemClick="LvConfigItemClick" Margin="0,15,10,5">
-                                            <ListViewItem x:Name="botonBridgeConfigBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                            <ListViewItem x:Name="botonBridgeConfigBlizzard" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal" Tag="0">
                                                     <controls:ImageEx Source="Assets\blizzard_logo2.png" IsCacheEnabled="True" Margin="0,0,10,0" Width="20" Height="20"/>
                                                     <TextBlock Text="Blizzard App" Foreground="White" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </ListViewItem>
-                                            <ListViewItem x:Name="botonBridgeConfigGOGGalaxy" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                            <ListViewItem x:Name="botonBridgeConfigGOGGalaxy" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal" Tag="1">
                                                     <controls:ImageEx Source="Assets\gog_logo2.png" IsCacheEnabled="True" Margin="0,0,10,0" Width="20" Height="20"/>
                                                     <TextBlock Text="GOG Galaxy" Foreground="White" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </ListViewItem>
-                                            <ListViewItem x:Name="botonBridgeConfigOrigin" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                            <ListViewItem x:Name="botonBridgeConfigOrigin" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal" Tag="2">
                                                     <controls:ImageEx Source="Assets\origin_logo2.png" IsCacheEnabled="True" Margin="0,0,10,0" Width="20" Height="20"/>
                                                     <TextBlock Text="Origin" Foreground="White" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </ListViewItem>
-                                            <ListViewItem x:Name="botonBridgeConfigTwitch" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                            <ListViewItem x:Name="botonBridgeConfigTwitch" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal" Tag="3">
                                                     <controls:ImageEx Source="Assets\twitch_logo2.png" IsCacheEnabled="True" Margin="0,0,10,0" Width="20" Height="20"/>
                                                     <TextBlock Text="Twitch Desktop App" Foreground="White" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </ListViewItem>
-                                            <ListViewItem x:Name="botonBridgeConfigUplay" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5">
+                                            <ListViewItem x:Name="botonBridgeConfigUplay" Background="{StaticResource BrushSecundario}" Padding="15" MinWidth="0" Margin="0,0,0,5" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal" Tag="4">
                                                     <controls:ImageEx Source="Assets\uplay_logo2.png" IsCacheEnabled="True" Margin="0,0,10,0" Width="20" Height="20"/>
                                                     <TextBlock Text="Uplay" Foreground="White" VerticalAlignment="Center"/>
@@ -192,7 +207,7 @@
                                         <StackPanel x:Name="spConfigBlizzard" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
                                             <TextBlock x:Uid="ConfigBlizzardMessage" TextWrapping="Wrap"/>
 
-                                            <Button x:Name="botonBlizzardRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <Button x:Name="botonBlizzardRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal">
                                                     <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                                     <TextBlock x:Name="botonBlizzardRutaTexto" x:Uid="Add" Foreground="White"/>
@@ -205,7 +220,7 @@
                                         <StackPanel x:Name="spConfigGOGGalaxy" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
                                             <TextBlock x:Uid="ConfigGOGGalaxyMessage" TextWrapping="Wrap"/>
 
-                                            <Button x:Name="botonGOGGalaxyRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <Button x:Name="botonGOGGalaxyRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal">
                                                     <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                                     <TextBlock x:Name="botonGOGGalaxyRutaTexto" x:Uid="Add" Foreground="White"/>
@@ -218,7 +233,7 @@
                                         <StackPanel x:Name="spConfigOrigin" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
                                             <TextBlock x:Uid="ConfigOriginMessage" TextWrapping="Wrap"/>
 
-                                            <Button x:Name="botonOriginRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <Button x:Name="botonOriginRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal">
                                                     <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                                     <TextBlock x:Name="botonOriginRutaTexto" x:Uid="Add" Foreground="White"/>
@@ -231,7 +246,7 @@
                                         <StackPanel x:Name="spConfigTwitch" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
                                             <TextBlock x:Uid="ConfigTwitchMessage" TextWrapping="Wrap"/>
 
-                                            <Button x:Name="botonTwitchRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <Button x:Name="botonTwitchRuta" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal">
                                                     <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                                     <TextBlock x:Name="botonTwitchRutaTexto" x:Uid="Add" Foreground="White"/>
@@ -244,7 +259,7 @@
                                         <StackPanel x:Name="spConfigUplay" Grid.Column="1" Orientation="Vertical" Visibility="Collapsed" Margin="10,20">
                                             <TextBlock x:Uid="ConfigUplayMessage1" TextWrapping="Wrap"/>
 
-                                            <Button x:Name="botonUplayRutaCliente" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <Button x:Name="botonUplayRutaCliente" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal">
                                                     <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                                     <TextBlock x:Name="botonUplayRutaTextoCliente" x:Uid="Add" Foreground="White"/>
@@ -255,7 +270,7 @@
 
                                             <TextBlock x:Uid="ConfigUplayMessage2" TextWrapping="Wrap" Margin="0,15,0,0"/>
 
-                                            <Button x:Name="botonUplayRutaJuegos" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <Button x:Name="botonUplayRutaJuegos" Margin="0,15" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal">
                                                     <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                                     <TextBlock x:Name="botonUplayRutaTextoJuegos" x:Uid="Add" Foreground="White"/>
@@ -309,7 +324,7 @@
                                         </ComboBoxItem>
                                     </ComboBox>
 
-                                    <Button x:Name="botonBorrarConfig" Margin="0,20,0,5" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                    <Button x:Name="botonBorrarConfig" Margin="0,20,0,5" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <StackPanel Orientation="Horizontal">
                                             <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Delete" Foreground="White"/>
                                             <TextBlock x:Uid="ConfigReset" Foreground="White"/>
