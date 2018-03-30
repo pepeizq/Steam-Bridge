@@ -1,5 +1,4 @@
-﻿Imports Windows.ApplicationModel.Core
-Imports Windows.Storage
+﻿Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.UI
 Imports Windows.UI.Core
