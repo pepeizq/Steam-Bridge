@@ -1,4 +1,5 @@
-﻿Imports Windows.Storage
+﻿Imports FontAwesome.UWP
+Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.UI
 Imports Windows.UI.Core
@@ -10,9 +11,9 @@ Public NotInheritable Class MainPage
 
         Dim recursos As New Resources.ResourceLoader()
 
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Bridge"), New SymbolIcon(Symbol.Home), 0))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Bridge"), FontAwesomeIcon.Home, 0))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), New SymbolIcon(Symbol.Setting), 1))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), FontAwesomeIcon.Cog, 1))
 
     End Sub
 
@@ -22,11 +23,19 @@ Public NotInheritable Class MainPage
 
         Dim item As TextBlock = args.InvokedItem
 
-        If item.Text = recursos.GetString("Bridge") Then
-            GridVisibilidad(gridBridge, item.Text)
-        ElseIf item.Text = recursos.GetString("Config") Then
-            GridVisibilidad(gridConfig, item.Text)
+        If Not item Is Nothing Then
+            If item.Text = recursos.GetString("Bridge") Then
+                GridVisibilidad(gridBridge, item.Text)
+            ElseIf item.Text = recursos.GetString("Config") Then
+                GridVisibilidad(gridConfig, item.Text)
+            End If
         End If
+
+    End Sub
+
+    Private Sub Nv_ItemFlyout(sender As NavigationViewItem, args As TappedRoutedEventArgs)
+
+        FlyoutBase.ShowAttachedFlyout(sender)
 
     End Sub
 
@@ -75,13 +84,11 @@ Public NotInheritable Class MainPage
                                                                        gridConfig.Background = App.Current.Resources("GridAcrilico")
                                                                        gridConfigBridge.Background = App.Current.Resources("GridTituloBackground")
                                                                        gridConfigOtherOptions.Background = App.Current.Resources("GridTituloBackground")
-                                                                       gridMasCosas.Background = App.Current.Resources("GridAcrilico")
                                                                    Else
                                                                        gridPlataformaElegida.Background = New SolidColorBrush(Colors.LightGray)
                                                                        gridConfig.Background = New SolidColorBrush(Colors.LightGray)
                                                                        gridConfigBridge.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
                                                                        gridConfigOtherOptions.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-                                                                       gridMasCosas.Background = New SolidColorBrush(Colors.LightGray)
                                                                    End If
                                                                End Sub)
 
@@ -93,7 +100,6 @@ Public NotInheritable Class MainPage
 
         gridPlataformaElegida.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
-        gridMasCosas.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
 
@@ -250,7 +256,7 @@ Public NotInheritable Class MainPage
 
     Private Async Sub BotonBorrarConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarConfig.Click
 
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
 
         Await ApplicationData.Current.ClearAsync()
 
